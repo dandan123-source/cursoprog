@@ -494,6 +494,19 @@
     margin-top: 12px;
   }
 
+  /* FORM SECTION */
+  .form-section { padding: 0 0 60px; }
+  .form-card { padding: 36px 40px; }
+  .form-iframe-wrap {
+    margin-top: 24px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.85);
+    box-shadow: 0 8px 32px rgba(60,160,220,0.18);
+    background: white;
+  }
+  .form-iframe-wrap iframe { display: block; width: 100%; border: none; }
+
   /* FOOTER */
   footer {
     text-align: center;
@@ -794,6 +807,20 @@
         <div class="done-msg" id="doneMsg">
           🎉 Parabéns! Você encontrou todos os 5 formatos! Mostre a pasta para o professor.
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUESTIONÁRIO -->
+  <section class="form-section reveal">
+    <div class="form-card glass">
+      <div style="text-align:center; margin-bottom:8px;">
+        <div class="section-tag" style="display:inline-flex;">📝 Questionário</div>
+        <h2>Hora de testar o que você aprendeu!</h2>
+        <p style="color:#4a9ab8; font-size:0.95rem; margin-top:8px;">Responda o formulário abaixo. Não esqueça de colocar seu nome! 😊</p>
+      </div>
+      <div class="form-iframe-wrap">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfbUpukTLXFGnTKOxtESWvs0mVhf15aK3HYDeOFAJ1ZdATpqg/viewform?embedded=true" height="900" frameborder="0" marginheight="0" marginwidth="0">Carregando formulário…</iframe>
       </div>
     </div>
   </section>
