@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 02 — Canva :: Design Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Courier+Prime:wght@400;700&family=Bebas+Neue&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --neon-green: #00ff88;
+    --neon-pink: #ff0080;
+    --neon-blue: #00cfff;
+    --neon-yellow: #ffe600;
+    --dark: #050a0e;
+    --dark2: #0a1520;
+    --dark3: #0d1f2d;
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(0,255,136,0.15);
+    --text: #c8e6f5;
+    --muted: #5a8a9f;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Courier Prime', monospace;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ── SCANLINES overlay ── */
+  body::before {
+    content:'';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 3px,
+      rgba(0,0,0,0.18) 3px,
+      rgba(0,0,0,0.18) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── GRID background ── */
+  body::after {
+    content:'';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,207,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,207,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── TOP MARQUEE BAR (old web) ── */
+  .marquee-bar {
+    background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue), var(--neon-green), var(--neon-yellow), var(--neon-pink));
+    background-size: 300% 100%;
+    animation: gradShift 4s linear infinite;
+    padding: 4px 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+  }
+  .marquee-bar marquee {
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    color: #000;
+    letter-spacing: 2px;
+  }
+  @keyframes gradShift {
+    0%{background-position:0% 50%}
+    100%{background-position:300% 50%}
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,255,136,0.12) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    animation: pulse 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pulse {
+    0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.7}
+    50%{transform:translate(-50%,-50%) scale(1.15);opacity:1}
+  }
+
+  .label-retro {
+    font-family: 'VT323', monospace;
+    font-size: 0.9rem;
+    color: var(--neon-green);
+    letter-spacing: 4px;
+    border: 1px solid var(--neon-green);
+    padding: 4px 14px;
+    display: inline-block;
+    margin-bottom: 20px;
+    animation: blink 1.5s step-end infinite;
+  }
+  @keyframes blink {
+    0%,100%{opacity:1} 50%{opacity:0}
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 1;
+    letter-spacing: 4px;
+    background: linear-gradient(135deg, #fff 0%, var(--neon-green) 50%, var(--neon-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+
+  .hero h1::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 3px; top: 3px;
+    background: linear-gradient(135deg, var(--neon-pink), transparent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.4;
+  }
+
+  .hero-sub {
+    font-family: 'VT323', monospace;
+    font-size: 1.4rem;
+    color: var(--neon-blue);
+    letter-spacing: 3px;
+    margin-top: 12px;
+  }
+
+  .hero-meta {
+    margin-top: 24px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-meta span {
+    font-size: 0.75rem;
+    color: var(--muted);
+    border: 1px solid rgba(90,138,159,0.3);
+    padding: 4px 12px;
+    letter-spacing: 2px;
+  }
+
+  .scroll-hint {
+    margin-top: 50px;
+    font-family: 'VT323', monospace;
+    color: var(--neon-green);
+    font-size: 1rem;
+    letter-spacing: 3px;
+    animation: bounce 1.5s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)}
+  }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 24px;
+  }
+
+  .section-divider {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 10px 0;
+    overflow: hidden;
+  }
+  .section-divider::before {
+    content:'';
+    position: absolute;
+    top:50%; left:0; right:0;
+    height:1px;
+    background: linear-gradient(90deg, transparent, var(--neon-green), var(--neon-blue), transparent);
+  }
+  .section-divider span {
+    position: relative;
+    background: var(--dark);
+    padding: 0 20px;
+    font-family:'VT323',monospace;
+    font-size:0.85rem;
+    color: var(--neon-green);
+    letter-spacing:3px;
+  }
+
+  /* ── GLASS CARD ── */
+  .card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 4px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .card:hover {
+    border-color: rgba(0,255,136,0.4);
+    transform: translateY(-2px);
+  }
+  .card::before {
+    content:'';
+    position: absolute;
+    top:0; left:0; right:0;
+    height:2px;
+    background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+    opacity: 0.7;
+  }
+
+  .card-tag {
+    font-family:'VT323',monospace;
+    font-size:0.8rem;
+    color: var(--neon-green);
+    letter-spacing:3px;
+    margin-bottom:12px;
+    opacity:0.8;
+  }
+  .card h2 {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:2rem;
+    letter-spacing:2px;
+    color:#fff;
+    margin-bottom:16px;
+  }
+  .card h3 {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:1.4rem;
+    letter-spacing:2px;
+    color: var(--neon-blue);
+    margin-top:20px;
+    margin-bottom:10px;
+  }
+  .card p {
+    font-size:0.92rem;
+    line-height:1.8;
+    color: var(--text);
+    margin-bottom:12px;
+  }
+  .card ul {
+    list-style:none;
+    margin-top:8px;
+  }
+  .card ul li {
+    padding: 6px 0;
+    padding-left: 20px;
+    font-size:0.9rem;
+    line-height:1.7;
+    position:relative;
+    color: var(--text);
+  }
+  .card ul li::before {
+    content:'▶';
+    position:absolute;
+    left:0;
+    color: var(--neon-green);
+    font-size:0.6rem;
+    top:10px;
+  }
+
+  /* ── GRID LAYOUTS ── */
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  @media(max-width:768px){
+    .grid-2,.grid-3{grid-template-columns:1fr;}
+  }
+
+  /* ── STEP CARDS ── */
+  .step-card {
+    background: rgba(0,207,255,0.04);
+    border: 1px solid rgba(0,207,255,0.15);
+    border-radius:4px;
+    padding:24px;
+    position:relative;
+    transition: all 0.3s;
+  }
+  .step-card:hover {
+    background: rgba(0,207,255,0.08);
+    border-color: rgba(0,207,255,0.4);
+  }
+  .step-num {
+    font-family:'VT323',monospace;
+    font-size:3rem;
+    color: rgba(0,207,255,0.2);
+    position:absolute;
+    top:12px; right:16px;
+    line-height:1;
+  }
+  .step-card h4 {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:1.1rem;
+    letter-spacing:2px;
+    color: var(--neon-blue);
+    margin-bottom:8px;
+  }
+  .step-card p {
+    font-size:0.85rem;
+    line-height:1.7;
+    color: var(--text);
+  }
+
+  /* ── IDEA CARDS ── */
+  .ideas-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+    gap:16px;
+    margin-top:24px;
+  }
+
+  .idea-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius:4px;
+    padding:20px;
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    transition: all 0.3s;
+    user-select:none;
+  }
+  .idea-card:hover {
+    transform: translateY(-4px) scale(1.01);
+  }
+  .idea-card.selected {
+    border-color: var(--neon-green) !important;
+    background: rgba(0,255,136,0.06);
+  }
+  .idea-card.selected::after {
+    content:'✓ SELECIONADO';
+    position:absolute;
+    top:10px; right:10px;
+    font-family:'VT323',monospace;
+    font-size:0.8rem;
+    color: var(--neon-green);
+    letter-spacing:2px;
+  }
+  .idea-card.disabled {
+    opacity:0.4;
+    pointer-events:none;
+  }
+
+  .idea-emoji { font-size:2.2rem; margin-bottom:10px; display:block; }
+  .idea-num {
+    font-family:'VT323',monospace;
+    font-size:0.75rem;
+    color: var(--muted);
+    letter-spacing:2px;
+    margin-bottom:4px;
+  }
+  .idea-card h4 {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:1.15rem;
+    letter-spacing:2px;
+    color:#fff;
+    margin-bottom:6px;
+  }
+  .idea-card p {
+    font-size:0.8rem;
+    color: var(--muted);
+    line-height:1.6;
+  }
+
+  /* accent colors per card */
+  .idea-card:nth-child(1){border-color:rgba(255,0,128,0.2);}
+  .idea-card:nth-child(1):hover{border-color:rgba(255,0,128,0.6);box-shadow:0 0 20px rgba(255,0,128,0.1);}
+  .idea-card:nth-child(2){border-color:rgba(255,165,0,0.2);}
+  .idea-card:nth-child(2):hover{border-color:rgba(255,165,0,0.6);box-shadow:0 0 20px rgba(255,165,0,0.1);}
+  .idea-card:nth-child(3){border-color:rgba(0,207,255,0.2);}
+  .idea-card:nth-child(3):hover{border-color:rgba(0,207,255,0.6);box-shadow:0 0 20px rgba(0,207,255,0.1);}
+  .idea-card:nth-child(4){border-color:rgba(0,255,136,0.2);}
+  .idea-card:nth-child(4):hover{border-color:rgba(0,255,136,0.6);box-shadow:0 0 20px rgba(0,255,136,0.1);}
+  .idea-card:nth-child(5){border-color:rgba(180,0,255,0.2);}
+  .idea-card:nth-child(5):hover{border-color:rgba(180,0,255,0.6);box-shadow:0 0 20px rgba(180,0,255,0.1);}
+  .idea-card:nth-child(6){border-color:rgba(255,230,0,0.2);}
+  .idea-card:nth-child(6):hover{border-color:rgba(255,230,0,0.6);box-shadow:0 0 20px rgba(255,230,0,0.1);}
+  .idea-card:nth-child(7){border-color:rgba(255,80,0,0.2);}
+  .idea-card:nth-child(7):hover{border-color:rgba(255,80,0,0.6);box-shadow:0 0 20px rgba(255,80,0,0.1);}
+  .idea-card:nth-child(8){border-color:rgba(0,200,180,0.2);}
+  .idea-card:nth-child(8):hover{border-color:rgba(0,200,180,0.6);box-shadow:0 0 20px rgba(0,200,180,0.1);}
+  .idea-card:nth-child(9){border-color:rgba(255,0,60,0.2);}
+  .idea-card:nth-child(9):hover{border-color:rgba(255,0,60,0.6);box-shadow:0 0 20px rgba(255,0,60,0.1);}
+  .idea-card:nth-child(10){border-color:rgba(100,180,255,0.2);}
+  .idea-card:nth-child(10):hover{border-color:rgba(100,180,255,0.6);box-shadow:0 0 20px rgba(100,180,255,0.1);}
+
+  /* ── SELECTION STATUS ── */
+  .selection-status {
+    background: rgba(0,255,136,0.05);
+    border: 1px solid rgba(0,255,136,0.2);
+    border-radius:4px;
+    padding: 16px 24px;
+    margin-top: 24px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .selection-status .counter {
+    font-family:'VT323',monospace;
+    font-size:1.3rem;
+    color: var(--neon-green);
+    letter-spacing:2px;
+  }
+  .selection-status .hint {
+    font-size:0.8rem;
+    color: var(--muted);
+    flex:1;
+  }
+  #selected-names {
+    font-size:0.82rem;
+    color: var(--neon-green);
+    font-weight:600;
+  }
+
+  /* ── EXPORT STEPS ── */
+  .export-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+    gap:16px;
+    margin-top:20px;
+  }
+  .export-step {
+    background: rgba(255,0,128,0.04);
+    border: 1px solid rgba(255,0,128,0.15);
+    border-radius:4px;
+    padding:20px;
+    text-align:center;
+    transition: all 0.3s;
+  }
+  .export-step:hover {
+    border-color: rgba(255,0,128,0.5);
+    background: rgba(255,0,128,0.08);
+  }
+  .export-step .icon { font-size:2rem; margin-bottom:10px; display:block;}
+  .export-step h5 {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:1rem;
+    letter-spacing:2px;
+    color: var(--neon-pink);
+    margin-bottom:6px;
+  }
+  .export-step p { font-size:0.78rem; color: var(--muted); line-height:1.6; }
+
+  /* ── TIP BOX ── */
+  .tip-box {
+    background: rgba(255,230,0,0.04);
+    border-left: 3px solid var(--neon-yellow);
+    padding: 16px 20px;
+    margin-top:16px;
+    border-radius:0 4px 4px 0;
+  }
+  .tip-box p {
+    font-size:0.85rem;
+    color: var(--neon-yellow);
+    margin:0;
+    line-height:1.7;
+  }
+  .tip-box p::before { content:'⚡ DICA: '; font-weight:700; }
+
+  /* ── INFO TABLE (old-web feel) ── */
+  .info-table {
+    width:100%;
+    border-collapse:collapse;
+    margin-top:16px;
+    font-size:0.85rem;
+  }
+  .info-table th {
+    font-family:'VT323',monospace;
+    font-size:0.9rem;
+    letter-spacing:2px;
+    color: var(--neon-blue);
+    border-bottom: 1px solid rgba(0,207,255,0.3);
+    padding: 10px 12px;
+    text-align:left;
+  }
+  .info-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text);
+  }
+  .info-table tr:hover td { background: rgba(0,207,255,0.03); }
+
+  /* ── FOOTER ── */
+  footer {
+    position:relative;
+    z-index:1;
+    text-align:center;
+    padding:40px 20px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  footer p {
+    font-family:'VT323',monospace;
+    font-size:0.9rem;
+    color: var(--muted);
+    letter-spacing:2px;
+    margin-bottom:6px;
+  }
+  footer a {
+    color: var(--neon-green);
+    text-decoration:none;
+  }
+
+  /* ── FLOATING PIXEL PARTICLES ── */
+  .pixel-particle {
+    position:fixed;
+    width:2px; height:2px;
+    background: var(--neon-green);
+    opacity:0;
+    pointer-events:none;
+    z-index:8000;
+    animation: floatUp 3s ease-out forwards;
+  }
+  @keyframes floatUp {
+    0%{opacity:0.8;transform:translateY(0) scale(1)}
+    100%{opacity:0;transform:translateY(-120px) scale(0)}
+  }
+
+  /* ── GLITCH on H1 ── */
+  .glitch {
+    animation: glitch 5s infinite;
+  }
+  @keyframes glitch {
+    0%,95%,100%{clip-path:none;transform:none}
+    96%{clip-path:polygon(0 10%,100% 10%,100% 30%,0 30%);transform:translate(-3px)}
+    97%{clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%);transform:translate(3px)}
+    98%{clip-path:none;transform:none}
+  }
+
+  /* ── NAV ── */
+  nav {
+    position:sticky;
+    top:0;
+    z-index:100;
+    background: rgba(5,10,14,0.85);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-bottom: 1px solid rgba(0,255,136,0.1);
+    padding: 0 24px;
+    display:flex;
+    align-items:center;
+    gap:0;
+    overflow-x:auto;
+  }
+  nav a {
+    font-family:'VT323',monospace;
+    font-size:0.85rem;
+    letter-spacing:2px;
+    color: var(--muted);
+    text-decoration:none;
+    padding: 14px 16px;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    white-space:nowrap;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--neon-green); }
+  nav a:first-child { border-left: 1px solid rgba(255,255,255,0.05); }
+
+  /* ── BADGE ── */
+  .badge {
+    display:inline-block;
+    font-family:'VT323',monospace;
+    font-size:0.7rem;
+    letter-spacing:2px;
+    padding:2px 8px;
+    border-radius:2px;
+    margin-left:6px;
+    vertical-align:middle;
+  }
+  .badge-green { background:rgba(0,255,136,0.15); color:var(--neon-green); }
+  .badge-blue  { background:rgba(0,207,255,0.15); color:var(--neon-blue);  }
+  .badge-pink  { background:rgba(255,0,128,0.15); color:var(--neon-pink);  }
+
+  /* ── OLD WEB BLINK BUTTON ── */
+  .blink-link {
+    display:inline-block;
+    font-family:'VT323',monospace;
+    font-size:1rem;
+    letter-spacing:3px;
+    padding:10px 24px;
+    border: 2px solid var(--neon-green);
+    color: var(--neon-green);
+    text-decoration:none;
+    background: rgba(0,255,136,0.05);
+    transition: all 0.2s;
+    cursor:pointer;
+  }
+  .blink-link:hover {
+    background: var(--neon-green);
+    color: #000;
+    box-shadow: 0 0 30px rgba(0,255,136,0.5);
+  }
+
+  /* ── SEPARATOR ── */
+  .sep { margin: 32px 0; }
+
+</style>
+</head>
+<body>
+
+<!-- MARQUEE BAR (old internet vibes) -->
+<div class="marquee-bar">
+  <marquee behavior="scroll" direction="left" scrollamount="5">
+    ★ AULA 02 :: INTRODUÇÃO AO CANVA ★ DESIGN DIGITAL PARA TODOS ★ CRIE. COMPARTILHE. INSPIRE. ★ CONTINUAÇÃO: FORMATOS DE IMAGEM ★ BOA AULA! ★ AULA 02 :: INTRODUÇÃO AO CANVA ★ DESIGN DIGITAL PARA TODOS ★
+  </marquee>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#intro">INÍCIO</a>
+  <a href="#historia">HISTÓRIA</a>
+  <a href="#conceitos">CONCEITOS</a>
+  <a href="#criar">CRIAR</a>
+  <a href="#exportar">EXPORTAR</a>
+  <a href="#desafio">DESAFIO</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-glow"></div>
+  <div class="label-retro">AULA 02 / CONTINUAÇÃO</div>
+  <h1 class="glitch" data-text="CANVA">CANVA</h1>
+  <p class="hero-sub">design para todos // sem precisar ser designer</p>
+  <div class="hero-meta">
+    <span>📅 CONTINUAÇÃO: FORMATOS DE IMAGEM</span>
+    <span>🎯 NÍVEL: INICIANTE</span>
+    <span>⏱ 90 MIN</span>
+    <span>🛠 FERRAMENTA: CANVA.COM</span>
+  </div>
+  <div class="scroll-hint">▼ SCROLL PARA COMEÇAR ▼</div>
+</section>
+
+<div class="section-divider"><span>// SEÇÃO 01 // HISTÓRIA E ORIGEM</span></div>
+
+<!-- HISTORIA -->
+<div class="section" id="historia">
+  <div class="card">
+    <div class="card-tag">&gt; LOADING: história.exe</div>
+    <h2>Quem criou o Canva?</h2>
+    <div class="grid-2">
+      <div>
+        <h3>Os Fundadores</h3>
+        <p>O Canva foi criado em <strong style="color:var(--neon-green)">2012</strong> na Austrália por três pessoas:</p>
+        <ul>
+          <li><strong>Melanie Perkins</strong> — CEO, a grande mente por trás da ideia</li>
+          <li><strong>Cliff Obrecht</strong> — COO, parceiro de negócios (e de vida) de Melanie</li>
+          <li><strong>Cameron Adams</strong> — CPO, engenheiro que tornou a ideia realidade</li>
+        </ul>
+        <div class="tip-box" style="margin-top:16px;">
+          <p>Melanie teve a ideia ainda na universidade, ao perceber como ferramentas como Photoshop eram complexas e inacessíveis para estudantes.</p>
+        </div>
+      </div>
+      <div>
+        <h3>Por que foi criado?</h3>
+        <p>Melanie percebeu um problema enorme: <strong style="color:var(--neon-pink)">design profissional era exclusivo para quem sabia usar softwares complicados</strong> — Photoshop, Illustrator, InDesign.</p>
+        <p>A missão? <em style="color:var(--neon-blue)">"Empoderar o mundo a criar qualquer coisa e publicar em qualquer lugar."</em></p>
+        <p>Hoje o Canva tem mais de <strong style="color:var(--neon-yellow)">170 milhões de usuários</strong> em 190 países e é avaliado em mais de <strong style="color:var(--neon-yellow)">26 bilhões de dólares</strong>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"><span>// SEÇÃO 02 // CONCEITOS BÁSICOS</span></div>
+
+<!-- CONCEITOS -->
+<div class="section" id="conceitos">
+  <div class="card">
+    <div class="card-tag">&gt; LOADING: conceitos.exe</div>
+    <h2>O que é o Canva?</h2>
+    <p>É uma ferramenta de design gráfico <strong style="color:var(--neon-green)">online, gratuita e intuitiva</strong>. Funciona no navegador (e também tem app) sem precisar instalar nada.</p>
+    <div class="sep"></div>
+
+    <h3>Elementos Principais da Interface</h3>
+    <div class="grid-3" style="margin-top:16px;">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <h4>🖼 Canvas (Tela)</h4>
+        <p>A área central onde você cria sua arte. Tudo que aparece ali será o resultado final.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <h4>📦 Elementos</h4>
+        <p>Formas, ícones, stickers, linhas, frames — tudo que você pode arrastar para sua tela.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <h4>🔤 Textos</h4>
+        <p>Títulos, subtítulos e corpo de texto. Centenas de fontes disponíveis.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <h4>🖼 Fotos / Mídias</h4>
+        <p>Banco de imagens gratuitas, vídeos, seus próprios uploads e muito mais.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">05</div>
+        <h4>🎨 Background</h4>
+        <p>Fundo da sua arte — pode ser cor sólida, gradiente, padrão ou imagem.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">06</div>
+        <h4>📐 Templates</h4>
+        <p>Modelos prontos para centenas de tipos de criação — só editar e personalizar.</p>
+      </div>
+    </div>
+
+    <div class="sep"></div>
+    <h3>O que conseguimos criar?</h3>
+    <table class="info-table">
+      <tr>
+        <th>CATEGORIA</th>
+        <th>EXEMPLOS</th>
+        <th>USO</th>
+      </tr>
+      <tr>
+        <td>📱 Redes Sociais</td>
+        <td>Posts, Stories, Reels, Capas</td>
+        <td>Instagram, TikTok, YouTube</td>
+      </tr>
+      <tr>
+        <td>🎉 Eventos</td>
+        <td>Convites, Flyers, Cartazes, Banners</td>
+        <td>Festas, Shows, Feiras</td>
+      </tr>
+      <tr>
+        <td>📄 Documentos</td>
+        <td>Currículos, Apresentações, Relatórios</td>
+        <td>Trabalho, Escola, Negócios</td>
+      </tr>
+      <tr>
+        <td>🛍 Marketing</td>
+        <td>Cardápio, Logo, Cartão de visita</td>
+        <td>Pequenos negócios</td>
+      </tr>
+      <tr>
+        <td>🎓 Educação</td>
+        <td>Infográficos, Slides, Certificados</td>
+        <td>Aulas, Projetos, TCC</td>
+      </tr>
+      <tr>
+        <td>🎨 Impressos</td>
+        <td>Camisas, Canecas, Adesivos, Faixas</td>
+        <td>Personalização física</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="section-divider"><span>// SEÇÃO 03 // CRIANDO SUA ARTE</span></div>
+
+<!-- CRIAR -->
+<div class="section" id="criar">
+  <div class="card">
+    <div class="card-tag">&gt; LOADING: tutorial_criar.exe</div>
+    <h2>Como Criar uma Arte</h2>
+
+    <h3>🅰 Opção 1 — Do Zero</h3>
+    <div class="export-grid" style="margin-top:16px;">
+      <div class="export-step">
+        <span class="icon">🌐</span>
+        <h5>Acesse</h5>
+        <p>Vá em <strong>canva.com</strong> e faça login (pode usar conta Google)</p>
+      </div>
+      <div class="export-step">
+        <span class="icon">➕</span>
+        <h5>Novo Design</h5>
+        <p>Clique em <strong>"Criar um design"</strong> no canto superior direito</p>
+      </div>
+      <div class="export-step">
+        <span class="icon">📐</span>
+        <h5>Escolha o Tamanho</h5>
+        <p>Selecione um formato pronto (ex: Post Instagram) ou insira dimensões personalizadas</p>
+      </div>
+      <div class="export-step">
+        <span class="icon">🎨</span>
+        <h5>Fundo</h5>
+        <p>Clique em "Background" e escolha uma cor, gradiente ou imagem de fundo</p>
+      </div>
+      <div class="export-step">
+        <span class="icon">🔤</span>
+        <h5>Adicione Texto</h5>
+        <p>Clique em "Texto" e adicione título, subtítulo ou corpo de texto</p>
+      </div>
+      <div class="export-step">
+        <span class="icon">📦</span>
+        <h5>Elementos</h5>
+        <p>Pesquise e adicione elementos, formas, ícones e fotos</p>
+      </div>
+    </div>
+
+    <div class="sep"></div>
+    <h3>🅱 Opção 2 — Com Template</h3>
+    <div class="export-grid" style="margin-top:16px;">
+      <div class="export-step">
+        <span class="icon">🔍</span>
+        <h5>Busque um Template</h5>
+        <p>Na tela inicial, pesquise o tipo de arte: "flyer festa", "convite", etc.</p>
+      </div>
+      <div class="export-step">
+        <span class="icon">👆</span>
+        <h5>Clique no Template</h5>
+        <p>Escolha um que gostar — ele abrirá direto no editor</p>
+      </div>
+      <div class="export-step">
+        <span class="icon">✏️</span>
+        <h5>Edite o Texto</h5>
+        <p>Clique duas vezes em qualquer texto para editá-lo</p>
+      </div>
+      <div class="export-step">
+        <span class="icon">🖼</span>
+        <h5>Troque as Fotos</h5>
+        <p>Clique em qualquer imagem e veja as opções de substituição</p>
+      </div>
+      <div class="export-step">
+        <span class="icon">🎨</span>
+        <h5>Ajuste as Cores</h5>
+        <p>Use "Editar cores do template" para mudar toda a paleta de uma vez</p>
+      </div>
+      <div class="export-step">
+        <span class="icon">💾</span>
+        <h5>Salva Automático</h5>
+        <p>O Canva salva tudo automaticamente — sem medo de perder!</p>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <p>Use CTRL+Z para desfazer qualquer erro. O Canva tem histórico ilimitado de ações!</p>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"><span>// SEÇÃO 04 // EXPORTANDO</span></div>
+
+<!-- EXPORTAR -->
+<div class="section" id="exportar">
+  <div class="card">
+    <div class="card-tag">&gt; LOADING: exportar.exe</div>
+    <h2>Como Exportar sua Arte</h2>
+    <p>Quando sua arte estiver pronta, é hora de salvar ou compartilhar!</p>
+
+    <div class="grid-2" style="margin-top:20px;">
+      <div>
+        <h3>📤 Passo a Passo</h3>
+        <div class="step-card" style="margin-bottom:12px;">
+          <div class="step-num">1</div>
+          <h4>Botão "Compartilhar"</h4>
+          <p>Clique no botão azul <strong>"Compartilhar"</strong> no canto superior direito da tela.</p>
+        </div>
+        <div class="step-card" style="margin-bottom:12px;">
+          <div class="step-num">2</div>
+          <h4>Baixar</h4>
+          <p>Clique em <strong>"Baixar"</strong> no menu que aparecer.</p>
+        </div>
+        <div class="step-card" style="margin-bottom:12px;">
+          <div class="step-num">3</div>
+          <h4>Escolha o Formato</h4>
+          <p>Selecione o tipo de arquivo que deseja (veja tabela ao lado).</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <h4>Baixar Arquivo</h4>
+          <p>Clique em <strong>"Baixar"</strong> e salve no seu computador ou celular.</p>
+        </div>
+      </div>
+      <div>
+        <h3>📁 Formatos de Exportação</h3>
+        <table class="info-table">
+          <tr>
+            <th>FORMATO</th>
+            <th>QUANDO USAR</th>
+          </tr>
+          <tr>
+            <td><span class="badge badge-blue">PNG</span></td>
+            <td>Melhor para redes sociais, fundo transparente</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-pink">JPG</span></td>
+            <td>Fotos, quando tamanho do arquivo importa</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-green">PDF</span></td>
+            <td>Impressão, envio por e-mail, documentos</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-blue">MP4</span></td>
+            <td>Designs animados, vídeos para stories</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-pink">GIF</span></td>
+            <td>Animações simples para redes sociais</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-green">SVG</span></td>
+            <td>Logos, vetores (apenas conta Pro)</td>
+          </tr>
+        </table>
+        <div class="tip-box">
+          <p>Para impressão profissional, sempre escolha PDF com "marcas de corte" ativadas. Para redes sociais, use PNG!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"><span>// SEÇÃO 05 // DESAFIO DA AULA</span></div>
+
+<!-- DESAFIO -->
+<div class="section" id="desafio">
+  <div class="card">
+    <div class="card-tag">&gt; LOADING: desafio.exe</div>
+    <h2>Desafio: Escolha 2 e Crie!</h2>
+    <p>Abaixo estão <strong style="color:var(--neon-green)">10 ideias de artes</strong> para você criar no Canva. 
+    <strong style="color:var(--neon-yellow)">Clique em 2 cards</strong> para selecionar os projetos que vai desenvolver nesta aula.</p>
+
+    <div class="ideas-grid" id="ideas-grid">
+
+      <div class="idea-card" onclick="toggleIdea(this, 1)">
+        <span class="idea-emoji">🤠</span>
+        <div class="idea-num">// 01</div>
+        <h4>Convite de Vaquejada</h4>
+        <p>Crie um convite animado para uma vaquejada com data, local, atrações e preço do ingresso.</p>
+      </div>
+
+      <div class="idea-card" onclick="toggleIdea(this, 2)">
+        <span class="idea-emoji">🪗</span>
+        <div class="idea-num">// 02</div>
+        <h4>Flyer de Forró</h4>
+        <p>Cartaz para uma noite de forró pé de serra, com nome do evento, bandas e horário.</p>
+      </div>
+
+      <div class="idea-card" onclick="toggleIdea(this, 3)">
+        <span class="idea-emoji">💻</span>
+        <div class="idea-num">// 03</div>
+        <h4>Banner: Feira de Tecnologia</h4>
+        <p>Banner digital para divulgar uma feira de tecnologia escolar com exposições e palestras.</p>
+      </div>
+
+      <div class="idea-card" onclick="toggleIdea(this, 4)">
+        <span class="idea-emoji">🎸</span>
+        <div class="idea-num">// 04</div>
+        <h4>Cartaz: Show de Rock Cover</h4>
+        <p>Cartaz para uma noite de bandas cover tocando clássicos do rock com headliners e horários.</p>
+      </div>
+
+      <div class="idea-card" onclick="toggleIdea(this, 5)">
+        <span class="idea-emoji">🍔</span>
+        <div class="idea-num">// 05</div>
+        <h4>Cardápio de Lanchonete</h4>
+        <p>Cardápio digital ou impresso para uma lanchonete com lanches, bebidas e combos.</p>
+      </div>
+
+      <div class="idea-card" onclick="toggleIdea(this, 6)">
+        <span class="idea-emoji">🏀</span>
+        <div class="idea-num">// 06</div>
+        <h4>Convite: Campeonato de Basquete</h4>
+        <p>Convite para um torneio escolar de basquete 3x3 com data, local e times participantes.</p>
+      </div>
+
+      <div class="idea-card" onclick="toggleIdea(this, 7)">
+        <span class="idea-emoji">🎪</span>
+        <div class="idea-num">// 07</div>
+        <h4>Flyer: Festa Junina</h4>
+        <p>Cartaz colorido de festa junina com quadrilha, comidas típicas, data e endereço.</p>
+      </div>
+
+      <div class="idea-card" onclick="toggleIdea(this, 8)">
+        <span class="idea-emoji">🎬</span>
+        <div class="idea-num">// 08</div>
+        <h4>Capa: Canal do YouTube</h4>
+        <p>Banner de capa para um canal fictício de tecnologia, games ou humor com nome e slogan.</p>
+      </div>
+
+      <div class="idea-card" onclick="toggleIdea(this, 9)">
+        <span class="idea-emoji">🥊</span>
+        <div class="idea-num">// 09</div>
+        <h4>Cartaz: Noite de Luta MMA</h4>
+        <p>Cartaz estilo fight card para uma noite de MMA amador com atletas e categorias.</p>
+      </div>
+
+      <div class="idea-card" onclick="toggleIdea(this, 10)">
+        <span class="idea-emoji">🌮</span>
+        <div class="idea-num">// 10</div>
+        <h4>Post: Festival de Comida de Rua</h4>
+        <p>Post para Instagram divulgando um festival de food trucks com as atrações e culinária.</p>
+      </div>
+
+    </div>
+
+    <!-- SELECTION STATUS -->
+    <div class="selection-status">
+      <div class="counter" id="counter">0 / 2 SELECIONADOS</div>
+      <div class="hint" id="hint-text">👆 Clique em dois cards para escolher seus projetos</div>
+      <div id="selected-names"></div>
+    </div>
+
+    <div class="sep"></div>
+
+    <!-- INSTRUCOES -->
+    <h3>📋 Instruções do Desafio</h3>
+    <div class="grid-2" style="margin-top:16px;">
+      <div class="step-card">
+        <h4>📌 O que fazer</h4>
+        <p>Para cada arte escolhida, crie um design no Canva usando o que aprendeu hoje: adicione textos, elementos, imagens e um fundo atraente.</p>
+      </div>
+      <div class="step-card">
+        <h4>📤 Como entregar</h4>
+        <p>Exporte as duas artes no formato <strong>PNG</strong> e envie pelo grupo da turma ou ao professor diretamente.</p>
+      </div>
+      <div class="step-card">
+        <h4>⭐ Dica de ouro</h4>
+        <p>Comece pelo template — pesquise no Canva por palavras como "flyer", "convite", "banner" e personalize um existente.</p>
+      </div>
+      <div class="step-card">
+        <h4>🏆 Critérios</h4>
+        <p>Sua arte será avaliada em: <strong>legibilidade</strong> (dá pra ler?), <strong>identidade</strong> (combina com o tema?) e <strong>criatividade</strong>.</p>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:32px;">
+      <a href="https://canva.com" target="_blank" class="blink-link">▶ ABRIR O CANVA.COM</a>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"><span>// FIM DA AULA // BOA SORTE!</span></div>
+
+<footer>
+  <p>AULA 02 :: INTRODUÇÃO AO CANVA :: DESIGN DIGITAL</p>
+  <p>CONTINUAÇÃO DA AULA SOBRE FORMATOS DE IMAGEM</p>
+  <p style="margin-top:16px; font-size:0.75rem;">
+    <span style="color:var(--neon-green)">●</span> CANVA.COM &nbsp;|&nbsp; 
+    <a href="https://canva.com" target="_blank">ACESSAR FERRAMENTA</a> &nbsp;|&nbsp;
+    <span style="color:var(--muted)">FEITO COM ♥ PELO PROFESSOR</span>
+  </p>
+</footer>
+
+<script>
+  // ── IDEA CARD SELECTION ──
+  const ideas = [
+    '', 
+    'Convite de Vaquejada',
+    'Flyer de Forró',
+    'Banner: Feira de Tecnologia',
+    'Cartaz: Show de Rock Cover',
+    'Cardápio de Lanchonete',
+    'Convite: Campeonato de Basquete',
+    'Flyer: Festa Junina',
+    'Capa: Canal do YouTube',
+    'Cartaz: Noite de Luta MMA',
+    'Post: Festival de Comida de Rua'
+  ];
+
+  let selected = [];
+
+  function toggleIdea(card, num) {
+    if (card.classList.contains('selected')) {
+      // deselect
+      card.classList.remove('selected');
+      selected = selected.filter(n => n !== num);
+    } else {
+      if (selected.length >= 2) {
+        // shake effect
+        card.style.animation = 'shake 0.3s';
+        setTimeout(()=>card.style.animation='', 300);
+        return;
+      }
+      card.classList.add('selected');
+      selected.push(num);
+    }
+    updateStatus();
+    updateDisabled();
+    spawnParticles(card);
+  }
+
+  function updateStatus() {
+    const counter = document.getElementById('counter');
+    const hint = document.getElementById('hint-text');
+    const names = document.getElementById('selected-names');
+
+    counter.textContent = `${selected.length} / 2 SELECIONADOS`;
+
+    if (selected.length === 0) {
+      hint.textContent = '👆 Clique em dois cards para escolher seus projetos';
+      names.textContent = '';
+    } else if (selected.length === 1) {
+      hint.textContent = '👆 Escolha mais um projeto!';
+      names.textContent = `✓ ${ideas[selected[0]]}`;
+    } else {
+      hint.textContent = '🎉 Perfeito! Agora vá para o Canva e comece a criar!';
+      names.textContent = `✓ ${ideas[selected[0]]}  //  ✓ ${ideas[selected[1]]}`;
+    }
+  }
+
+  function updateDisabled() {
+    const allCards = document.querySelectorAll('.idea-card');
+    allCards.forEach(c => {
+      if (selected.length >= 2 && !c.classList.contains('selected')) {
+        c.classList.add('disabled');
+      } else {
+        c.classList.remove('disabled');
+      }
+    });
+  }
+
+  function spawnParticles(el) {
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width/2;
+    const cy = rect.top + rect.height/2;
+    for (let i = 0; i < 8; i++) {
+      const p = document.createElement('div');
+      p.className = 'pixel-particle';
+      p.style.left = (cx + (Math.random()-0.5)*60) + 'px';
+      p.style.top = cy + 'px';
+      p.style.background = ['#00ff88','#00cfff','#ff0080','#ffe600'][Math.floor(Math.random()*4)];
+      p.style.width = p.style.height = (Math.random()*4+2)+'px';
+      document.body.appendChild(p);
+      setTimeout(()=>p.remove(), 3000);
+    }
+  }
+
+  // ── Smooth scroll ──
+  document.querySelectorAll('nav a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // ── Glitch shake keyframe ──
+  const style = document.createElement('style');
+  style.textContent = `@keyframes shake {
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-6px)}
+    40%{transform:translateX(6px)}
+    60%{transform:translateX(-4px)}
+    80%{transform:translateX(4px)}
+  }`;
+  document.head.appendChild(style);
+</script>
+</body>
+</html>
