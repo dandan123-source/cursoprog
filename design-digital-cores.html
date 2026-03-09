@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Digital — Cores & Linguagem Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f0eb;
+    --cream: #ede8e0;
+    --gray: #8a8278;
+    --accent: #c8a882;
+    --dark-gray: #2a2520;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 60px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+  }
+
+  nav .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+  }
+
+  nav ul a {
+    color: var(--gray);
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  nav ul a:hover { color: var(--white); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 140px 60px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 6vw, 88px);
+    font-weight: 900;
+    line-height: 1.0;
+    margin-bottom: 32px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-desc {
+    font-size: 20px;
+    color: var(--gray);
+    max-width: 420px;
+    font-style: italic;
+    font-weight: 300;
+    border-left: 2px solid var(--accent);
+    padding-left: 20px;
+  }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .color-strips {
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }
+
+  .strip {
+    flex: 1;
+    transform-origin: bottom;
+    animation: riseStrip 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+  }
+
+  @keyframes riseStrip {
+    from { transform: scaleY(0); opacity: 0; }
+    to { transform: scaleY(1); opacity: 1; }
+  }
+
+  .strip:nth-child(1) { background: #1a0a0a; animation-delay: 0.1s; }
+  .strip:nth-child(2) { background: #2d1b00; animation-delay: 0.2s; }
+  .strip:nth-child(3) { background: #3d2b0a; animation-delay: 0.3s; }
+  .strip:nth-child(4) { background: #6b4c1e; animation-delay: 0.4s; }
+  .strip:nth-child(5) { background: #c8a882; animation-delay: 0.5s; }
+  .strip:nth-child(6) { background: #e8d4b8; animation-delay: 0.6s; }
+  .strip:nth-child(7) { background: #f5f0eb; animation-delay: 0.7s; }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--gray);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .scroll-hint::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gray);
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 120px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 60px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-label::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 4vw, 58px);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 40px;
+  }
+
+  h2 em { font-style: italic; color: var(--accent); }
+
+  p {
+    color: rgba(245, 240, 235, 0.75);
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 300;
+  }
+
+  p strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(200,168,130,0.3), transparent);
+    margin: 0 60px;
+    max-width: 1280px;
+  }
+
+  /* TOOLS GRID */
+  .tools-section {
+    background: var(--dark-gray);
+    padding: 120px 0;
+  }
+
+  .tools-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 60px;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .tool-card {
+    background: var(--black);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+  }
+
+  .tool-card:hover { background: #151210; }
+
+  .tool-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    margin-bottom: 24px;
+    opacity: 0.6;
+  }
+
+  .tool-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .tool-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .tool-card p {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* HEX SECTION */
+  .hex-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .hex-visual {
+    position: sticky;
+    top: 120px;
+  }
+
+  .hex-code-demo {
+    background: #111;
+    border: 1px solid rgba(200,168,130,0.2);
+    padding: 48px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .hex-title-demo {
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .hex-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .hex-swatch {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  .hex-label {
+    font-size: 22px;
+    color: var(--white);
+    letter-spacing: 0.05em;
+  }
+
+  .hex-name {
+    font-size: 11px;
+    color: var(--gray);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  /* Anatomy block */
+  .anatomy {
+    background: #111;
+    border: 1px solid rgba(200,168,130,0.2);
+    padding: 40px;
+    margin-top: 40px;
+  }
+
+  .anatomy-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .anatomy-hex {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+  }
+
+  .h-hash { color: var(--gray); }
+  .h-r { color: #ff6b6b; }
+  .h-g { color: #6bff6b; }
+  .h-b { color: #6b9fff; }
+
+  .anatomy-legend {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+  }
+
+  .legend-item span:first-child {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+
+  .legend-item .legend-label { color: var(--gray); letter-spacing: 0.1em; }
+
+  /* PALETTE SECTION */
+  .palette-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 60px;
+  }
+
+  .palette-card {
+    overflow: hidden;
+  }
+
+  .palette-header {
+    padding: 32px;
+    font-family: 'DM Mono', monospace;
+  }
+
+    .palette-strips {
+    display: flex;
+    height: 160px;
+  }
+
+  .p-strip {
+    flex: 1;
+    position: relative;
+    transition: flex 0.4s ease;
+    cursor: pointer;
+  }
+
+  .p-strip:hover { flex: 2.5; }
+
+  .p-strip:hover .p-hex {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .p-hex {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    opacity: 0;
+    transition: all 0.3s;
+    white-space: nowrap;
+    padding: 4px 8px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+  }
+
+  .palette-caption {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 16px 0 0;
+  }
+
+  /* CONTRAST TABLE */
+  .contrast-section {
+    background: var(--dark-gray);
+    padding: 120px 0;
+  }
+
+  .contrast-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 60px;
+  }
+
+  .contrast-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .contrast-card {
+    padding: 48px 36px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+  }
+
+  .contrast-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.6;
+  }
+
+  .contrast-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .contrast-desc { font-size: 14px; opacity: 0.7; }
+
+  .tag-avoid { 
+    position: absolute; top: 24px; right: 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+    border: 1px solid currentColor;
+    padding: 4px 10px;
+    opacity: 0.5;
+  }
+
+  /* ETHICS */
+  .ethics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .ethics-list {
+    list-style: none;
+    margin-top: 20px;
+  }
+
+  .ethics-list li {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .ethics-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    padding-top: 4px;
+  }
+
+  .ethics-text {
+    color: rgba(245,240,235,0.7);
+    font-size: 16px;
+  }
+
+  .ethics-text strong { color: var(--white); display: block; margin-bottom: 4px; font-size: 17px; }
+
+  /* VISUAL COMPOSITION */
+  .composition-section {
+    background: #0f0d0b;
+  }
+
+  .composition-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .comp-card {
+    background: var(--dark-gray);
+    padding: 48px 36px;
+    transition: background 0.3s;
+  }
+
+  .comp-card:hover { background: #1f1a14; }
+
+  .comp-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 24px;
+    opacity: 0.4;
+  }
+
+  .comp-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  footer .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  footer .footer-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--gray);
+    letter-spacing: 0.15em;
+  }
+
+  /* QUOTE */
+  .pull-quote {
+    border-left: 3px solid var(--accent);
+    padding: 32px 40px;
+    margin: 60px 0;
+    background: rgba(200,168,130,0.04);
+  }
+
+  .pull-quote blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 2.5vw, 32px);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.4;
+  }
+
+  .pull-quote cite {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 16px;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 18px 24px; }
+    nav ul { gap: 20px; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { height: 280px; }
+    .hero-left { padding: 100px 24px 60px; }
+    section { padding: 80px 24px; }
+    .tools-grid, .contrast-grid, .composition-grid { grid-template-columns: 1fr; }
+    .hex-section, .ethics-grid, .palette-demo { grid-template-columns: 1fr; }
+    .hex-visual { position: static; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Design Digital</div>
+  <ul>
+    <li><a href="#ferramentas">Ferramentas</a></li>
+    <li><a href="#hexadecimal">Hexadecimal</a></li>
+    <li><a href="#paletas">Paletas</a></li>
+    <li><a href="#etica">Ética</a></li>
+    <li><a href="#composicao">Composição</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left fade-up">
+    <p class="hero-eyebrow">Aula 01 — Fundamentos Visuais</p>
+    <h1>A linguagem<br>das <em>cores</em><br>no design</h1>
+    <p class="hero-desc">De hexadecimais a ética visual — como construir comunicação que realmente funciona.</p>
+    <div class="scroll-hint" style="margin-top:60px;">Role para explorar</div>
+  </div>
+  <div class="hero-right">
+    <div class="color-strips">
+      <div class="strip"></div>
+      <div class="strip"></div>
+      <div class="strip"></div>
+      <div class="strip"></div>
+      <div class="strip"></div>
+      <div class="strip"></div>
+      <div class="strip"></div>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<section>
+  <p class="section-label">Introdução</p>
+  <h2>Por que cores<br>importam <em>tanto</em>?</h2>
+  <div style="max-width:720px">
+    <p>Cor é a primeira coisa que o olho humano processa — antes da forma, antes do texto. Em menos de 90 milissegundos, o cérebro já formou uma impressão sobre o que está vendo. Para quem trabalha com design, isso significa que a escolha de cores não é decorativa: é estratégica.</p>
+    <p>Nesta aula vamos entender como as cores funcionam tecnicamente, como construir paletas que comunicam algo de fato, e por que a responsabilidade por essas escolhas vai além do gosto pessoal.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FERRAMENTAS -->
+<div class="tools-section" id="ferramentas">
+  <div class="tools-inner">
+    <p class="section-label">01 — Ferramentas</p>
+    <h2>O mercado<br>além do <em>Canva</em></h2>
+    <p style="max-width:600px; margin-bottom:0">Canva é um ótimo ponto de entrada, mas o mercado profissional opera com outras ferramentas. Cada uma tem um propósito.</p>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-number">001</div>
+        <div class="tool-name">Adobe Photoshop</div>
+        <span class="tool-tag">Edição de imagem</span>
+        <p>O padrão da indústria para manipulação de fotografias e composições pixel a pixel. Trabalha com resolução e profundidade de cor com precisão cirúrgica. Essencial para retoque, montagens e criação de texturas.</p>
+      </div>
+      <div class="tool-card">
+        <div class="tool-number">002</div>
+        <div class="tool-name">Adobe Illustrator</div>
+        <span class="tool-tag">Vetorial</span>
+        <p>Para logos, ícones e ilustrações que precisam escalar infinitamente sem perder qualidade. Trabalha com vetores matemáticos, não com pixels. Indispensável para identidade visual.</p>
+      </div>
+      <div class="tool-card">
+        <div class="tool-number">003</div>
+        <div class="tool-name">Adobe InDesign</div>
+        <span class="tool-tag">Diagramação</span>
+        <p>Criado especificamente para diagramar publicações: revistas, livros, catálogos, relatórios anuais. Controla tipografia, fluxo de texto e grids de forma que nenhuma outra ferramenta alcança.</p>
+      </div>
+      <div class="tool-card">
+        <div class="tool-number">004</div>
+        <div class="tool-name">CorelDRAW</div>
+        <span class="tool-tag">Vetorial / Gráficas</span>
+        <p>Alternativa robusta ao Illustrator, especialmente popular em gráficas e plotagem. Muito usado para sinalização, comunicação visual e impressão gráfica no Brasil.</p>
+      </div>
+      <div class="tool-card">
+        <div class="tool-number">005</div>
+        <div class="tool-name">Figma</div>
+        <span class="tool-tag">UI / UX Design</span>
+        <p>Hoje o padrão para design de interfaces digitais. Colaborativo, roda no browser, e tem um sistema de componentes poderoso. Dominou o mercado de produto digital nos últimos anos.</p>
+      </div>
+      <div class="tool-card">
+        <div class="tool-number">006</div>
+        <div class="tool-name">Affinity Designer</div>
+        <span class="tool-tag">Alternativa acessível</span>
+        <p>Substituto direto do Illustrator com compra única, sem assinatura. Ganhou mercado entre freelancers e criadores independentes que precisam de ferramenta profissional sem o custo mensal da Adobe.</p>
+      </div>
+      <div class="tool-card">
+        <div class="tool-number">007</div>
+        <div class="tool-name">Canva Pro</div>
+        <span class="tool-tag">Comunicação rápida</span>
+        <p>Excelente para produção de conteúdo em escala: redes sociais, apresentações, materiais internos. Não substitui as ferramentas acima em qualidade, mas é muito eficiente quando o que importa é velocidade.</p>
+      </div>
+      <div class="tool-card">
+        <div class="tool-number">008</div>
+        <div class="tool-name">Procreate</div>
+        <span class="tool-tag">Ilustração digital</span>
+        <p>Ferramenta exclusiva para iPad que simulou de vez a experiência analógica no digital. Muito usada por ilustradores e artistas. Tem recursos avançados de pintura, animação e textura.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HEXADECIMAL -->
+<section id="hexadecimal">
+  <p class="section-label">02 — Teoria da Cor</p>
+  <div class="hex-section">
+    <div>
+      <h2>Como funciona<br>o <em>Hexadecimal</em></h2>
+      <p>No design digital, as cores são definidas por código. O sistema mais usado é o hexadecimal — aquele formato <strong>#FF5733</strong> que você vê no Photoshop, no Figma, no código CSS.</p>
+      <p>O nome "hexadecimal" vem de "base 16". Enquanto nossa numeração do dia a dia usa 10 algarismos (0 a 9), o sistema hexadecimal usa 16: os números 0 a 9 mais as letras A, B, C, D, E, F — onde A vale 10 e F vale 15.</p>
+      <p>Cada cor é formada por três pares de caracteres que representam, em ordem, a intensidade de <strong>Vermelho</strong>, <strong>Verde</strong> e <strong>Azul</strong> — o sistema RGB. Cada par vai de 00 (ausência total) a FF (intensidade máxima).</p>
+
+      <div class="anatomy">
+        <div class="anatomy-title">Anatomia de uma cor</div>
+        <div class="anatomy-hex">
+          <span class="h-hash">#</span>
+          <span class="h-r">FF</span>
+          <span class="h-g">A5</span>
+          <span class="h-b">00</span>
+        </div>
+        <div class="anatomy-legend">
+          <div class="legend-item">
+            <span style="color:#ff6b6b; font-family:'DM Mono',monospace; font-size:22px;">FF</span>
+            <div class="legend-label">Vermelho<br>255 = máximo</div>
+          </div>
+          <div class="legend-item">
+            <span style="color:#6bff6b; font-family:'DM Mono',monospace; font-size:22px;">A5</span>
+            <div class="legend-label">Verde<br>165 = médio</div>
+          </div>
+          <div class="legend-item">
+            <span style="color:#6b9fff; font-family:'DM Mono',monospace; font-size:22px;">00</span>
+            <div class="legend-label">Azul<br>0 = ausente</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pull-quote" style="margin-top:40px">
+        <blockquote>"#000000 é preto puro — os três canais zerados. #FFFFFF é branco puro — os três canais no máximo."</blockquote>
+        <cite>Fundamentos de cor digital</cite>
+      </div>
+
+      <p>Matematicamente, cada canal tem 256 possibilidades (00 a FF). Com três canais, o resultado é 256³ = <strong>16,7 milhões de cores</strong> possíveis. É isso que representa o chamado "true color" das telas modernas.</p>
+    </div>
+
+    <div class="hex-visual">
+      <div class="hex-code-demo">
+        <div class="hex-title-demo">Referências essenciais</div>
+        <div class="hex-row">
+          <div class="hex-swatch" style="background:#000000; border:1px solid #333"></div>
+          <span class="hex-label">#000000</span>
+          <span class="hex-name">Preto</span>
+        </div>
+        <div class="hex-row">
+          <div class="hex-swatch" style="background:#FFFFFF; border:1px solid #333"></div>
+          <span class="hex-label">#FFFFFF</span>
+          <span class="hex-name">Branco</span>
+        </div>
+        <div class="hex-row">
+          <div class="hex-swatch" style="background:#FF0000"></div>
+          <span class="hex-label">#FF0000</span>
+          <span class="hex-name">Vermelho</span>
+        </div>
+        <div class="hex-row">
+          <div class="hex-swatch" style="background:#00FF00"></div>
+          <span class="hex-label">#00FF00</span>
+          <span class="hex-name">Verde</span>
+        </div>
+        <div class="hex-row">
+          <div class="hex-swatch" style="background:#0000FF"></div>
+          <span class="hex-label">#0000FF</span>
+          <span class="hex-name">Azul</span>
+        </div>
+        <div class="hex-row">
+          <div class="hex-swatch" style="background:#FF5733"></div>
+          <span class="hex-label">#FF5733</span>
+          <span class="hex-name">Laranja quente</span>
+        </div>
+        <div class="hex-row">
+          <div class="hex-swatch" style="background:#2C3E50"></div>
+          <span class="hex-label">#2C3E50</span>
+          <span class="hex-name">Azul escuro</span>
+        </div>
+        <div class="hex-row">
+          <div class="hex-swatch" style="background:#F39C12"></div>
+          <span class="hex-label">#F39C12</span>
+          <span class="hex-name">Amarelo âmbar</span>
+        </div>
+        <div class="hex-row">
+          <div class="hex-swatch" style="background:#ECF0F1"></div>
+          <span class="hex-label">#ECF0F1</span>
+          <span class="hex-name">Cinza nuvem</span>
+        </div>
+        <div class="hex-row">
+          <div class="hex-swatch" style="background:#8E44AD"></div>
+          <span class="hex-label">#8E44AD</span>
+          <span class="hex-name">Roxo médio</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PALETAS -->
+<section id="paletas">
+  <p class="section-label">03 — Paletas</p>
+  <h2>Construindo paletas<br>que <em>comunicam</em></h2>
+
+  <div style="max-width:700px">
+    <p>Uma paleta bem construída não é uma coleção de cores bonitas — é um sistema com intenção. Cada cor tem uma função: base, contraste, destaque, neutro. Quando você entende isso, para de escolher cores no feeling e começa a escolher por razão.</p>
+    <p>Existem três abordagens clássicas para construir uma paleta harmônica: <strong>monocromática</strong> (variações de uma só cor), <strong>complementar</strong> (cores opostas no círculo cromático) e <strong>análoga</strong> (cores vizinhas). Cada uma cria um clima diferente.</p>
+  </div>
+
+  <div class="palette-demo">
+    <div class="palette-card">
+      <div class="palette-strips">
+        <div class="p-strip" style="background:#1a1a2e"><div class="p-hex">#1a1a2e</div></div>
+        <div class="p-strip" style="background:#16213e"><div class="p-hex">#16213e</div></div>
+        <div class="p-strip" style="background:#0f3460"><div class="p-hex">#0f3460</div></div>
+        <div class="p-strip" style="background:#533483"><div class="p-hex">#533483</div></div>
+        <div class="p-strip" style="background:#e94560"><div class="p-hex">#e94560</div></div>
+      </div>
+      <div class="palette-caption">Tech / Gaming — Contraste alto, impacto visual</div>
+    </div>
+
+    <div class="palette-card">
+      <div class="palette-strips">
+        <div class="p-strip" style="background:#f8f4ef"><div class="p-hex" style="color:#333">#f8f4ef</div></div>
+        <div class="p-strip" style="background:#e8ddd0"><div class="p-hex" style="color:#333">#e8ddd0</div></div>
+        <div class="p-strip" style="background:#c9ab87"><div class="p-hex" style="color:#333">#c9ab87</div></div>
+        <div class="p-strip" style="background:#8b6c4f"><div class="p-hex">#8b6c4f</div></div>
+        <div class="p-strip" style="background:#3d2b1f"><div class="p-hex">#3d2b1f</div></div>
+      </div>
+      <div class="palette-caption">Wellness / Orgânico — Monocromático terra</div>
+    </div>
+
+    <div class="palette-card">
+      <div class="palette-strips">
+        <div class="p-strip" style="background:#ff6b6b"><div class="p-hex">#ff6b6b</div></div>
+        <div class="p-strip" style="background:#ffa07a"><div class="p-hex">#ffa07a</div></div>
+        <div class="p-strip" style="background:#ffd700"><div class="p-hex" style="color:#333">#ffd700</div></div>
+        <div class="p-strip" style="background:#98fb98"><div class="p-hex" style="color:#333">#98fb98</div></div>
+        <div class="p-strip" style="background:#87ceeb"><div class="p-hex" style="color:#333">#87ceeb</div></div>
+      </div>
+      <div class="palette-caption">Infantil / Festivo — Análogo vibrante</div>
+    </div>
+
+    <div class="palette-card">
+      <div class="palette-strips">
+        <div class="p-strip" style="background:#0a0a0a"><div class="p-hex">#0a0a0a</div></div>
+        <div class="p-strip" style="background:#1c1c1c"><div class="p-hex">#1c1c1c</div></div>
+        <div class="p-strip" style="background:#2e2e2e"><div class="p-hex">#2e2e2e</div></div>
+        <div class="p-strip" style="background:#d4af37"><div class="p-hex">#d4af37</div></div>
+        <div class="p-strip" style="background:#f5f5f5"><div class="p-hex">#f5f5f5</div></div>
+      </div>
+      <div class="palette-caption">Luxo / Premium — Escuro com acento dourado</div>
+    </div>
+  </div>
+
+  <div class="pull-quote" style="margin-top:80px">
+    <blockquote>"Uma arte que chama atenção não é a mais colorida — é a que usa o contraste certo na hora certa. O olho vai sempre para onde o designer manda."</blockquote>
+    <cite>Princípio de hierarquia visual</cite>
+  </div>
+</section>
+
+<!-- CONTRASTE E HIERARQUIA -->
+<div class="contrast-section">
+  <div class="contrast-inner">
+    <p class="section-label">04 — Hierarquia</p>
+    <h2>O que faz uma arte<br>ser <em>memorável</em></h2>
+    <p style="max-width:600px">Designs genéricos usam tudo com a mesma intensidade. Designs que funcionam têm hierarquia — um elemento domina, os outros suportam.</p>
+    <div class="contrast-grid">
+      <div class="contrast-card" style="background:#e8ddd0; color:#1a1a1a;">
+        <div class="contrast-label" style="color:#6b5a47">Regra 60-30-10</div>
+        <div class="contrast-title" style="color:#1a1a1a;">Proporção cromática</div>
+        <p class="contrast-desc" style="color:#4a3d30; font-size:14px;">60% cor dominante (fundo), 30% secundária (elementos principais), 10% de destaque (calls to action, ícones, detalhes que precisam de atenção).</p>
+      </div>
+      <div class="contrast-card" style="background:#1a1a2e; color:#e0e0ff;">
+        <div class="contrast-label" style="color:#8888cc">Contraste WCAG</div>
+        <div class="contrast-title">Acessibilidade</div>
+        <p class="contrast-desc">Texto precisa de contraste mínimo de 4.5:1 com o fundo para ser legível por pessoas com baixa visão. Isso não é opção — é obrigação ética e legal em muitos contextos.</p>
+      </div>
+      <div class="contrast-card" style="background:#f5f5f5; color:#111;">
+        <div class="contrast-label" style="color:#777">Ponto focal</div>
+        <div class="contrast-title" style="color:#111">Uma cor de acento</div>
+        <p class="contrast-desc" style="color:#444">O elemento mais importante da peça deve ter a cor mais contrastante. Se tudo destaca, nada destaca. Escolha um ponto focal e comprometa o resto a servi-lo.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ÉTICA -->
+<section id="etica" style="background:#0f0d0b">
+  <p class="section-label">05 — Ética Visual</p>
+  <div class="ethics-grid">
+    <div>
+      <h2>Cor certa<br>no lugar <em>certo</em></h2>
+      <p>Design não acontece no vácuo. Uma escolha de cor carrega significado cultural, psicológico e contextual — e isso tem consequências reais para quem recebe a comunicação.</p>
+      <p>Usar cores sem entender esses significados não é só ineficiente: pode ser prejudicial, desrespeitoso ou até perigoso. A responsabilidade do designer vai além da estética.</p>
+    </div>
+    <div>
+      <ul class="ethics-list">
+        <li>
+          <div class="ethics-num">01</div>
+          <div class="ethics-text">
+            <strong>Hospitais e saúde: evite preto e vermelho intenso</strong>
+            Preto remete a luto e morte em boa parte das culturas ocidentais. Vermelho intenso gera alerta e ansiedade. Para saúde, verde, azul e branco comunicam limpeza, calma e confiança. Errar aqui pode causar angústia real nos pacientes.
+          </div>
+        </li>
+        <li>
+          <div class="ethics-num">02</div>
+          <div class="ethics-text">
+            <strong>Alertas de segurança: vermelho e amarelo têm função normativa</strong>
+            Essas cores têm significado padronizado em normas de segurança (ISO, ABNT). Usá-las decorativamente em contextos onde alguém pode confundir "é design" com "é aviso real" é um erro com potencial de dano físico.
+          </div>
+        </li>
+        <li>
+          <div class="ethics-num">03</div>
+          <div class="ethics-text">
+            <strong>Contextos de luto e religião exigem pesquisa cultural</strong>
+            Branco é cor de luto no Japão e em países de tradição budista. Roxo tem forte conotação religiosa católica. Verde é sagrado no Islã. Antes de criar para públicos específicos, pesquise.
+          </div>
+        </li>
+        <li>
+          <div class="ethics-num">04</div>
+          <div class="ethics-text">
+            <strong>Daltonismo: 8% dos homens têm alguma deficiência de visão cromática</strong>
+            Nunca use apenas a cor para transmitir informação crítica. Se um gráfico diferencia categorias só pela cor, quem tem daltonismo não consegue ler. Use também forma, textura e rótulos.
+          </div>
+        </li>
+        <li>
+          <div class="ethics-num">05</div>
+          <div class="ethics-text">
+            <strong>Dark patterns cromáticos: manipulação pelo contraste</strong>
+            Usar o botão "cancelar" em cinza opaco e o "comprar" em verde vibrante é uma escolha ética — não só estética. O design tem o poder de empurrar decisões. Use esse poder com responsabilidade.
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMPOSIÇÃO -->
+<section id="composicao" class="composition-section">
+  <p class="section-label">06 — Composição</p>
+  <h2>Artes que não<br>parecem <em>genéricas</em></h2>
+  <p style="max-width:600px">A maioria das artes genéricas comete os mesmos erros: texto centralizado, foto de banco de imagem, gradiente roxo. Sair disso exige intenção.</p>
+
+  <div class="composition-grid">
+    <div class="comp-card">
+      <svg class="comp-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="4" y="4" width="18" height="28"/><rect x="26" y="16" width="18" height="28"/>
+      </svg>
+      <div class="comp-title">Quebre a grade</div>
+      <p>Layouts alinhados ao centro são seguros demais. Experimente assimetria, elementos que sangram para fora da área segura, tipografia que invade a imagem. Tensão visual cria interesse.</p>
+    </div>
+    <div class="comp-card">
+      <svg class="comp-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="24" cy="24" r="16"/><path d="M24 8v32M8 24h32"/>
+      </svg>
+      <div class="comp-title">Uma cor dominante forte</div>
+      <p>Em vez de paleta de 6 cores equilibradas, escolha uma cor dominante que cobre 70% da peça. Use o restante como contraste cirúrgico. Isso cria personalidade imediata e é mais difícil de esquecer.</p>
+    </div>
+    <div class="comp-card">
+      <svg class="comp-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M4 44 L24 4 L44 44"/><line x1="11" y1="30" x2="37" y2="30"/>
+      </svg>
+      <div class="comp-title">Tipografia como elemento visual</div>
+      <p>Texto não precisa ser só legível — pode ser elemento gráfico. Uma letra gigante no fundo, texto em diagonal, tracking extremo. Tipografia tratada visualmente eleva qualquer composição.</p>
+    </div>
+    <div class="comp-card">
+      <svg class="comp-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="4" y="4" width="40" height="40"/><rect x="14" y="14" width="20" height="20"/>
+      </svg>
+      <div class="comp-title">Espaço negativo intencional</div>
+      <p>O espaço vazio não é desperdício — é respiração. Marcas de luxo sabem disso. Um elemento isolado em muito espaço vazio comunica elegância e confiança de forma que o excesso nunca consegue.</p>
+    </div>
+    <div class="comp-card">
+      <svg class="comp-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M4 4 Q24 20 44 4"/><path d="M4 24 Q24 40 44 24"/><path d="M4 44 Q24 28 44 44"/>
+      </svg>
+      <div class="comp-title">Referência, não cópia</div>
+      <p>Estude o que você admira: observe grids, paletas, hierarquia tipográfica. Desconstrua o porquê de funcionar antes de se inspirar. Copiar o visual é genérico; absorver a lógica por trás é design.</p>
+    </div>
+    <div class="comp-card">
+      <svg class="comp-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+        <polygon points="24,4 44,44 4,44"/>
+      </svg>
+      <div class="comp-title">Contexto sempre vence</div>
+      <p>Não existe paleta universalmente bonita. Existe paleta certa para o contexto certo. A mesma identidade que funciona para uma vinícola pode ser catastrófica para um aplicativo de saúde. Pesquise antes de criar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Design Digital — Aula 01</div>
+  <div class="footer-note">Cores · Hexadecimal · Paletas · Ética Visual</div>
+</footer>
+
+<script>
+  // Fade in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('h2, .tool-card, .palette-card, .comp-card, .contrast-card, .ethics-list li').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+    observer.observe(el);
+  });
+
+  // Hero animation
+  document.querySelector('.hero-left').style.animation = 'fadeUp 1s ease 0.3s forwards';
+</script>
+</body>
+</html>
