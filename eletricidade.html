@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eletricidade Básica — Tensão, Corrente, Potência e Frequência</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --card: #151d2e;
+    --border: #1e2d45;
+    --accent-yellow: #f5c518;
+    --accent-cyan: #00d4ff;
+    --accent-orange: #ff6b2b;
+    --accent-green: #00e676;
+    --accent-purple: #b388ff;
+    --text: #e8edf5;
+    --text-muted: #6b7e99;
+    --text-dim: #8fa3bf;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding: 2rem;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridDrift 20s linear infinite;
+  }
+
+  @keyframes gridDrift {
+    from { transform: translateY(0); }
+    to   { transform: translateY(60px); }
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,255,.12) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    border: 1px solid rgba(0,212,255,.3);
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    margin-bottom: 2rem;
+    background: rgba(0,212,255,.05);
+    position: relative; z-index: 1;
+    animation: fadeInDown 0.8s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    position: relative; z-index: 1;
+    animation: fadeInUp 0.9s ease 0.2s both;
+  }
+
+  .hero h1 span.highlight {
+    background: linear-gradient(135deg, var(--accent-yellow), var(--accent-orange));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .hero p.sub {
+    margin-top: 1.5rem;
+    font-size: 1.15rem;
+    color: var(--text-dim);
+    max-width: 540px;
+    position: relative; z-index: 1;
+    animation: fadeInUp 1s ease 0.4s both;
+  }
+
+  .hero-nav {
+    display: flex; flex-wrap: wrap; gap: 0.75rem;
+    justify-content: center;
+    margin-top: 3rem;
+    position: relative; z-index: 1;
+    animation: fadeInUp 1s ease 0.6s both;
+  }
+
+  .hero-nav a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    text-decoration: none;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 0.5rem 1.1rem;
+    border-radius: 0.4rem;
+    background: var(--card);
+    transition: all 0.2s;
+  }
+
+  .hero-nav a:hover {
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+    background: rgba(0,212,255,.07);
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+    position: relative; z-index: 1;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+
+  .section-label::after {
+    content: '';
+    height: 1px; flex: 1;
+    background: linear-gradient(90deg, rgba(0,212,255,.4), transparent);
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    margin-top: 2rem;
+  }
+
+  p { color: var(--text-dim); margin-bottom: 1rem; }
+  p strong { color: var(--text); }
+
+  /* ── CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0,212,255,.3);
+  }
+
+  .card-icon {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--text);
+  }
+
+  .card p { font-size: 0.9rem; margin: 0; }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: 2rem;
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+  }
+
+  .tag-yellow  { background: rgba(245,197,24,.15);  color: var(--accent-yellow); }
+  .tag-cyan    { background: rgba(0,212,255,.12);   color: var(--accent-cyan);   }
+  .tag-orange  { background: rgba(255,107,43,.15);  color: var(--accent-orange); }
+  .tag-green   { background: rgba(0,230,118,.12);   color: var(--accent-green);  }
+  .tag-purple  { background: rgba(179,136,255,.12); color: var(--accent-purple); }
+
+  /* ── ANALOGIA BOX ── */
+  .analogy {
+    border-left: 3px solid var(--accent-yellow);
+    background: rgba(245,197,24,.06);
+    border-radius: 0 0.8rem 0.8rem 0;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .analogy .analogy-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--accent-yellow);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .analogy p { color: var(--text); margin: 0; font-size: 0.95rem; }
+
+  /* ── FORMULA ── */
+  .formula-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.8rem;
+    padding: 1.5rem 2rem;
+    margin: 1.5rem 0;
+    display: flex; align-items: center; gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .formula {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.5rem;
+    color: var(--accent-cyan);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .formula-desc { font-size: 0.88rem; color: var(--text-dim); }
+  .formula-desc b { color: var(--text); }
+
+  /* ── WAVE SVG SECTION ── */
+  .wave-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: center;
+  }
+
+  .wave-container h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  svg.wave { width: 100%; max-width: 500px; height: 120px; }
+
+  .wave-label {
+    display: flex; justify-content: center; gap: 2rem; margin-top: 0.8rem;
+  }
+
+  .wave-label span {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0 1.5rem;
+  }
+
+  /* ── COMPARISON TABLE ── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+  }
+
+  .compare-table th {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.9rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+    color: var(--text-dim);
+  }
+
+  .compare-table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid rgba(30,45,69,.6);
+    color: var(--text-dim);
+    vertical-align: top;
+  }
+
+  .compare-table tr:hover td { background: rgba(0,212,255,.03); }
+
+  .compare-table td:first-child { color: var(--text); font-weight: 500; }
+
+  /* ── UNIT PILLS ── */
+  .unit-pill {
+    display: inline-block;
+    background: rgba(0,212,255,.1);
+    border: 1px solid rgba(0,212,255,.25);
+    color: var(--accent-cyan);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    padding: 0.15rem 0.7rem;
+    border-radius: 2rem;
+    vertical-align: middle;
+    margin-left: 0.3rem;
+  }
+
+  /* ── EQUIPMENT GRID ── */
+  .equip-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .equip-col {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+
+  .equip-col h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+
+  .equip-col ul {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+
+  .equip-col ul li {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+
+  .equip-col ul li::before {
+    content: '→';
+    font-size: 0.75rem;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    border-top: 1px solid var(--border);
+    position: relative; z-index: 1;
+  }
+
+  footer span { color: var(--accent-cyan); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .equip-grid { grid-template-columns: 1fr; }
+    .card-grid  { grid-template-columns: 1fr; }
+    .formula-box { flex-direction: column; gap: 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-badge">Aula de Informática · Conceitos Elétricos</div>
+  <h1>Eletricidade<br><span class="highlight">Descomplicada</span></h1>
+  <p class="sub">Tensão, Corrente, Potência e Frequência — entenda de vez como a energia elétrica funciona.</p>
+  <nav class="hero-nav">
+    <a href="#tensao">⚡ Tensão</a>
+    <a href="#corrente">💧 Corrente</a>
+    <a href="#potencia">🔥 Potência</a>
+    <a href="#frequencia">〰️ Frequência</a>
+    <a href="#ca-cc">↔️ CA vs CC</a>
+  </nav>
+</div>
+
+<hr class="divider">
+
+<!-- INTRODUÇÃO -->
+<section class="reveal">
+  <div class="section-label">Introdução</div>
+  <h2>Por que entender eletricidade?</h2>
+  <p>Todo equipamento que você usa no dia a dia — celular, computador, geladeira, TV — funciona por causa da eletricidade. Entender como ela funciona te ajuda a usar os equipamentos corretamente, economizar energia e até evitar acidentes.</p>
+  <p>Vamos estudar as quatro grandezas fundamentais: <strong>tensão</strong>, <strong>corrente</strong>, <strong>potência</strong> e <strong>frequência</strong>. Para cada uma, vamos usar analogias simples do cotidiano.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <div class="tag tag-yellow">V — Volt</div>
+      <h4>Tensão</h4>
+      <p>A "força" que empurra a eletricidade pelo circuito.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">💧</div>
+      <div class="tag tag-cyan">A — Ampere</div>
+      <h4>Corrente</h4>
+      <p>A quantidade de eletricidade que passa em um segundo.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔥</div>
+      <div class="tag tag-orange">W — Watt</div>
+      <h4>Potência</h4>
+      <p>O quanto de energia o equipamento consome ou produz.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">〰️</div>
+      <div class="tag tag-purple">Hz — Hertz</div>
+      <h4>Frequência</h4>
+      <p>Quantas vezes a corrente muda de direção por segundo.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TENSÃO -->
+<section id="tensao" class="reveal">
+  <div class="section-label">Grandeza 01</div>
+  <h2>⚡ Tensão <span class="unit-pill">V — Volt</span></h2>
+
+  <p>A <strong>tensão elétrica</strong> (também chamada de <strong>voltagem</strong> ou <strong>diferença de potencial</strong>) é a "força" que faz os elétrons se moverem dentro de um fio. Sem tensão, não há movimento — e sem movimento, não há corrente elétrica.</p>
+
+  <div class="analogy">
+    <div class="analogy-label">🚰 Analogia com água</div>
+    <p>Imagine uma caixa d'água no alto de um prédio. Quanto mais alto ela estiver, maior a pressão da água na torneira. A tensão elétrica é exatamente isso: a "altura" que gera pressão para empurrar a eletricidade pelo fio.</p>
+  </div>
+
+  <h3>Valores comuns no dia a dia</h3>
+  <div class="card-grid">
+    <div class="card">
+      <div class="tag tag-yellow">1,5 V</div>
+      <h4>Pilha AA</h4>
+      <p>Controle remoto, brinquedos, lanterninhas.</p>
+    </div>
+    <div class="card">
+      <div class="tag tag-yellow">5 V</div>
+      <h4>USB / Carregador</h4>
+      <p>Celulares, tablets e muitos eletrônicos modernos.</p>
+    </div>
+    <div class="card">
+      <div class="tag tag-yellow">12 V</div>
+      <h4>Bateria de carro</h4>
+      <p>Automóveis, iluminação LED 12V, câmeras.</p>
+    </div>
+    <div class="card">
+      <div class="tag tag-orange">127 / 220 V</div>
+      <h4>Tomada de casa</h4>
+      <p>A tensão da rede elétrica residencial no Brasil.</p>
+    </div>
+  </div>
+
+  <p style="margin-top:1.5rem;">⚠️ <strong>Atenção:</strong> No Brasil existem cidades com <strong>127 V</strong> e cidades com <strong>220 V</strong>. Ligar um equipamento de 127 V em uma tomada de 220 V pode queimar o aparelho ou causar acidentes.</p>
+</section>
+
+<hr class="divider">
+
+<!-- CORRENTE -->
+<section id="corrente" class="reveal">
+  <div class="section-label">Grandeza 02</div>
+  <h2>💧 Corrente Elétrica <span class="unit-pill">A — Ampere</span></h2>
+
+  <p>A <strong>corrente elétrica</strong> é o fluxo de elétrons se movendo por um condutor (como um fio de cobre). Medimos esse fluxo em <strong>Amperes (A)</strong>. Quanto maior a corrente, mais elétrons passando ao mesmo tempo — e mais energia sendo transportada.</p>
+
+  <div class="analogy">
+    <div class="analogy-label">🚰 Analogia com água</div>
+    <p>Continuando com a caixa d'água: se a tensão é a pressão da água, a corrente é a <strong>quantidade de água</strong> que passa pela mangueira por segundo. Uma mangueira grossa (fio grosso) permite mais corrente; uma mangueira fina (fio fino) deixa passar menos.</p>
+  </div>
+
+  <h3>Valores comuns</h3>
+  <div class="card-grid">
+    <div class="card">
+      <div class="tag tag-cyan">0,5 A</div>
+      <h4>Carregador USB</h4>
+      <p>Carregamento lento de celulares antigos.</p>
+    </div>
+    <div class="card">
+      <div class="tag tag-cyan">2 A</div>
+      <h4>Carregador rápido</h4>
+      <p>Smartphones modernos com carga rápida.</p>
+    </div>
+    <div class="card">
+      <div class="tag tag-cyan">10 A</div>
+      <h4>Chuveiro elétrico</h4>
+      <p>Equipamentos de alta potência no Brasil.</p>
+    </div>
+    <div class="card">
+      <div class="tag tag-orange">200+ A</div>
+      <h4>Motor de carro</h4>
+      <p>Na partida do motor, a bateria entrega correntes altíssimas.</p>
+    </div>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula">I = Q / t</div>
+    <div class="formula-desc">
+      <b>I</b> = Corrente (A) &nbsp;|&nbsp;
+      <b>Q</b> = Carga elétrica (Coulombs) &nbsp;|&nbsp;
+      <b>t</b> = Tempo (segundos)<br>
+      <small>Interpretação: quantos Coulombs de carga passam por segundo.</small>
+    </div>
+  </div>
+
+  <p>💡 <strong>Curiosidade:</strong> 1 Ampere equivale a aproximadamente <strong>6,24 bilhões de bilhões</strong> de elétrons passando por um ponto do fio a cada segundo!</p>
+</section>
+
+<hr class="divider">
+
+<!-- POTÊNCIA -->
+<section id="potencia" class="reveal">
+  <div class="section-label">Grandeza 03</div>
+  <h2>🔥 Potência <span class="unit-pill">W — Watt</span></h2>
+
+  <p>A <strong>potência elétrica</strong> indica o quanto de energia um aparelho <strong>consome ou produz por segundo</strong>. É medida em <strong>Watts (W)</strong>. Ela depende tanto da tensão quanto da corrente.</p>
+
+  <div class="analogy">
+    <div class="analogy-label">🚿 Analogia com o chuveiro</div>
+    <p>Se você tem muita pressão (tensão) E muita água passando (corrente), o banho é muito mais intenso. A potência é justamente esse "resultado combinado" — ela cresce quando tensão ou corrente aumentam.</p>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula">P = V × I</div>
+    <div class="formula-desc">
+      <b>P</b> = Potência (W) &nbsp;|&nbsp;
+      <b>V</b> = Tensão (V) &nbsp;|&nbsp;
+      <b>I</b> = Corrente (A)<br>
+      <small>Exemplo: chuveiro 220 V × 25 A = 5.500 W (5,5 kW)</small>
+    </div>
+  </div>
+
+  <h3>Exemplos do dia a dia</h3>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Equipamento</th>
+        <th>Potência</th>
+        <th>O que isso significa</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Lâmpada LED</td><td>9 W</td><td>Consome muito pouco — troca a incandescente!</td></tr>
+      <tr><td>Notebook</td><td>45–65 W</td><td>Funciona bem com fontes pequenas.</td></tr>
+      <tr><td>TV 50"</td><td>~80 W</td><td>Fica ligada horas sem pesar muito na conta.</td></tr>
+      <tr><td>Geladeira</td><td>~150 W</td><td>Fica ligada 24h — impacto grande na conta.</td></tr>
+      <tr><td>Ar-condicionado</td><td>1.000–3.000 W</td><td>Um dos maiores consumidores da casa.</td></tr>
+      <tr><td>Chuveiro elétrico</td><td>4.000–7.500 W</td><td>O campeão do consumo residencial!</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Kilowatt-hora (kWh) — o que aparece na conta de luz</h3>
+  <p>A conta de luz não cobra em Watts, mas em <strong>kWh</strong> (kilowatt-hora). Um equipamento de <strong>1.000 W (1 kW)</strong> funcionando por <strong>1 hora</strong> consome <strong>1 kWh</strong>.</p>
+
+  <div class="analogy">
+    <div class="analogy-label">💡 Exemplo prático</div>
+    <p>Um chuveiro de 5.500 W ligado por 10 minutos por dia = 0,917 kWh por dia = ~27,5 kWh por mês. Se a tarifa for R$0,80/kWh, o chuveiro custa ~R$22 por mês, só de banho!</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- FREQUÊNCIA -->
+<section id="frequencia" class="reveal">
+  <div class="section-label">Grandeza 04</div>
+  <h2>〰️ Frequência <span class="unit-pill">Hz — Hertz</span></h2>
+
+  <p>A <strong>frequência</strong> indica quantas vezes por segundo a corrente elétrica <strong>alterna de direção</strong> (muda de sentido). É medida em <strong>Hertz (Hz)</strong>. Este conceito só se aplica à <strong>Corrente Alternada (CA)</strong>.</p>
+
+  <div class="wave-container">
+    <h4>Visualização de uma onda de corrente alternada — 60 Hz</h4>
+    <svg class="wave" viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="waveGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="#00d4ff" stop-opacity="0.2"/>
+          <stop offset="50%"  stop-color="#00d4ff" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#00d4ff" stop-opacity="0.2"/>
+        </linearGradient>
+      </defs>
+      <!-- baseline -->
+      <line x1="0" y1="60" x2="500" y2="60" stroke="#1e2d45" stroke-width="1"/>
+      <!-- sinewave -->
+      <path d="M0,60
+        C20,10 40,10 62,60
+        C84,110 104,110 125,60
+        C146,10 166,10 187,60
+        C208,110 228,110 250,60
+        C271,10 291,10 312,60
+        C333,110 353,110 375,60
+        C396,10 416,10 437,60
+        C458,110 478,110 500,60"
+        fill="none" stroke="url(#waveGrad)" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- labels -->
+      <text x="62"  y="20" fill="#6b7e99" font-size="9" text-anchor="middle" font-family="monospace">+pico</text>
+      <text x="187" y="20" fill="#6b7e99" font-size="9" text-anchor="middle" font-family="monospace">+pico</text>
+      <text x="312" y="20" fill="#6b7e99" font-size="9" text-anchor="middle" font-family="monospace">+pico</text>
+      <text x="125" y="108" fill="#6b7e99" font-size="9" text-anchor="middle" font-family="monospace">−pico</text>
+      <text x="250" y="108" fill="#6b7e99" font-size="9" text-anchor="middle" font-family="monospace">−pico</text>
+      <text x="375" y="108" fill="#6b7e99" font-size="9" text-anchor="middle" font-family="monospace">−pico</text>
+      <!-- period arrows -->
+      <line x1="0" y1="115" x2="125" y2="115" stroke="#f5c518" stroke-width="1" marker-end="url(#arr)"/>
+      <text x="60" y="112" fill="#f5c518" font-size="9" text-anchor="middle" font-family="monospace">1 ciclo</text>
+    </svg>
+    <div class="wave-label">
+      <span><span class="dot" style="background:var(--accent-cyan)"></span>Corrente alternada (CA)</span>
+      <span><span class="dot" style="background:var(--accent-yellow)"></span>1 ciclo = 1/60 segundo</span>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <div class="analogy-label">🎵 Analogia com som</div>
+    <p>A frequência é o mesmo conceito do som! Uma nota musical de 440 Hz vibra 440 vezes por segundo. A eletricidade alternada de 60 Hz "vibra" 60 vezes por segundo — só que em vez de ar, o que oscila são os elétrons no fio.</p>
+  </div>
+
+  <h3>Padrões mundiais de frequência</h3>
+  <div class="card-grid">
+    <div class="card">
+      <div class="tag tag-purple">60 Hz</div>
+      <h4>Brasil, EUA, Canadá</h4>
+      <p>A corrente muda de direção 60 vezes por segundo nas tomadas do Brasil.</p>
+    </div>
+    <div class="card">
+      <div class="tag tag-purple">50 Hz</div>
+      <h4>Europa, Ásia, África</h4>
+      <p>A maioria dos países fora das Américas usa 50 Hz.</p>
+    </div>
+  </div>
+
+  <p style="margin-top:1.5rem;">💡 <strong>Por que isso importa?</strong> Equipamentos fabricados para 50 Hz podem não funcionar bem em redes de 60 Hz, e vice-versa. Motores elétricos são especialmente sensíveis a isso — a velocidade de rotação deles depende diretamente da frequência!</p>
+</section>
+
+<hr class="divider">
+
+<!-- CA vs CC -->
+<section id="ca-cc" class="reveal">
+  <div class="section-label">Conceito Fundamental</div>
+  <h2>↔️ Corrente Alternada (CA) vs Corrente Contínua (CC)</h2>
+
+  <p>Existem dois tipos de corrente elétrica, e cada um tem características e aplicações bem diferentes.</p>
+
+  <!-- Waveforms comparison -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0;">
+    <div class="wave-container" style="margin:0;">
+      <h4>⚡ Corrente Alternada (CA)</h4>
+      <svg class="wave" viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="40" x2="240" y2="40" stroke="#1e2d45" stroke-width="1"/>
+        <path d="M0,40 C15,5 30,5 45,40 C60,75 75,75 90,40 C105,5 120,5 135,40 C150,75 165,75 180,40 C195,5 210,5 225,40 C232,55 238,55 240,48"
+          fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <p style="font-size:.8rem;color:var(--text-muted);margin-top:.5rem;">Oscila entre + e − continuamente</p>
+    </div>
+    <div class="wave-container" style="margin:0;">
+      <h4>🔋 Corrente Contínua (CC)</h4>
+      <svg class="wave" viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="40" x2="240" y2="40" stroke="#1e2d45" stroke-width="1"/>
+        <line x1="0" y1="22" x2="240" y2="22" stroke="#f5c518" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <p style="font-size:.8rem;color:var(--text-muted);margin-top:.5rem;">Sempre no mesmo sentido — reta e constante</p>
+    </div>
+  </div>
+
+  <h3>Corrente Alternada (CA)</h3>
+  <p>Na <strong>corrente alternada</strong>, os elétrons ficam oscilando para frente e para trás no fio, alternando de direção com uma certa frequência (60 Hz no Brasil). Parece inútil, mas é justamente isso que permite <strong>transmitir energia elétrica por longas distâncias</strong> com baixa perda.</p>
+
+  <div class="analogy">
+    <div class="analogy-label">🎢 Analogia</div>
+    <p>Imagine uma fila de pessoas de mãos dadas. Se você empurrar e puxar a primeira pessoa, o movimento se propaga por toda a fila — mesmo que cada pessoa se mova pouco, a energia chega longe. É assim que a CA transmite energia pelos fios de alta tensão até sua casa.</p>
+  </div>
+
+  <h3>Corrente Contínua (CC)</h3>
+  <p>Na <strong>corrente contínua</strong>, os elétrons fluem sempre na mesma direção — como água em um cano com corrente constante. É o tipo de corrente gerado por <strong>baterias e painéis solares</strong>.</p>
+
+  <div class="analogy">
+    <div class="analogy-label">🌊 Analogia</div>
+    <p>Imagine um rio com correnteza constante, sempre na mesma direção. Os barcos (elétrons) seguem sempre o mesmo caminho — sem idas e voltas. Isso é corrente contínua.</p>
+  </div>
+
+  <!-- Tabela comparativa -->
+  <table class="compare-table" style="margin-top:2rem;">
+    <thead>
+      <tr>
+        <th>Característica</th>
+        <th>CA (Corrente Alternada)</th>
+        <th>CC (Corrente Contínua)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Direção</td>
+        <td>Muda de direção várias vezes por segundo</td>
+        <td>Sempre na mesma direção</td>
+      </tr>
+      <tr>
+        <td>Frequência</td>
+        <td>60 Hz (Brasil) / 50 Hz (Europa)</td>
+        <td>Não tem (0 Hz)</td>
+      </tr>
+      <tr>
+        <td>Transmissão</td>
+        <td>Ideal para longas distâncias com transformadores</td>
+        <td>Perde mais energia em longas distâncias</td>
+      </tr>
+      <tr>
+        <td>Fontes comuns</td>
+        <td>Usinas, rede elétrica, tomadas</td>
+        <td>Pilhas, baterias, painel solar, USB</td>
+      </tr>
+      <tr>
+        <td>Tensão típica</td>
+        <td>127 V ou 220 V (residencial)</td>
+        <td>1,5 V a 48 V (maioria dos casos)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Equipamentos -->
+  <h3>Quais equipamentos usam cada tipo?</h3>
+  <div class="equip-grid">
+    <div class="equip-col" style="border-color:rgba(0,212,255,.25);">
+      <h4><span class="tag tag-cyan" style="margin:0;margin-right:.5rem;">CA</span>Corrente Alternada</h4>
+      <ul>
+        <li>Geladeira e freezer</li>
+        <li>Ar-condicionado</li>
+        <li>Chuveiro elétrico</li>
+        <li>Lâmpadas comuns e LED (com driver)</li>
+        <li>Televisores (internamente convertem para CC)</li>
+        <li>Máquina de lavar roupas</li>
+        <li>Ventilador de teto</li>
+        <li>Forno micro-ondas</li>
+        <li>Ferro de passar roupa</li>
+        <li>Aspirador de pó</li>
+      </ul>
+    </div>
+    <div class="equip-col" style="border-color:rgba(245,197,24,.25);">
+      <h4><span class="tag tag-yellow" style="margin:0;margin-right:.5rem;">CC</span>Corrente Contínua</h4>
+      <ul>
+        <li>Celular e tablet</li>
+        <li>Notebook e laptop</li>
+        <li>Bateria de carro</li>
+        <li>Painel solar fotovoltaico</li>
+        <li>Controle remoto (pilhas)</li>
+        <li>Câmera fotográfica</li>
+        <li>Fone de ouvido Bluetooth</li>
+        <li>Drone</li>
+        <li>Lâmpadas LED (componente interno)</li>
+        <li>Carros elétricos (motor e bateria)</li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="margin-top:1.5rem;">💡 <strong>Curiosidade:</strong> O seu notebook recebe CA da tomada, mas usa CC internamente. É por isso que o carregador (fonte) fica quente — ele está <strong>convertendo CA em CC</strong> o tempo todo, e essa conversão gera calor como "sobra".</p>
+
+  <div class="analogy">
+    <div class="analogy-label">🏭 História: A Guerra das Correntes</div>
+    <p>No final do século XIX, Thomas Edison defendia a CC para distribuição elétrica, enquanto Nikola Tesla e George Westinghouse apostavam na CA. A CA venceu, pois pode ser facilmente transformada em tensões mais altas para transmissão (com menos perda) e depois reduzida nas casas. Hoje usamos CA nas redes elétricas e CC nos eletrônicos — o melhor dos dois mundos!</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- RESUMO -->
+<section class="reveal">
+  <div class="section-label">Resumo Final</div>
+  <h2>📋 O que aprendemos hoje</h2>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="tag tag-yellow">Tensão — V</div>
+      <h4>⚡ Volt</h4>
+      <p>A "pressão" que empurra os elétrons. Quanto maior, mais força para mover a corrente.</p>
+    </div>
+    <div class="card">
+      <div class="tag tag-cyan">Corrente — A</div>
+      <h4>💧 Ampere</h4>
+      <p>A quantidade de elétrons passando por segundo. É o "fluxo" da eletricidade.</p>
+    </div>
+    <div class="card">
+      <div class="tag tag-orange">Potência — W</div>
+      <h4>🔥 Watt</h4>
+      <p>Tensão × Corrente. É o quanto de energia o aparelho usa por segundo.</p>
+    </div>
+    <div class="card">
+      <div class="tag tag-purple">Frequência — Hz</div>
+      <h4>〰️ Hertz</h4>
+      <p>Quantas vezes a CA muda de direção por segundo. No Brasil: 60 Hz.</p>
+    </div>
+  </div>
+
+  <div class="formula-box" style="margin-top:2rem;flex-direction:column;gap:1rem;align-items:flex-start;">
+    <div style="font-family:'Space Mono',monospace;color:var(--text-muted);font-size:.75rem;letter-spacing:.1em;">FÓRMULAS ESSENCIAIS</div>
+    <div style="display:flex;flex-wrap:wrap;gap:2rem;">
+      <div><div class="formula">P = V × I</div><div class="formula-desc" style="margin-top:.3rem;"><b>Potência</b> = Tensão × Corrente</div></div>
+      <div><div class="formula">V = R × I</div><div class="formula-desc" style="margin-top:.3rem;"><b>Lei de Ohm</b>: Tensão = Resistência × Corrente</div></div>
+      <div><div class="formula">E = P × t</div><div class="formula-desc" style="margin-top:.3rem;"><b>Energia</b> = Potência × Tempo (kWh)</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- FORMULÁRIO -->
+<section class="reveal" style="max-width:900px;margin:0 auto;padding:5rem 1.5rem;">
+  <div class="section-label">Questionário</div>
+  <h2>📝 Eletricidade Básica — Questionário Fácil</h2>
+  <p>Responda as perguntas abaixo sobre tensão, corrente, potência e frequência. Boa sorte!</p>
+  <div style="
+    border-radius:1rem;
+    overflow:hidden;
+    border:1px solid var(--border);
+    box-shadow:0 0 40px rgba(0,212,255,.06);
+    margin-top:1.5rem;
+    background:var(--card);
+  ">
+    <iframe
+      src="https://docs.google.com/forms/d/e/1FAIpQLSeVbNsAkC3iSGLAC660iBeXRynzAZd8N1qdfzICvsUiDPJXnw/viewform?embedded=true"
+      width="100%"
+      height="2800"
+      frameborder="0"
+      marginheight="0"
+      marginwidth="0"
+      style="display:block;"
+    >Carregando…</iframe>
+  </div>
+</section>
+
+<footer>
+  <p>Material didático · Conceitos de Eletricidade Básica &nbsp;|&nbsp; <span>Tensão · Corrente · Potência · Frequência</span></p>
+</footer>
+
+<script>
+  // Intersection Observer para animações de scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => obs.observe(r));
+</script>
+</body>
+</html>
