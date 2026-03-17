@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trabalho de Pesquisa — A Era dos Computadores</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue:    #1A3A5C;
+    --blue2:   #2E6DA4;
+    --bluel:   #D6E8F7;
+    --orange:  #C05A00;
+    --orangel: #FFF3E0;
+    --gray:    #F5F6F8;
+    --ink:     #1e1e1e;
+    --mid:     #555;
+    --rule:    #dde3ea;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    background: #eef2f7;
+    min-height: 100vh;
+    padding: 40px 16px 60px;
+  }
+
+  /* ── PAPER ── */
+  .paper {
+    max-width: 760px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.06), 0 12px 40px rgba(0,0,0,.10);
+    overflow: hidden;
+  }
+
+  /* ── HEADER STRIPE ── */
+  .doc-header {
+    background: var(--blue);
+    display: flex;
+    align-items: stretch;
+    min-height: 48px;
+  }
+  .doc-header-left {
+    flex: 1;
+    padding: 12px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: .02em;
+  }
+  .doc-header-right {
+    background: var(--blue2);
+    padding: 12px 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,.85);
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  /* ── BODY ── */
+  .doc-body {
+    padding: 48px 52px 56px;
+  }
+
+  /* ── TITLE BLOCK ── */
+  .title-block {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .title-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--blue2);
+    margin-bottom: 8px;
+  }
+  .title-main {
+    font-family: 'Instrument Serif', serif;
+    font-size: 34px;
+    line-height: 1.15;
+    color: var(--blue);
+    margin-bottom: 6px;
+  }
+  .title-sub {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--blue2);
+  }
+
+  /* ── NOTICE BOX ── */
+  .notice {
+    display: flex;
+    gap: 0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .notice-accent {
+    width: 5px;
+    background: var(--blue2);
+    flex-shrink: 0;
+  }
+  .notice-body {
+    background: var(--bluel);
+    padding: 13px 16px;
+    font-size: 14px;
+    color: var(--blue);
+    line-height: 1.55;
+    flex: 1;
+  }
+  .notice-body strong { font-weight: 600; }
+
+  /* ── INTRO TEXT ── */
+  .intro {
+    font-size: 14.5px;
+    color: var(--mid);
+    line-height: 1.65;
+    margin-bottom: 36px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* ── SECTION HEADING ── */
+  .section-heading {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--blue2);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--blue2);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  /* ── STEPS TABLE ── */
+  .steps {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 36px;
+    font-size: 14px;
+  }
+  .steps thead tr {
+    background: var(--blue);
+  }
+  .steps thead th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.9);
+  }
+  .steps thead th:first-child { width: 46px; text-align: center; border-radius: 0; }
+  .steps thead th:nth-child(2) { width: 160px; }
+
+  .steps tbody tr:nth-child(odd)  td { background: var(--gray); }
+  .steps tbody tr:nth-child(even) td { background: #fff; }
+  .steps tbody tr { border-bottom: 1px solid var(--rule); }
+
+  .steps tbody td {
+    padding: 13px 14px;
+    vertical-align: top;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .step-num {
+    text-align: center;
+    font-weight: 700;
+    font-size: 16px;
+    color: #fff;
+    background: var(--blue2);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .step-label {
+    font-weight: 600;
+    color: var(--blue);
+    font-size: 13.5px;
+  }
+  .step-desc { color: #444; }
+
+  /* ── FORMATS ── */
+  .formats {
+    margin-bottom: 36px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .format-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .format-list li {
+    background: var(--gray);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 9px 13px;
+    font-size: 13.5px;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .format-list li span.ico { font-size: 16px; }
+
+  /* ── IA WARNING ── */
+  .ia-warning {
+    display: flex;
+    gap: 0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 36px;
+  }
+  .ia-accent {
+    width: 5px;
+    background: var(--orange);
+    flex-shrink: 0;
+  }
+  .ia-body {
+    background: var(--orangel);
+    padding: 14px 18px;
+    flex: 1;
+    line-height: 1.6;
+    font-size: 14px;
+  }
+  .ia-body strong { color: var(--orange); font-weight: 600; }
+  .ia-body .warn { color: #cc0000; font-weight: 600; }
+
+  /* ── AVALIAÇÃO TABLE ── */
+  .avaliacao {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .avaliacao thead tr { background: var(--blue); }
+  .avaliacao thead th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.9);
+  }
+  .avaliacao thead th:last-child { text-align: center; width: 80px; }
+  .avaliacao tbody tr:nth-child(odd)  td { background: var(--gray); }
+  .avaliacao tbody tr:nth-child(even) td { background: #fff; }
+  .avaliacao tbody tr { border-bottom: 1px solid var(--rule); }
+  .avaliacao tbody td { padding: 11px 14px; color: var(--ink); }
+  .avaliacao tbody td:last-child {
+    text-align: center;
+    font-weight: 700;
+    color: var(--orange);
+    font-size: 15px;
+  }
+  .avaliacao tfoot td {
+    background: var(--bluel);
+    padding: 12px 14px;
+    font-weight: 700;
+    color: var(--blue);
+    font-size: 14px;
+    border-top: 2px solid var(--blue2);
+  }
+  .avaliacao tfoot td:last-child {
+    text-align: center;
+    font-size: 19px;
+    color: var(--orange);
+  }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    margin-top: 44px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    font-size: 13px;
+    color: var(--mid);
+    font-style: italic;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; padding: 0; }
+    .paper { box-shadow: none; max-width: 100%; }
+    .doc-body { padding: 32px 40px; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .doc-body { padding: 28px 20px 36px; }
+    .title-main { font-size: 26px; }
+    .format-list { grid-template-columns: 1fr; }
+    .steps thead th:nth-child(2) { width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="paper">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="doc-header-left">Curso Técnico em Informática</div>
+    <div class="doc-header-right">Banco de Dados &bull; 2025</div>
+  </div>
+
+  <div class="doc-body">
+
+    <!-- TÍTULO -->
+    <div class="title-block">
+      <div class="title-eyebrow">🖥️ &nbsp;Trabalho de Pesquisa</div>
+      <div class="title-main">A Era dos Computadores</div>
+      <div class="title-sub">como tudo começou</div>
+    </div>
+
+    <!-- AVISO DE CAPA -->
+    <div class="notice">
+      <div class="notice-accent"></div>
+      <div class="notice-body">
+        <strong>📌 Atenção:</strong> A primeira página do seu trabalho deve ser uma <strong>capa</strong> contendo: nome completo, turma, nome da disciplina, nome do professor e data de entrega.
+      </div>
+    </div>
+
+    <!-- INTRODUÇÃO -->
+    <p class="intro">
+      Você vai pesquisar a história dos primeiros computadores: como funcionavam, como guardavam dados e quais eram as <strong>mídias de armazenamento</strong> da época. Siga o passo a passo abaixo.
+    </p>
+
+    <!-- PASSO A PASSO -->
+    <div class="section-heading">
+      <span>📋</span> Passo a passo do trabalho
+    </div>
+
+    <table class="steps">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>O quê fazer</th>
+          <th>Como fazer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="step-num">1</div></td>
+          <td><span class="step-label">Introdução</span></td>
+          <td class="step-desc">Escreva 1 parágrafo (mínimo 5 linhas) explicando como surgiram os primeiros computadores: quando, por que foram criados e como eram fisicamente.</td>
+        </tr>
+        <tr>
+          <td><div class="step-num">2</div></td>
+          <td><span class="step-label">Mídias de armazenamento</span></td>
+          <td class="step-desc">Pesquise e descreva pelo menos 4 tipos de mídia (ex: cartão perfurado, fita magnética, disquete, CD). Para cada uma: nome, época de uso e para quê servia. Cole uma imagem de cada.</td>
+        </tr>
+        <tr>
+          <td><div class="step-num">3</div></td>
+          <td><span class="step-label">5 computadores históricos</span></td>
+          <td class="step-desc">Escolha 5 computadores antigos. Para cada um escreva: nome, ano, para quê servia e como funcionava. Cole uma imagem de cada.</td>
+        </tr>
+        <tr>
+          <td><div class="step-num">4</div></td>
+          <td><span class="step-label">Conclusão</span></td>
+          <td class="step-desc">Escreva 3 a 5 linhas com o que você achou mais interessante na pesquisa.</td>
+        </tr>
+        <tr>
+          <td><div class="step-num">5</div></td>
+          <td><span class="step-label">Referências</span></td>
+          <td class="step-desc">Liste os sites ou vídeos que você consultou.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- FORMATOS ACEITOS -->
+    <div class="formats">
+      <div class="section-heading"><span>📁</span> Formatos aceitos para entrega</div>
+      <ul class="format-list">
+        <li><span class="ico">📝</span> Google Docs — compartilhe o link com o professor</li>
+        <li><span class="ico">💾</span> Word (.docx) — envie o arquivo</li>
+        <li><span class="ico">📊</span> PowerPoint ou Google Slides</li>
+        <li><span class="ico">🎨</span> Canva — compartilhe o link</li>
+      </ul>
+    </div>
+
+    <!-- AVISO IA -->
+    <div class="ia-warning">
+      <div class="ia-accent"></div>
+      <div class="ia-body">
+        <strong>🤖 Sobre o uso de Inteligência Artificial</strong><br>
+        A escrita criativa e pessoal vale muito mais do que um texto gerado por IA. Trabalhos com indícios de uso de IA sem nexo ou escrita claramente não-humana serão cobrados com <span class="warn">apresentação oral perante o professor.</span>
+      </div>
+    </div>
+
+    <!-- AVALIAÇÃO -->
+    <div class="section-heading"><span>🏆</span> Avaliação</div>
+
+    <table class="avaliacao">
+      <thead>
+        <tr>
+          <th>Critério</th>
+          <th>Pontos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Escrita própria e coerente (texto do aluno)</td>
+          <td>1,5</td>
+        </tr>
+        <tr>
+          <td>Descrição das mídias com imagens</td>
+          <td>1,0</td>
+        </tr>
+        <tr>
+          <td>5 computadores com nome, função e imagem</td>
+          <td>1,5</td>
+        </tr>
+        <tr>
+          <td>Conclusão e referências</td>
+          <td>0,5</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Total</td>
+          <td>5,0</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <!-- RODAPÉ -->
+    <div class="doc-footer">Boa pesquisa! 🚀</div>
+
+  </div><!-- /doc-body -->
+</div><!-- /paper -->
+
+</body>
+</html>
