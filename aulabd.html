@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comunidade: Banco de Dados pra todo mundo!! ✦</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Trebuchet+MS&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: Verdana, Tahoma, Arial, sans-serif;
+    font-size: 11px;
+    background-color: #d4e7f7;
+    background-image: 
+      repeating-linear-gradient(
+        45deg,
+        rgba(255,255,255,0.3) 0px,
+        rgba(255,255,255,0.3) 1px,
+        transparent 1px,
+        transparent 10px
+      );
+    color: #333;
+  }
+
+  a { color: #0066cc; text-decoration: none; }
+  a:hover { text-decoration: underline; color: #cc0000; }
+
+  /* HEADER */
+  #header {
+    background: linear-gradient(to bottom, #6fa8dc, #3d85c8 50%, #2e6fa3);
+    border-bottom: 2px solid #1a4f7a;
+    padding: 0;
+  }
+  #header-top {
+    background: linear-gradient(to right, #1a4f7a, #2e6fa3, #1a4f7a);
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  #orkut-logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    font-family: Georgia, serif;
+    letter-spacing: -1px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+  #orkut-logo span { color: #ffcc00; }
+  #header-nav {
+    background: #e8f0f8;
+    border-top: 1px solid #aac4e0;
+    padding: 3px 10px;
+    display: flex;
+    gap: 2px;
+    align-items: center;
+  }
+  .nav-item {
+    background: linear-gradient(to bottom, #ffffff, #ddeeff);
+    border: 1px solid #99bbd8;
+    border-radius: 3px;
+    padding: 2px 8px;
+    font-size: 11px;
+    color: #0044aa;
+    cursor: pointer;
+  }
+  .nav-item:hover { background: linear-gradient(to bottom, #ddeeff, #bbddff); }
+  .nav-item.active { background: linear-gradient(to bottom, #3366bb, #2255aa); color: white; }
+
+  /* LAYOUT PRINCIPAL */
+  #main-wrapper {
+    max-width: 980px;
+    margin: 8px auto;
+    display: grid;
+    grid-template-columns: 200px 1fr 180px;
+    gap: 8px;
+    padding: 0 8px;
+  }
+
+  /* PAINEIS */
+  .panel {
+    background: #f5f9ff;
+    border: 1px solid #99bbd8;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .panel-header {
+    background: linear-gradient(to bottom, #6fa8dc, #4a90d9);
+    color: white;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-bottom: 1px solid #3a7abf;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+  }
+  .panel-header.orange {
+    background: linear-gradient(to bottom, #f4a433, #e08010);
+    border-bottom-color: #c06000;
+  }
+  .panel-header.green {
+    background: linear-gradient(to bottom, #5fb35f, #3d8f3d);
+    border-bottom-color: #2a6a2a;
+  }
+  .panel-header.purple {
+    background: linear-gradient(to bottom, #9966cc, #6633aa);
+    border-bottom-color: #442288;
+  }
+  .panel-header.red {
+    background: linear-gradient(to bottom, #dd4444, #bb2222);
+    border-bottom-color: #881111;
+  }
+  .panel-body { padding: 8px; }
+
+  /* COLUNA ESQUERDA */
+  #left-col { display: flex; flex-direction: column; gap: 8px; }
+
+  .community-img {
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(135deg, #003399 0%, #0066ff 40%, #ff6600 60%, #ffcc00 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    border-bottom: 2px solid #99bbd8;
+  }
+
+  .member-box {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 0;
+    border-bottom: 1px dotted #ccdeed;
+  }
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+    border: 1px solid #99bbd8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .member-name { font-size: 10px; color: #0044aa; font-weight: bold; }
+  .member-role { font-size: 9px; color: #888; }
+
+  .stats-table { width: 100%; font-size: 10px; }
+  .stats-table td { padding: 2px 4px; }
+  .stats-table tr:nth-child(even) { background: #e8f4ff; }
+  .stats-label { color: #555; font-weight: bold; }
+  .stats-value { color: #0044aa; }
+
+  .poll-option {
+    margin: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .poll-bar {
+    height: 10px;
+    background: linear-gradient(to right, #4488cc, #6699dd);
+    border: 1px solid #3377bb;
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+  .poll-label { font-size: 10px; color: #333; white-space: nowrap; }
+  .poll-pct { font-size: 9px; color: #0044aa; font-weight: bold; }
+
+  /* COLUNA CENTRAL */
+  #center-col { display: flex; flex-direction: column; gap: 8px; }
+
+  .community-title {
+    text-align: center;
+    padding: 10px;
+    background: linear-gradient(to bottom, #ffffff, #eaf3ff);
+  }
+  .community-title h1 {
+    font-size: 16px;
+    color: #003399;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 rgba(0,100,200,0.2);
+  }
+  .community-title p { font-size: 10px; color: #555; margin-top: 3px; }
+  .community-title .since { font-size: 9px; color: #999; }
+
+  .topic-list { list-style: none; }
+  .topic-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 5px 6px;
+    border-bottom: 1px solid #ddeeff;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .topic-item:hover { background: #e0f0ff; }
+  .topic-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    width: 22px;
+    text-align: center;
+  }
+  .topic-title {
+    font-weight: bold;
+    color: #0044aa;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+  .topic-meta { font-size: 9px; color: #888; }
+  .topic-replies { 
+    margin-left: auto; 
+    font-size: 9px; 
+    color: #0066cc;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* CONTEÚDO / POSTS */
+  .post-box {
+    border: 1px solid #bbccdd;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    background: white;
+    overflow: hidden;
+  }
+  .post-header {
+    background: linear-gradient(to bottom, #ddeeff, #c5dff8);
+    padding: 5px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid #aaccee;
+  }
+  .post-avatar {
+    width: 36px; height: 36px;
+    border: 2px solid #99bbd8;
+    border-radius: 3px;
+    background: #f0f8ff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .post-author { font-weight: bold; color: #003399; font-size: 11px; }
+  .post-date { font-size: 9px; color: #888; }
+  .post-body { padding: 8px; font-size: 11px; line-height: 1.5; color: #333; }
+  .post-body h3 {
+    font-size: 13px;
+    color: #003399;
+    border-bottom: 1px dashed #aaccee;
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+  }
+  .post-body p { margin-bottom: 5px; }
+  .post-body ul, .post-body ol { padding-left: 18px; margin-bottom: 5px; }
+  .post-body li { margin-bottom: 2px; }
+  .post-body .highlight {
+    background: #fffacc;
+    border: 1px solid #ddcc44;
+    border-radius: 3px;
+    padding: 4px 6px;
+    font-style: italic;
+    color: #665500;
+    margin: 4px 0;
+  }
+  .post-body .code-box {
+    background: #1e1e2e;
+    border: 1px solid #555;
+    border-radius: 3px;
+    padding: 6px 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    color: #a8d8ea;
+    margin: 5px 0;
+    overflow-x: auto;
+  }
+  .post-body .code-box .kw { color: #ff79c6; }
+  .post-body .code-box .str { color: #f1fa8c; }
+  .post-body .code-box .cm { color: #6272a4; }
+  .post-body .code-box .tbl { color: #8be9fd; }
+  .post-body .code-box .num { color: #bd93f9; }
+
+  .example-card {
+    border: 1px solid #bbddcc;
+    border-radius: 3px;
+    margin: 5px 0;
+    overflow: hidden;
+  }
+  .example-card-header {
+    padding: 3px 7px;
+    font-weight: bold;
+    font-size: 11px;
+    color: white;
+  }
+  .example-card-body { padding: 5px 8px; font-size: 10px; background: #f8fffc; }
+
+  .table-demo {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    margin: 5px 0;
+  }
+  .table-demo th {
+    background: linear-gradient(to bottom, #4488cc, #2266aa);
+    color: white;
+    padding: 3px 6px;
+    text-align: left;
+    border: 1px solid #3377bb;
+  }
+  .table-demo td {
+    padding: 2px 6px;
+    border: 1px solid #ccdeed;
+  }
+  .table-demo tr:nth-child(even) td { background: #eef6ff; }
+  .table-demo tr:hover td { background: #d0e8ff; }
+
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    padding: 5px 0;
+  }
+  .tag {
+    background: linear-gradient(to bottom, #ddeeff, #bbddff);
+    border: 1px solid #99bbdd;
+    border-radius: 10px;
+    padding: 1px 7px;
+    font-size: 9px;
+    color: #003399;
+    cursor: pointer;
+  }
+  .tag:hover { background: linear-gradient(to bottom, #bbddff, #99ccff); }
+  .tag.big { font-size: 11px; padding: 2px 9px; }
+  .tag.small { font-size: 8px; }
+
+  .scraps-box { font-size: 10px; }
+  .scrap {
+    border-bottom: 1px dotted #ccdeed;
+    padding: 5px 0;
+  }
+  .scrap-author { font-weight: bold; color: #0044aa; }
+  .scrap-text { color: #444; margin-top: 1px; }
+  .scrap-date { font-size: 9px; color: #999; }
+
+  .depoimento-stars { color: #ffaa00; font-size: 13px; }
+
+  /* COLUNA DIREITA */
+  #right-col { display: flex; flex-direction: column; gap: 8px; }
+
+  .mini-photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    padding: 4px;
+  }
+  .mini-photo {
+    aspect-ratio: 1;
+    border: 1px solid #99bbd8;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .mini-photo:hover { border-color: #3366bb; transform: scale(1.05); }
+
+  .related-community {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 0;
+    border-bottom: 1px dotted #ccdeed;
+  }
+  .related-icon {
+    width: 28px; height: 28px;
+    border-radius: 2px;
+    border: 1px solid #99bbd8;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .related-name { font-size: 10px; color: #0044aa; font-weight: bold; }
+  .related-members { font-size: 9px; color: #888; }
+
+  .glitter-banner {
+    text-align: center;
+    padding: 6px;
+    background: linear-gradient(135deg, #ff99cc, #ffccff, #99ccff, #ccffcc);
+    background-size: 200% 200%;
+    animation: glitter 3s ease infinite;
+    font-weight: bold;
+    color: #660066;
+    font-size: 11px;
+    text-shadow: 0 0 3px rgba(255,255,255,0.8);
+    border: 2px solid #cc66cc;
+  }
+  @keyframes glitter {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* SEPARADOR DE TÓPICOS */
+  .section-divider {
+    text-align: center;
+    margin: 4px 0;
+    font-size: 10px;
+    color: #0044aa;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #99bbd8, transparent);
+  }
+
+  /* BOTÕES ESTILO ORKUT */
+  .btn-orkut {
+    display: inline-block;
+    background: linear-gradient(to bottom, #ffffff, #ddeeff);
+    border: 1px solid #99bbd8;
+    border-radius: 3px;
+    padding: 3px 10px;
+    font-size: 10px;
+    color: #0044aa;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 2px;
+  }
+  .btn-orkut:hover {
+    background: linear-gradient(to bottom, #ddeeff, #bbddff);
+    border-color: #4488cc;
+  }
+  .btn-orkut.orange {
+    background: linear-gradient(to bottom, #ffeecc, #ffcc66);
+    border-color: #cc9900;
+    color: #664400;
+  }
+  .btn-orkut.green {
+    background: linear-gradient(to bottom, #ccffcc, #66cc66);
+    border-color: #338833;
+    color: #115511;
+  }
+
+  /* TICKER / NOVIDADES */
+  .ticker {
+    background: #003399;
+    color: #ffff99;
+    padding: 2px 8px;
+    font-size: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker span {
+    display: inline-block;
+    animation: ticker 18s linear infinite;
+  }
+  @keyframes ticker {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
+  }
+
+  /* FOOTER */
+  #footer {
+    max-width: 980px;
+    margin: 8px auto;
+    padding: 8px;
+    text-align: center;
+    font-size: 9px;
+    color: #666;
+    border-top: 1px solid #99bbd8;
+  }
+
+  /* NOTIFICATION BOX */
+  .notif-box {
+    background: #fffacc;
+    border: 1px solid #ddbb44;
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 10px;
+    color: #665500;
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    margin-bottom: 5px;
+  }
+
+  /* BLINKING */
+  .blink {
+    animation: blink 1s step-end infinite;
+    color: #cc0000;
+    font-weight: bold;
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  .rainbow-text {
+    background: linear-gradient(90deg, #ff0000, #ff8800, #ffff00, #00cc00, #0066ff, #8800cc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: bold;
+    font-size: 13px;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header">
+  <div id="header-top">
+    <div id="orkut-logo">or<span>k</span>ut</div>
+    <div style="color:#cce4ff; font-size:10px;">bem-vindo(a), <strong>estudante</strong> | <a href="#" style="color:#ffcc00">início</a> · <a href="#" style="color:#ffcc00">perfil</a> · <a href="#" style="color:#ffcc00">amigos</a> · <a href="#" style="color:#ffcc00">scrapbook</a></div>
+  </div>
+  <div id="header-nav">
+    <span class="nav-item active">🏘️ comunidades</span>
+    <span class="nav-item">👤 perfil</span>
+    <span class="nav-item">💌 recados</span>
+    <span class="nav-item">📸 fotos</span>
+    <span class="nav-item">🔍 buscar</span>
+    <span style="margin-left:auto; font-size:9px; color:#555;">você tem <strong class="blink">3</strong> novos recados!</span>
+  </div>
+  <div class="ticker">
+    <span>✦ &nbsp;&nbsp; nova enquete disponível! vote sobre qual banco de dados você prefere &nbsp;&nbsp; ✦ &nbsp;&nbsp; usuário "prof_tiago" postou novo tópico: "SQL na prática" &nbsp;&nbsp; ✦ &nbsp;&nbsp; comunidade com +150 membros esta semana! &nbsp;&nbsp; ✦ &nbsp;&nbsp; compartilhe com seus amigos do orkut!! &nbsp;&nbsp; ✦</span>
+  </div>
+</div>
+
+<!-- LAYOUT PRINCIPAL -->
+<div id="main-wrapper">
+
+  <!-- COLUNA ESQUERDA -->
+  <div id="left-col">
+
+    <div class="panel">
+      <div class="community-img">🗄️</div>
+      <div class="panel-body" style="text-align:center;">
+        <div style="font-weight:bold; color:#003399; font-size:12px;">Banco de Dados<br>pra todo mundo!! ✦</div>
+        <div style="font-size:9px; color:#888; margin-top:2px;">categoria: tecnologia & informática</div>
+        <div style="margin-top:5px;">
+          <span class="btn-orkut green">✔ participar</span>
+          <span class="btn-orkut orange">♥ favoritar</span>
+        </div>
+        <div class="glitter-banner" style="margin-top:6px;">✨ COMUNIDADE TOP ✨</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">📊 estatísticas</div>
+      <div class="panel-body">
+        <table class="stats-table">
+          <tr><td class="stats-label">membros:</td><td class="stats-value">1.847</td></tr>
+          <tr><td class="stats-label">tópicos:</td><td class="stats-value">342</td></tr>
+          <tr><td class="stats-label">criada em:</td><td class="stats-value">12/03/2005</td></tr>
+          <tr><td class="stats-label">idioma:</td><td class="stats-value">português</td></tr>
+          <tr><td class="stats-label">tipo:</td><td class="stats-value">pública</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header orange">👑 fundador(a)</div>
+      <div class="panel-body">
+        <div class="member-box">
+          <div class="avatar" style="background:#e8f4ff;">👩‍🏫</div>
+          <div>
+            <div class="member-name">profa_carla_db</div>
+            <div class="member-role">fundadora · moderadora</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">👥 membros recentes</div>
+      <div class="panel-body">
+        <div class="member-box">
+          <div class="avatar">🧑‍💻</div>
+          <div><div class="member-name">joao_sql2007</div><div class="member-role">entrou hoje</div></div>
+        </div>
+        <div class="member-box">
+          <div class="avatar" style="background:#fff0f0;">👩‍🎓</div>
+          <div><div class="member-name">mari_estudante</div><div class="member-role">entrou ontem</div></div>
+        </div>
+        <div class="member-box">
+          <div class="avatar" style="background:#f0fff0;">👨‍🏫</div>
+          <div><div class="member-name">prof_tiago_ti</div><div class="member-role">2 dias atrás</div></div>
+        </div>
+        <div class="member-box">
+          <div class="avatar" style="background:#fff8e0;">🧒</div>
+          <div><div class="member-name">pedro_nerd99</div><div class="member-role">3 dias atrás</div></div>
+        </div>
+        <div style="text-align:center; margin-top:4px;"><a href="#">ver todos &raquo;</a></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header purple">🗳️ enquete da semana</div>
+      <div class="panel-body">
+        <div style="font-weight:bold; font-size:10px; margin-bottom:4px;">Onde você já usou BD sem saber?</div>
+        <div class="poll-option">
+          <div><div class="poll-label">🏦 Banco / App</div><div class="poll-bar" style="width:80px;"></div></div>
+          <div class="poll-pct">48%</div>
+        </div>
+        <div class="poll-option">
+          <div><div class="poll-label">🛒 Supermercado</div><div class="poll-bar" style="width:55px;"></div></div>
+          <div class="poll-pct">33%</div>
+        </div>
+        <div class="poll-option">
+          <div><div class="poll-label">🏫 Escola</div><div class="poll-bar" style="width:28px;"></div></div>
+          <div class="poll-pct">19%</div>
+        </div>
+        <div style="margin-top:4px;"><span class="btn-orkut" style="font-size:9px;">votar</span><span style="font-size:9px; color:#888;"> 621 votos</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COLUNA CENTRAL -->
+  <div id="center-col">
+
+    <div class="panel">
+      <div class="community-title">
+        <div class="rainbow-text">🗄️ Banco de Dados pra todo mundo!! 🗄️</div>
+        <p>Aprenda o que é, como funciona e onde existe um banco de dados no dia a dia!</p>
+        <div class="since">comunidade criada em março de 2005 · 1.847 membros</div>
+      </div>
+    </div>
+
+    <div class="notif-box">
+      📌 <strong>Fixado:</strong> leia os tópicos em ordem pra entender tudo direitinho! Os moderadores recomendam começar pelo "O que é BD?" 😊
+    </div>
+
+    <!-- TÓPICOS DO FÓRUM -->
+    <div class="panel">
+      <div class="panel-header">💬 fórum da comunidade</div>
+      <div class="panel-body" style="padding:0;">
+        <ul class="topic-list">
+          <li class="topic-item" onclick="document.getElementById('t1').scrollIntoView({behavior:'smooth'})">
+            <div class="topic-icon">📚</div>
+            <div>
+              <div class="topic-title">📌 O que é um Banco de Dados?? [LEIA PRIMEIRO]</div>
+              <div class="topic-meta">por profa_carla_db · 12/03/2005</div>
+            </div>
+            <div class="topic-replies">💬 89 respostas</div>
+          </li>
+          <li class="topic-item" onclick="document.getElementById('t2').scrollIntoView({behavior:'smooth'})">
+            <div class="topic-icon">🌍</div>
+            <div>
+              <div class="topic-title">Onde BD existe na nossa vida? (MUITO INTERESSANTE!)</div>
+              <div class="topic-meta">por joao_sql2007 · 15/03/2005</div>
+            </div>
+            <div class="topic-replies">💬 67 respostas</div>
+          </li>
+          <li class="topic-item" onclick="document.getElementById('t3').scrollIntoView({behavior:'smooth'})">
+            <div class="topic-icon">⚙️</div>
+            <div>
+              <div class="topic-title">Como funciona por dentro? Tabelas, linhas e colunas!</div>
+              <div class="topic-meta">por prof_tiago_ti · 20/03/2005</div>
+            </div>
+            <div class="topic-replies">💬 54 respostas</div>
+          </li>
+          <li class="topic-item" onclick="document.getElementById('t4').scrollIntoView({behavior:'smooth'})">
+            <div class="topic-icon">🏫</div>
+            <div>
+              <div class="topic-title">BD na Escola: boletim, frequência e matrícula!</div>
+              <div class="topic-meta">por mari_estudante · 25/03/2005</div>
+            </div>
+            <div class="topic-replies">💬 41 respostas</div>
+          </li>
+          <li class="topic-item" onclick="document.getElementById('t5').scrollIntoView({behavior:'smooth'})">
+            <div class="topic-icon">🛒</div>
+            <div>
+              <div class="topic-title">BD no Supermercado: preço, estoque e cupom fiscal!</div>
+              <div class="topic-meta">por pedro_nerd99 · 28/03/2005</div>
+            </div>
+            <div class="topic-replies">💬 38 respostas</div>
+          </li>
+          <li class="topic-item" onclick="document.getElementById('t6').scrollIntoView({behavior:'smooth'})">
+            <div class="topic-icon">💻</div>
+            <div>
+              <div class="topic-title">SQL: a linguagem que fala com o BD! Exemplos práticos</div>
+              <div class="topic-meta">por prof_tiago_ti · 02/04/2005</div>
+            </div>
+            <div class="topic-replies">💬 72 respostas</div>
+          </li>
+          <li class="topic-item" onclick="document.getElementById('t7').scrollIntoView({behavior:'smooth'})">
+            <div class="topic-icon">🌐</div>
+            <div>
+              <div class="topic-title">Outros exemplos: hospital, banco, orkut e redes sociais!</div>
+              <div class="topic-meta">por profa_carla_db · 05/04/2005</div>
+            </div>
+            <div class="topic-replies">💬 55 respostas</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- POST 1 -->
+    <div class="section-divider">📚 tópico destacado</div>
+    <div id="t1" class="post-box">
+      <div class="post-header">
+        <div class="post-avatar">👩‍🏫</div>
+        <div>
+          <div class="post-author">profa_carla_db</div>
+          <div class="post-date">12 de março de 2005 · fundadora · moderadora</div>
+        </div>
+        <div style="margin-left:auto;"><div class="depoimento-stars">★★★★★</div></div>
+      </div>
+      <div class="post-body">
+        <h3>📚 O que é um Banco de Dados?</h3>
+        <p>Oi gente!! Bem-vindos à comunidade! Vou explicar tudo sobre banco de dados de um jeito simples, sem complicar!! rsrsrs 😄</p>
+        <div class="highlight">
+          💡 <strong>Definição simples:</strong> Um banco de dados é uma coleção organizada de informações (dados) que podem ser facilmente acessadas, gerenciadas e atualizadas.
+        </div>
+        <p>Pensa assim: é como uma <strong>agenda telefônica gigante e inteligente</strong>. Só que em vez de só guardar nomes e telefones, um banco de dados pode guardar TUDO: produtos, clientes, notas de aluno, histórico médico, mensagens... qualquer coisa!</p>
+        <p>A diferença de uma agenda normal é que o banco de dados:</p>
+        <ul>
+          <li>✅ Armazena <strong>milhões</strong> de informações ao mesmo tempo</li>
+          <li>✅ Permite buscar qualquer dado em <strong>milissegundos</strong></li>
+          <li>✅ Garante que os dados <strong>não se percam</strong></li>
+          <li>✅ Vários usuários podem acessar <strong>ao mesmo tempo</strong></li>
+          <li>✅ Protege as informações com <strong>senhas e permissões</strong></li>
+        </ul>
+        <p style="margin-top:6px;">O software que cuida do banco de dados é chamado de <strong>SGBD (Sistema Gerenciador de Banco de Dados)</strong>. Os mais famosos são: MySQL, PostgreSQL, Oracle, SQL Server e SQLite!</p>
+        <div class="tag-cloud">
+          <span class="tag big">banco de dados</span>
+          <span class="tag">SGBD</span>
+          <span class="tag">dados</span>
+          <span class="tag">informação</span>
+          <span class="tag">armazenamento</span>
+          <span class="tag big">MySQL</span>
+          <span class="tag">Oracle</span>
+          <span class="tag">PostgreSQL</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 2 -->
+    <div id="t2" class="post-box">
+      <div class="post-header">
+        <div class="post-avatar" style="background:#fff0e0;">🧑‍💻</div>
+        <div>
+          <div class="post-author">joao_sql2007</div>
+          <div class="post-date">15 de março de 2005</div>
+        </div>
+      </div>
+      <div class="post-body">
+        <h3>🌍 Onde banco de dados existe na nossa vida?</h3>
+        <p>Gente, banco de dados tá em TODO LUGAR!! É sério, você usa vários por dia sem perceber!! Olha só:</p>
+        <ul>
+          <li>🏦 <strong>Seu banco:</strong> quando você consulta o saldo, um BD retorna sua conta</li>
+          <li>📱 <strong>Esse orkut aqui:</strong> todos os perfis, recados e fotos ficam num BD!</li>
+          <li>🎵 <strong>Músicas no computador:</strong> o iTunes usa BD pra guardar suas músicas</li>
+          <li>🛒 <strong>Supermercado:</strong> cada produto tem preço e estoque no BD</li>
+          <li>🏥 <strong>Hospital:</strong> seu prontuário médico é um BD</li>
+          <li>🏫 <strong>Escola:</strong> notas, frequência, matrícula — tudo no BD!</li>
+          <li>📧 <strong>E-mail:</strong> suas mensagens ficam num BD gigantesco</li>
+          <li>📺 <strong>Locadora de vídeo:</strong> filmes, clientes e locações no BD</li>
+        </ul>
+        <div class="highlight">
+          🤯 Curiosidade: o Google gerencia bancos de dados com <strong>bilhões</strong> de páginas da internet! É o maior BD de busca do mundo!
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 3 -->
+    <div id="t3" class="post-box">
+      <div class="post-header">
+        <div class="post-avatar" style="background:#f0fff0;">👨‍🏫</div>
+        <div>
+          <div class="post-author">prof_tiago_ti</div>
+          <div class="post-date">20 de março de 2005 · moderador</div>
+        </div>
+      </div>
+      <div class="post-body">
+        <h3>⚙️ Como funciona por dentro? Tabelas, linhas e colunas!</h3>
+        <p>Oi pessoal!! Eu sou professor de informática e vou explicar a estrutura básica de um banco de dados relacional (o tipo mais comum)!</p>
+        <p>Um banco de dados é organizado em <strong>tabelas</strong>, parecidas com planilhas do Excel. Cada tabela representa um "assunto". Olha o exemplo de uma tabela de alunos:</p>
+
+        <table class="table-demo">
+          <tr>
+            <th>id_aluno</th>
+            <th>nome</th>
+            <th>turma</th>
+            <th>data_nasc</th>
+            <th>email</th>
+          </tr>
+          <tr><td>1</td><td>Maria Souza</td><td>8ºA</td><td>15/04/1993</td><td>maria@escola.com</td></tr>
+          <tr><td>2</td><td>João Lima</td><td>8ºB</td><td>22/07/1993</td><td>joao@escola.com</td></tr>
+          <tr><td>3</td><td>Ana Paula</td><td>9ºA</td><td>03/01/1992</td><td>ana@escola.com</td></tr>
+          <tr><td>4</td><td>Pedro Alves</td><td>7ºC</td><td>30/11/1994</td><td>pedro@escola.com</td></tr>
+        </table>
+
+        <p style="margin-top:5px;">Cada <strong>linha</strong> = um aluno (também chamado de "registro" ou "tupla")<br>
+        Cada <strong>coluna</strong> = uma característica (também chamado de "campo" ou "atributo")<br>
+        A coluna <strong>id_aluno</strong> é a <em>chave primária</em> — identifica cada aluno de forma única!</p>
+
+        <div class="highlight">
+          🔑 <strong>Chave primária (Primary Key):</strong> É o "RG" do registro. Nunca se repete! Garante que cada linha seja única na tabela.
+        </div>
+
+        <p>Um banco de dados pode ter várias tabelas que se <strong>relacionam</strong> entre si. Por exemplo: a tabela de NOTAS se conecta com a tabela de ALUNOS pelo id_aluno. Isso se chama <strong>Banco de Dados Relacional!</strong></p>
+      </div>
+    </div>
+
+    <!-- POST 4 -->
+    <div id="t4" class="post-box">
+      <div class="post-header">
+        <div class="post-avatar" style="background:#fff0f0;">👩‍🎓</div>
+        <div>
+          <div class="post-author">mari_estudante</div>
+          <div class="post-date">25 de março de 2005</div>
+        </div>
+      </div>
+      <div class="post-body">
+        <h3>🏫 BD na Escola: boletim, frequência e matrícula!</h3>
+        <p>Gente, como estudante eu fui pesquisar como funciona o BD da minha escola! É incrível como tudo que a secretaria faz usa banco de dados!!</p>
+
+        <div class="example-card">
+          <div class="example-card-header" style="background: linear-gradient(to right, #3366cc, #1144aa);">📋 O que a escola armazena no BD?</div>
+          <div class="example-card-body">
+            <table class="table-demo">
+              <tr><th>Tabela</th><th>O que guarda</th><th>Exemplo de uso</th></tr>
+              <tr><td>alunos</td><td>nome, CPF, endereço, turma</td><td>matrícula, boletim</td></tr>
+              <tr><td>professores</td><td>nome, disciplina, carga horária</td><td>horário de aulas</td></tr>
+              <tr><td>disciplinas</td><td>nome, código, carga horária</td><td>grade curricular</td></tr>
+              <tr><td>notas</td><td>id_aluno, disciplina, bimestre, nota</td><td>boletim escolar</td></tr>
+              <tr><td>frequencia</td><td>id_aluno, data, presença/falta</td><td>diário de classe</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <p style="margin-top:5px;">Quando a secretaria emite seu boletim, o sistema faz uma <strong>consulta</strong> no banco de dados buscando todas as suas notas pelo seu número de matrícula! É muito rápido!</p>
+        <div class="highlight">
+          📌 <strong>Situação real:</strong> "Exibir o boletim do aluno João Lima, 8ºB, 2º bimestre" → o sistema busca no BD todas as notas onde id_aluno = 2 e bimestre = 2. Resultado: instantâneo!
+        </div>
+
+        <p>Outro uso: o <strong>sistema de frequência</strong>. Toda vez que o professor chama a lista, ele registra no BD quem veio e quem faltou. No fim do mês, o sistema calcula automaticamente a porcentagem de presença!</p>
+      </div>
+    </div>
+
+    <!-- POST 5 -->
+    <div id="t5" class="post-box">
+      <div class="post-header">
+        <div class="post-avatar" style="background:#fff8e0;">🧒</div>
+        <div>
+          <div class="post-author">pedro_nerd99</div>
+          <div class="post-date">28 de março de 2005</div>
+        </div>
+      </div>
+      <div class="post-body">
+        <h3>🛒 BD no Supermercado: preço, estoque e cupom fiscal!</h3>
+        <p>Passei um dia trabalhando de caixa no mercado do meu tio e fiquei de olho em como tudo funciona rsrs 👀. O BD do supermercado é COMPLEXO! Olha só:</p>
+
+        <div class="example-card">
+          <div class="example-card-header" style="background: linear-gradient(to right, #cc6600, #994400);">🛒 Tabela de Produtos</div>
+          <div class="example-card-body">
+            <table class="table-demo">
+              <tr><th>cod_barras</th><th>nome</th><th>categoria</th><th>preco</th><th>estoque</th></tr>
+              <tr><td>7891234560001</td><td>Arroz Tio João 5kg</td><td>Grãos</td><td>R$ 24,90</td><td>142 un.</td></tr>
+              <tr><td>7891234560002</td><td>Feijão Carioca 1kg</td><td>Grãos</td><td>R$ 8,50</td><td>87 un.</td></tr>
+              <tr><td>7891234560003</td><td>Coca-Cola 2L</td><td>Bebidas</td><td>R$ 11,99</td><td>210 un.</td></tr>
+              <tr><td>7891234560004</td><td>Detergente Ypê 500ml</td><td>Limpeza</td><td>R$ 3,49</td><td>56 un.</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <p style="margin-top:5px;">Quando você passa um produto no caixa, o leitor de código de barras manda o número pro sistema, que <strong>busca no BD</strong> o nome e o preço em menos de 1 segundo! Aí o estoque é atualizado automaticamente!</p>
+
+        <div class="highlight">
+          🔄 <strong>Fluxo no caixa:</strong><br>
+          1. Lê código de barras → busca produto no BD<br>
+          2. Mostra nome e preço na tela<br>
+          3. Soma ao total da compra<br>
+          4. Ao finalizar: desconta do estoque e registra a venda
+        </div>
+
+        <p>E tem mais! O gerente consegue ver em tempo real:</p>
+        <ul>
+          <li>📦 Quais produtos estão acabando no estoque</li>
+          <li>💰 Quanto foi vendido hoje, essa semana, esse mês</li>
+          <li>🏆 Quais produtos vendem mais</li>
+          <li>⚠️ Produtos vencendo em breve</li>
+        </ul>
+        <p>Tudo isso com consultas rápidas no banco de dados!!</p>
+      </div>
+    </div>
+
+    <!-- POST 6 - SQL -->
+    <div id="t6" class="post-box">
+      <div class="post-header">
+        <div class="post-avatar" style="background:#f0fff0;">👨‍🏫</div>
+        <div>
+          <div class="post-author">prof_tiago_ti</div>
+          <div class="post-date">02 de abril de 2005 · moderador</div>
+        </div>
+      </div>
+      <div class="post-body">
+        <h3>💻 SQL: a linguagem que fala com o BD!</h3>
+        <p>Pra conversar com o banco de dados, a gente usa uma linguagem chamada <strong>SQL (Structured Query Language)</strong> — Linguagem de Consulta Estruturada! Parece difícil mas é quase inglês rsrs!</p>
+        <p>Os comandos principais são: <strong>SELECT</strong> (buscar), <strong>INSERT</strong> (inserir), <strong>UPDATE</strong> (atualizar) e <strong>DELETE</strong> (apagar).</p>
+
+        <div class="example-card">
+          <div class="example-card-header" style="background: linear-gradient(to right, #5533cc, #3311aa);">💻 Exemplos de SQL</div>
+          <div class="example-card-body">
+
+            <p style="margin-bottom:3px; font-weight:bold; color:#333;">🔍 Buscar todos os alunos da turma 8ºA:</p>
+            <div class="code-box">
+<span class="kw">SELECT</span> nome, email <span class="kw">FROM</span> <span class="tbl">alunos</span><br>
+<span class="kw">WHERE</span> turma = <span class="str">'8ºA'</span>;<br>
+<span class="cm">-- Resultado: Maria Souza, João Lima...</span>
+            </div>
+
+            <p style="margin-bottom:3px; margin-top:6px; font-weight:bold; color:#333;">➕ Cadastrar novo aluno:</p>
+            <div class="code-box">
+<span class="kw">INSERT INTO</span> <span class="tbl">alunos</span> (nome, turma, data_nasc)<br>
+<span class="kw">VALUES</span> (<span class="str">'Lucas Silva'</span>, <span class="str">'7ºB'</span>, <span class="str">'2007-06-10'</span>);<br>
+<span class="cm">-- Novo aluno cadastrado!</span>
+            </div>
+
+            <p style="margin-bottom:3px; margin-top:6px; font-weight:bold; color:#333;">✏️ Atualizar preço de produto no mercado:</p>
+            <div class="code-box">
+<span class="kw">UPDATE</span> <span class="tbl">produtos</span><br>
+<span class="kw">SET</span> preco = <span class="num">22.90</span><br>
+<span class="kw">WHERE</span> cod_barras = <span class="str">'7891234560001'</span>;<br>
+<span class="cm">-- Preço do arroz atualizado!</span>
+            </div>
+
+            <p style="margin-bottom:3px; margin-top:6px; font-weight:bold; color:#333;">🗑️ Apagar aluno que se transferiu:</p>
+            <div class="code-box">
+<span class="kw">DELETE FROM</span> <span class="tbl">alunos</span><br>
+<span class="kw">WHERE</span> id_aluno = <span class="num">4</span>;<br>
+<span class="cm">-- Pedro Alves removido do sistema</span>
+            </div>
+
+          </div>
+        </div>
+
+        <p style="margin-top:5px;">Parece complicado? Mas olha como é intuitivo: <em>SELECT nome FROM alunos WHERE turma = '8ºA'</em> = "SELECIONE o nome DE alunos ONDE a turma É 8ºA"! É quase inglês mesmo!! 😄</p>
+      </div>
+    </div>
+
+    <!-- POST 7 -->
+    <div id="t7" class="post-box">
+      <div class="post-header">
+        <div class="post-avatar">👩‍🏫</div>
+        <div>
+          <div class="post-author">profa_carla_db</div>
+          <div class="post-date">05 de abril de 2005 · fundadora</div>
+        </div>
+      </div>
+      <div class="post-body">
+        <h3>🌐 Outros exemplos práticos do dia a dia!</h3>
+        <p>Pra fechar com chave de ouro, vou mostrar mais exemplos onde banco de dados está presente na nossa vida! Spoiler: é em todo lugar mesmo ahahah 😂</p>
+
+        <div class="example-card" style="margin-bottom:5px;">
+          <div class="example-card-header" style="background: linear-gradient(to right, #cc3344, #aa1122);">🏥 Hospital / Clínica</div>
+          <div class="example-card-body">
+            <ul>
+              <li>Prontuário do paciente com histórico de consultas</li>
+              <li>Controle de medicamentos e estoque de remédios</li>
+              <li>Agenda de médicos e horários de consulta</li>
+              <li>Resultados de exames e diagnósticos</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="example-card" style="margin-bottom:5px;">
+          <div class="example-card-header" style="background: linear-gradient(to right, #2244aa, #113388);">🏦 Banco / Financeiro</div>
+          <div class="example-card-body">
+            <ul>
+              <li>Saldo e extrato de cada conta corrente</li>
+              <li>Histórico de transferências e pagamentos</li>
+              <li>Controle de cartões de crédito e débito</li>
+              <li>Análise de crédito para empréstimos</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="example-card" style="margin-bottom:5px;">
+          <div class="example-card-header" style="background: linear-gradient(to right, #558833, #336611);">📱 Redes Sociais (como esse orkut!)</div>
+          <div class="example-card-body">
+            <ul>
+              <li>Perfis de usuários com foto, bio e interesses</li>
+              <li>Lista de amigos e conexões entre pessoas</li>
+              <li>Recados, posts e comentários</li>
+              <li>Comunidades e fóruns (exatamente essa página!)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-card-header" style="background: linear-gradient(to right, #886633, #664411);">🎬 Locadora de Vídeo</div>
+          <div class="example-card-body">
+            <ul>
+              <li>Catálogo de filmes disponíveis para locação</li>
+              <li>Cadastro de clientes com histórico de locações</li>
+              <li>Controle de datas de devolução e multas</li>
+              <li>Filmes mais locados por gênero e período</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="highlight" style="margin-top:8px;">
+          🎓 <strong>Resumão:</strong> Banco de dados é a <strong>espinha dorsal</strong> de qualquer sistema de informação moderno. Desde um simples caderno digitalizado até os sistemas de controle aéreo — tudo usa BD! Aprender banco de dados é aprender a base da tecnologia que move o mundo! 🌍💻
+        </div>
+
+        <div style="text-align:center; margin-top:8px;">
+          <span class="btn-orkut green">✔ muito útil!</span>
+          <span class="btn-orkut">💬 comentar</span>
+          <span class="btn-orkut orange">🔗 compartilhar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCRAPS -->
+    <div class="panel">
+      <div class="panel-header red">💌 recados da comunidade</div>
+      <div class="panel-body scraps-box">
+        <div class="scrap">
+          <span class="scrap-author">☆ lorena_digital:</span>
+          <div class="scrap-text">Nossa essa comunidade salvou minha vida na prova de TI!! obrigadaaaa 😭❤️</div>
+          <div class="scrap-date">06/04/2005 às 21:43</div>
+        </div>
+        <div class="scrap">
+          <span class="scrap-author">☆ felipe_geek_bh:</span>
+          <div class="scrap-text">Alguém tem material de MySQL pra iniciante?? tô querendo aprender!</div>
+          <div class="scrap-date">05/04/2005 às 19:12</div>
+        </div>
+        <div class="scrap">
+          <span class="scrap-author">☆ prof_tiago_ti:</span>
+          <div class="scrap-text">@felipe_geek_bh eu posso ajudar!! manda um recado no meu perfil! =)</div>
+          <div class="scrap-date">05/04/2005 às 22:30</div>
+        </div>
+        <div class="scrap">
+          <span class="scrap-author">☆ carol_sp2005:</span>
+          <div class="scrap-text">A explicação do supermercado ficou PERFEITA!! agora entendi tudo!! haha nunca mais vou olhar pro código de barras igual antes rsrs</div>
+          <div class="scrap-date">03/04/2005 às 16:55</div>
+        </div>
+        <div style="text-align:right; margin-top:4px;">
+          <span class="btn-orkut">✏️ deixar recado</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COLUNA DIREITA -->
+  <div id="right-col">
+
+    <div class="panel">
+      <div class="panel-header">🖼️ fotos da comunidade</div>
+      <div class="mini-photo-grid">
+        <div class="mini-photo" style="background:#e0eeff;" title="Diagrama ER">📊</div>
+        <div class="mini-photo" style="background:#ffe0e0;" title="Terminal SQL">💻</div>
+        <div class="mini-photo" style="background:#e0ffe0;" title="Tabelas">📋</div>
+        <div class="mini-photo" style="background:#fff0e0;" title="Servidor">🖥️</div>
+        <div class="mini-photo" style="background:#f0e0ff;" title="Dados">🗄️</div>
+        <div class="mini-photo" style="background:#e0fff0;" title="Segurança">🔐</div>
+      </div>
+      <div style="text-align:center; padding:3px;"><a href="#">ver todas &raquo;</a></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header green">🔗 comunidades relacionadas</div>
+      <div class="panel-body">
+        <div class="related-community">
+          <div class="related-icon" style="background:#e0eeff;">💻</div>
+          <div>
+            <div class="related-name">Programação pra todos</div>
+            <div class="related-members">3.241 membros</div>
+          </div>
+        </div>
+        <div class="related-community">
+          <div class="related-icon" style="background:#e0ffe0;">🌐</div>
+          <div>
+            <div class="related-name">HTML e Web Design</div>
+            <div class="related-members">2.109 membros</div>
+          </div>
+        </div>
+        <div class="related-community">
+          <div class="related-icon" style="background:#fff0e0;">📊</div>
+          <div>
+            <div class="related-name">Excel Avançado</div>
+            <div class="related-members">1.887 membros</div>
+          </div>
+        </div>
+        <div class="related-community">
+          <div class="related-icon" style="background:#f0e0ff;">🤖</div>
+          <div>
+            <div class="related-name">Inteligência Artificial</div>
+            <div class="related-members">987 membros</div>
+          </div>
+        </div>
+        <div class="related-community">
+          <div class="related-icon" style="background:#ffe0e0;">🔐</div>
+          <div>
+            <div class="related-name">Segurança da Info</div>
+            <div class="related-members">765 membros</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header orange">🏷️ palavras-chave</div>
+      <div class="panel-body">
+        <div class="tag-cloud">
+          <span class="tag big">SQL</span>
+          <span class="tag">tabela</span>
+          <span class="tag big">MySQL</span>
+          <span class="tag small">PostgreSQL</span>
+          <span class="tag">SELECT</span>
+          <span class="tag">INSERT</span>
+          <span class="tag big">dados</span>
+          <span class="tag">chave primária</span>
+          <span class="tag small">Oracle</span>
+          <span class="tag">SGBD</span>
+          <span class="tag big">consulta</span>
+          <span class="tag">registro</span>
+          <span class="tag small">JOIN</span>
+          <span class="tag">campo</span>
+          <span class="tag big">relacional</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header purple">💡 você sabia?</div>
+      <div class="panel-body">
+        <div style="font-size:10px; line-height:1.5; color:#333;">
+          <p style="margin-bottom:4px;">📌 O primeiro banco de dados comercial foi criado nos anos <strong>1960</strong> pela IBM!</p>
+          <hr style="border:none; border-top:1px dotted #ccdeed; margin:4px 0;">
+          <p style="margin-bottom:4px;">📌 O Facebook (2004) usa um BD chamado <strong>Cassandra</strong> para suportar bilhões de usuários!</p>
+          <hr style="border:none; border-top:1px dotted #ccdeed; margin:4px 0;">
+          <p style="margin-bottom:4px;">📌 Cada foto que você coloca no orkut é armazenada como um <strong>registro</strong> no banco de dados!</p>
+          <hr style="border:none; border-top:1px dotted #ccdeed; margin:4px 0;">
+          <p>📌 SQL foi criado em <strong>1974</strong> e é usado até hoje sem muitas mudanças!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header red">🌡️ atividade recente</div>
+      <div class="panel-body">
+        <div style="font-size:9px; color:#333; line-height:1.8;">
+          🟢 <strong>profa_carla_db</strong> postou<br>
+          🟡 <strong>joao_sql2007</strong> entrou<br>
+          🟢 <strong>carol_sp2005</strong> deixou recado<br>
+          🟡 <strong>mari_estudante</strong> votou<br>
+          🟢 <strong>felipe_geek_bh</strong> entrou<br>
+          🔵 <strong>3 membros</strong> online agora
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div id="footer">
+  <div>orkut é uma comunidade online criada para tornar sua vida social e a dos seus amigos mais ativa e estimulante.</div>
+  <div style="margin-top:3px;">© 2005 orkut.com — <a href="#">privacidade</a> · <a href="#">termos de uso</a> · <a href="#">sobre</a> · <a href="#">ajuda</a></div>
+  <div style="margin-top:3px; color:#999;">este site é um projeto educativo sobre banco de dados · feito com ❤️ e nostalgia dos anos 2000</div>
+</div>
+
+</body>
+</html>
