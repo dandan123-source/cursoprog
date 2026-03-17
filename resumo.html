@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resumindo... | Informática Básica</title>
+
+  <!-- Google Fonts: Nunito (corpo) + Baloo 2 (títulos) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       VARIÁVEIS E RESET
+    ============================================================ */
+    :root {
+      --blue:    #C4DFFE;
+      --green:   #C8F0D8;
+      --lilac:   #DDD5F5;
+      --peach:   #FFE4CC;
+      --yellow:  #FFF3C4;
+      --pink:    #FFD6E7;
+      --beige:   #F5EFE0;
+      --white:   #FDFCFB;
+      --dark:    #2E2E3A;
+      --mid:     #5A5A72;
+      --light:   #9A9AB0;
+      --radius:  18px;
+      --shadow:  0 4px 24px rgba(80, 60, 120, 0.10);
+      --trans:   .22s cubic-bezier(.4,0,.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--white);
+      color: var(--dark);
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       SCROLLBAR PERSONALIZADA
+    ============================================================ */
+    ::-webkit-scrollbar { width: 7px; }
+    ::-webkit-scrollbar-track { background: var(--beige); }
+    ::-webkit-scrollbar-thumb { background: var(--lilac); border-radius: 99px; }
+
+    /* ============================================================
+       HEADER / NAVBAR
+    ============================================================ */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(253, 252, 251, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1.5px solid rgba(180, 160, 220, 0.18);
+      padding: 0 1.5rem;
+    }
+
+    nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 62px;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--dark);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .logo span { color: #8A7CC8; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 26px;
+      height: 3px;
+      background: var(--dark);
+      border-radius: 99px;
+      transition: var(--trans);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: .25rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      display: block;
+      padding: .3rem .75rem;
+      border-radius: 99px;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--mid);
+      text-decoration: none;
+      transition: background var(--trans), color var(--trans);
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover {
+      background: var(--lilac);
+      color: var(--dark);
+    }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 1.5rem 3.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    /* bolhas decorativas de fundo */
+    .hero::before,
+    .hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .hero::before {
+      width: 380px; height: 380px;
+      background: rgba(196, 223, 254, .5);
+      top: -60px; left: -80px;
+    }
+    .hero::after {
+      width: 300px; height: 300px;
+      background: rgba(221, 213, 245, .45);
+      bottom: -40px; right: -60px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--yellow);
+      color: #7A6200;
+      border-radius: 99px;
+      font-size: .8rem;
+      font-weight: 700;
+      padding: .25rem .9rem;
+      letter-spacing: .05em;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h1 {
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(2.6rem, 7vw, 4.4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 .highlight {
+      color: #8A7CC8;
+      position: relative;
+      display: inline-block;
+    }
+
+    /* sublinhado ondulado decorativo */
+    .hero h1 .highlight::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -4px;
+      width: 100%; height: 8px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8'%3E%3Cpath d='M0 4 Q25 0 50 4 Q75 8 100 4 Q125 0 150 4 Q175 8 200 4' fill='none' stroke='%23C4DFFE' stroke-width='3'/%3E%3C/svg%3E") center/contain repeat-x;
+    }
+
+    .hero p {
+      max-width: 580px;
+      margin: 0 auto 2.2rem;
+      color: var(--mid);
+      font-size: 1.08rem;
+    }
+
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .55rem;
+      margin-bottom: .5rem;
+    }
+
+    .pill {
+      background: var(--white);
+      border: 1.5px solid rgba(138, 124, 200, .25);
+      border-radius: 99px;
+      padding: .35rem 1rem;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--mid);
+      transition: background var(--trans), border-color var(--trans);
+    }
+    .pill:hover { background: var(--lilac); border-color: transparent; }
+
+    /* ============================================================
+       LAYOUT GERAL
+    ============================================================ */
+    main { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+
+    section {
+      margin-bottom: 4.5rem;
+      scroll-margin-top: 80px;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      padding: .25rem .85rem;
+      border-radius: 99px;
+      margin-bottom: .8rem;
+    }
+
+    .section-title {
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(1.55rem, 4vw, 2.1rem);
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: .5rem;
+      line-height: 1.2;
+    }
+
+    .section-sub {
+      color: var(--mid);
+      max-width: 640px;
+      margin-bottom: 2rem;
+      font-size: .97rem;
+    }
+
+    /* Divisor decorativo entre seções */
+    .divider {
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--lilac), transparent);
+      margin: 0 0 4.5rem;
+      border: none;
+    }
+
+    /* ============================================================
+       GRID DE CARDS
+    ============================================================ */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1.5px solid rgba(0,0,0,.06);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.4rem;
+      box-shadow: var(--shadow);
+      transition: transform var(--trans), box-shadow var(--trans), border-color var(--trans);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* faixa colorida no topo de cada card */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: var(--card-accent, var(--lilac));
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 36px rgba(80, 60, 120, .15);
+      border-color: rgba(138, 124, 200, .3);
+    }
+
+    .card-icon {
+      font-size: 2.1rem;
+      margin-bottom: .7rem;
+      display: block;
+      line-height: 1;
+    }
+
+    .card-title {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: .45rem;
+    }
+
+    .card-text {
+      font-size: .9rem;
+      color: var(--mid);
+      line-height: 1.65;
+    }
+
+    /* ============================================================
+       CARDS DE DESTAQUE (2 colunas com imagem/emoji grande)
+    ============================================================ */
+    .cards-highlight {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card-highlight {
+      border-radius: var(--radius);
+      padding: 1.8rem 1.6rem;
+      box-shadow: var(--shadow);
+      transition: transform var(--trans), box-shadow var(--trans);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-highlight:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 36px rgba(80,60,120,.13);
+    }
+
+    .card-highlight .big-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+      line-height: 1;
+    }
+
+    .card-highlight h3 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: .5rem;
+      color: var(--dark);
+    }
+
+    .card-highlight p {
+      font-size: .91rem;
+      color: var(--mid);
+      line-height: 1.65;
+    }
+
+    /* ============================================================
+       TAG BADGES dentro dos cards
+    ============================================================ */
+    .tag {
+      display: inline-block;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      border-radius: 99px;
+      padding: .15rem .6rem;
+      margin-bottom: .55rem;
+    }
+
+    /* ============================================================
+       CORES TEMÁTICAS (section labels + cards)
+    ============================================================ */
+    /* Seção 1 – azul */
+    #basica .section-label   { background: var(--blue);   color: #1A4D7A; }
+    #basica .card            { --card-accent: var(--blue); }
+
+    /* Seção 2 – verde */
+    #sistemas .section-label { background: var(--green);  color: #1A5A36; }
+    #sistemas .card-highlight{ }
+
+    /* Seção 3 – lilás */
+    #arquivos .section-label { background: var(--lilac);  color: #4A3A8A; }
+    #arquivos .card          { --card-accent: var(--lilac); }
+
+    /* Seção 4 – pêssego */
+    #formatos .section-label { background: var(--peach);  color: #7A3800; }
+    #formatos .card          { --card-accent: var(--peach); }
+
+    /* Seção 5 – amarelo */
+    #boot .section-label     { background: var(--yellow);  color: #6A5200; }
+    #boot .card              { --card-accent: var(--yellow); }
+
+    /* Seção 6 – rosa */
+    #ferramentas-boot .section-label { background: var(--pink); color: #7A2050; }
+    #ferramentas-boot .card          { --card-accent: var(--pink); }
+
+    /* Seção 7 – beige */
+    #ferramentas-aula .section-label { background: var(--beige); color: #5A4A20; }
+    #ferramentas-aula .card-highlight { }
+
+    /* ============================================================
+       SISTEMAS OPERACIONAIS – cards coloridos
+    ============================================================ */
+    .so-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.1rem;
+    }
+
+    .so-card {
+      border-radius: var(--radius);
+      padding: 1.6rem 1.4rem;
+      box-shadow: var(--shadow);
+      transition: transform var(--trans), box-shadow var(--trans);
+    }
+    .so-card:hover { transform: translateY(-5px); box-shadow: 0 10px 36px rgba(80,60,120,.13); }
+    .so-card .big-icon { font-size: 2.5rem; margin-bottom: .7rem; display: block; }
+    .so-card h3 { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.1rem; margin-bottom: .4rem; }
+    .so-card p { font-size: .88rem; color: var(--mid); line-height: 1.6; }
+
+    /* ============================================================
+       TABELA DE FORMATOS
+    ============================================================ */
+    .formato-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 .55rem;
+      font-size: .92rem;
+    }
+    .formato-table thead th {
+      text-align: left;
+      font-family: 'Baloo 2', cursive;
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--light);
+      padding: 0 1rem .5rem;
+    }
+    .formato-table tbody tr {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform var(--trans);
+    }
+    .formato-table tbody tr:hover { transform: scale(1.01); }
+    .formato-table tbody td {
+      padding: .85rem 1rem;
+      vertical-align: middle;
+    }
+    .formato-table tbody td:first-child {
+      border-radius: var(--radius) 0 0 var(--radius);
+      font-family: 'Baloo 2', cursive;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+    .formato-table tbody td:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+
+    /* ============================================================
+       STEPS (processo de boot)
+    ============================================================ */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: .9rem;
+      max-width: 620px;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: var(--white);
+      border: 1.5px solid rgba(0,0,0,.06);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.3rem;
+      box-shadow: var(--shadow);
+      transition: transform var(--trans);
+    }
+    .step:hover { transform: translateX(6px); }
+
+    .step-num {
+      min-width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--yellow);
+      color: #5A4200;
+      font-family: 'Baloo 2', cursive;
+      font-weight: 800;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: .05rem;
+    }
+
+    .step-text strong {
+      display: block;
+      font-size: .95rem;
+      font-family: 'Baloo 2', cursive;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: .15rem;
+    }
+    .step-text span { font-size: .87rem; color: var(--mid); }
+
+    /* ============================================================
+       INFO BOX (destaque)
+    ============================================================ */
+    .info-box {
+      border-radius: var(--radius);
+      padding: 1.3rem 1.5rem;
+      margin-top: 1.5rem;
+      font-size: .92rem;
+      display: flex;
+      align-items: flex-start;
+      gap: .9rem;
+    }
+    .info-box .info-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: .05rem; }
+    .info-box p { color: var(--mid); line-height: 1.65; }
+    .info-box strong { color: var(--dark); }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--beige);
+      border-top: 1.5px solid rgba(0,0,0,.06);
+      text-align: center;
+      padding: 2.2rem 1.5rem;
+      font-size: .85rem;
+      color: var(--light);
+    }
+    footer strong { color: var(--mid); }
+
+    /* ============================================================
+       FADE-IN ANIMAÇÃO (Intersection Observer)
+    ============================================================ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ============================================================
+       RESPONSIVO
+    ============================================================ */
+    @media (max-width: 720px) {
+      .hamburger { display: flex; }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        position: fixed;
+        top: 62px; left: 0; right: 0;
+        background: var(--white);
+        padding: 1rem 1.5rem 1.5rem;
+        border-bottom: 1.5px solid rgba(0,0,0,.08);
+        gap: .15rem;
+        box-shadow: 0 8px 30px rgba(80,60,120,.1);
+        z-index: 99;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: .93rem; padding: .5rem .8rem; }
+
+      .formato-table { font-size: .82rem; }
+      .formato-table tbody td { padding: .65rem .7rem; }
+
+      .steps { max-width: 100%; }
+    }
+
+    @media (max-width: 480px) {
+      .cards-grid, .so-grid, .cards-highlight {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVBAR
+  ============================================================ -->
+  <header>
+    <nav>
+      <a class="logo" href="#hero">Resumindo<span>...</span></a>
+
+      <!-- botão hambúrguer (mobile) -->
+      <button class="hamburger" id="hamburger" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <!-- links de navegação -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#basica">💻 Hardware</a></li>
+        <li><a href="#sistemas">🖥️ Sistemas</a></li>
+        <li><a href="#arquivos">📁 Arquivos</a></li>
+        <li><a href="#formatos">🗂️ Formatos</a></li>
+        <li><a href="#boot">💾 Pendrive Boot</a></li>
+        <li><a href="#ferramentas-boot">🔧 Ferramentas Boot</a></li>
+        <li><a href="#ferramentas-aula">🎨 Ferramentas Aula</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <div id="hero" class="hero">
+    <span class="hero-badge">📚 Informática Básica — Ensino Médio</span>
+    <h1>Tudo que você precisa<br>saber, <span class="highlight">resumido!</span></h1>
+    <p>
+      Esta página reúne os principais conceitos estudados nas aulas de informática.
+      Use como guia de estudos, revisão ou consulta rápida. Bons estudos! 🚀
+    </p>
+    <div class="hero-pills">
+      <span class="pill">💻 Hardware & Software</span>
+      <span class="pill">🖥️ Sistemas Operacionais</span>
+      <span class="pill">📁 Arquivos e Pastas</span>
+      <span class="pill">🗂️ Formatos</span>
+      <span class="pill">💾 Pendrive Bootável</span>
+      <span class="pill">🎨 Ferramentas Digitais</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       CONTEÚDO PRINCIPAL
+  ============================================================ -->
+  <main>
+
+    <!-- ======================================================
+         SEÇÃO 1 – INFORMÁTICA BÁSICA
+    ====================================================== -->
+    <section id="basica" class="fade-in">
+      <span class="section-label">🔵 Módulo 1</span>
+      <h2 class="section-title">Informática Básica</h2>
+      <p class="section-sub">
+        Antes de usar o computador bem, é importante entender suas peças e como elas se chamam.
+        Veja os conceitos essenciais abaixo:
+      </p>
+
+      <div class="cards-grid">
+
+        <!-- Hardware -->
+        <div class="card">
+          <span class="card-icon">🖱️</span>
+          <h3 class="card-title">Hardware</h3>
+          <p class="card-text">
+            São todas as <strong>partes físicas</strong> do computador — tudo que você pode
+            tocar: teclado, mouse, monitor, processador, memória, HD, etc.
+            Se é sólido e dá pra segurar, é hardware!
+          </p>
+        </div>
+
+        <!-- Software -->
+        <div class="card">
+          <span class="card-icon">💿</span>
+          <h3 class="card-title">Software</h3>
+          <p class="card-text">
+            São os <strong>programas e aplicativos</strong> — tudo que não é físico, mas que
+            executa no computador. Exemplos: navegador, Word, jogo, sistema operacional.
+            Software = instruções digitais.
+          </p>
+        </div>
+
+        <!-- CPU -->
+        <div class="card">
+          <span class="card-icon">🧠</span>
+          <h3 class="card-title">CPU — Processador</h3>
+          <p class="card-text">
+            É o <strong>"cérebro" do computador</strong>. Processa todas as instruções e
+            cálculos. Quanto mais rápido o processador (medido em GHz), mais tarefas ele
+            consegue fazer por segundo.
+          </p>
+        </div>
+
+        <!-- RAM -->
+        <div class="card">
+          <span class="card-icon">📋</span>
+          <h3 class="card-title">Memória RAM</h3>
+          <p class="card-text">
+            É a <strong>memória de trabalho</strong>. Armazena temporariamente os dados dos
+            programas abertos. Quando você desliga o PC, a RAM é apagada. Mais RAM = mais
+            programas abertos ao mesmo tempo.
+          </p>
+        </div>
+
+        <!-- HD e SSD -->
+        <div class="card">
+          <span class="card-icon">💾</span>
+          <h3 class="card-title">Armazenamento: HD e SSD</h3>
+          <p class="card-text">
+            Guardam seus dados de forma <strong>permanente</strong>.
+            <br><br>
+            • <strong>HD</strong> (disco rígido): mais lento, mais barato, maior capacidade.<br>
+            • <strong>SSD</strong> (estado sólido): muito mais rápido, silencioso e resistente.
+          </p>
+        </div>
+
+        <!-- Sistema Operacional -->
+        <div class="card">
+          <span class="card-icon">⚙️</span>
+          <h3 class="card-title">Sistema Operacional</h3>
+          <p class="card-text">
+            É o software principal que <strong>gerencia tudo</strong> no computador — conecta
+            o hardware aos programas. Sem ele o PC não funciona. Exemplos: Windows, Linux, macOS.
+          </p>
+        </div>
+
+      </div><!-- /cards-grid -->
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ======================================================
+         SEÇÃO 2 – SISTEMAS OPERACIONAIS
+    ====================================================== -->
+    <section id="sistemas" class="fade-in">
+      <span class="section-label" style="background:var(--green);color:#1A5A36;">🟢 Módulo 2</span>
+      <h2 class="section-title">Sistemas Operacionais</h2>
+      <p class="section-sub">
+        Cada sistema operacional tem sua personalidade. Conheça os principais:
+      </p>
+
+      <div class="so-grid">
+
+        <!-- Windows -->
+        <div class="so-card" style="background:var(--blue);">
+          <span class="big-icon">🪟</span>
+          <h3>Windows</h3>
+          <p>
+            O mais popular no mundo. Desenvolvido pela <strong>Microsoft</strong>.
+            Fácil de usar, ótimo para jogos e trabalho. Versões: Windows 10, Windows 11.
+          </p>
+        </div>
+
+        <!-- Linux -->
+        <div class="so-card" style="background:var(--green);">
+          <span class="big-icon">🐧</span>
+          <h3>Linux</h3>
+          <p>
+            Sistema <strong>gratuito e de código aberto</strong>. Preferido por programadores
+            e servidores. Existem várias versões (distribuições) como Ubuntu, Debian, Mint.
+          </p>
+        </div>
+
+        <!-- macOS -->
+        <div class="so-card" style="background:var(--lilac);">
+          <span class="big-icon">🍎</span>
+          <h3>macOS</h3>
+          <p>
+            Sistema da <strong>Apple</strong>, exclusivo para computadores Mac. Elegante e
+            seguro, muito usado por designers e criadores de conteúdo.
+          </p>
+        </div>
+
+        <!-- Android -->
+        <div class="so-card" style="background:var(--peach);">
+          <span class="big-icon">📱</span>
+          <h3>Android</h3>
+          <p>
+            Sistema para <strong>celulares e tablets</strong>, desenvolvido pelo Google.
+            Baseado em Linux. É o sistema mobile mais usado no Brasil e no mundo.
+          </p>
+        </div>
+
+      </div><!-- /so-grid -->
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ======================================================
+         SEÇÃO 3 – ARQUIVOS E PASTAS
+    ====================================================== -->
+    <section id="arquivos" class="fade-in">
+      <span class="section-label">🟣 Módulo 3</span>
+      <h2 class="section-title">Arquivos e Pastas</h2>
+      <p class="section-sub">
+        Saber organizar seus arquivos é uma habilidade essencial para usar bem o computador!
+      </p>
+
+      <div class="cards-grid">
+
+        <!-- O que é um arquivo -->
+        <div class="card">
+          <span class="card-icon">📄</span>
+          <h3 class="card-title">O que é um Arquivo?</h3>
+          <p class="card-text">
+            Um arquivo é uma <strong>unidade de dados</strong> armazenada no computador.
+            Pode ser um documento de texto, uma foto, um vídeo, um programa…
+            Todo arquivo tem um nome e uma extensão (ex: <em>foto.jpg</em>).
+          </p>
+        </div>
+
+        <!-- O que é uma pasta -->
+        <div class="card">
+          <span class="card-icon">📂</span>
+          <h3 class="card-title">O que é uma Pasta?</h3>
+          <p class="card-text">
+            Uma pasta (ou diretório) é um <strong>espaço para organizar arquivos</strong>.
+            Funciona como uma caixinha: você coloca arquivos relacionados dentro dela.
+            Pastas podem conter outras pastas!
+          </p>
+        </div>
+
+        <!-- Para que servem -->
+        <div class="card">
+          <span class="card-icon">🎯</span>
+          <h3 class="card-title">Para que servem?</h3>
+          <p class="card-text">
+            Arquivos e pastas existem para <strong>guardar e organizar informações</strong>.
+            Sem pastas, todos os arquivos ficariam misturados — imagina procurar uma foto
+            entre 10.000 arquivos soltos!
+          </p>
+        </div>
+
+        <!-- Organização -->
+        <div class="card">
+          <span class="card-icon">🗃️</span>
+          <h3 class="card-title">Boas Práticas de Organização</h3>
+          <p class="card-text">
+            ✅ Use nomes descritivos nos arquivos.<br>
+            ✅ Crie pastas por assunto ou data.<br>
+            ✅ Evite deixar tudo na área de trabalho.<br>
+            ✅ Faça backup regularmente!
+          </p>
+        </div>
+
+      </div><!-- /cards-grid -->
+
+      <!-- Info box -->
+      <div class="info-box" style="background:var(--lilac);">
+        <span class="info-icon">💡</span>
+        <p>
+          <strong>Dica:</strong> A extensão de um arquivo (a parte depois do ponto, como <em>.docx</em>,
+          <em>.mp3</em> ou <em>.png</em>) indica o <strong>tipo de conteúdo</strong> e qual programa
+          deve abri-lo. Nunca apague a extensão!
+        </p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ======================================================
+         SEÇÃO 4 – FORMATOS DE ARQUIVO
+    ====================================================== -->
+    <section id="formatos" class="fade-in">
+      <span class="section-label" style="background:var(--peach);color:#7A3800;">🟠 Módulo 4</span>
+      <h2 class="section-title">Formatos de Arquivo</h2>
+      <p class="section-sub">
+        Cada tipo de arquivo tem um formato específico. Conheça os mais importantes:
+      </p>
+
+      <!-- Tabela – Imagens -->
+      <h3 style="font-family:'Baloo 2',cursive;font-size:1.05rem;margin-bottom:.8rem;color:var(--mid);">
+        🖼️ Formatos de Imagem
+      </h3>
+      <div style="overflow-x:auto;">
+        <table class="formato-table">
+          <thead>
+            <tr>
+              <th>Formato</th>
+              <th>Características</th>
+              <th>Uso Ideal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="--acc:var(--blue)">
+              <td style="border-left:4px solid var(--blue);">🔵 JPG / JPEG</td>
+              <td>Compressão com perda de qualidade. Arquivo pequeno.</td>
+              <td>Fotos, redes sociais, sites</td>
+            </tr>
+            <tr>
+              <td style="border-left:4px solid var(--green);">🟢 PNG</td>
+              <td>Suporta transparência. Sem perda de qualidade.</td>
+              <td>Logos, ícones, imagens com fundo transparente</td>
+            </tr>
+            <tr>
+              <td style="border-left:4px solid var(--pink);">🟣 GIF</td>
+              <td>Suporta animações simples. Cores limitadas (256).</td>
+              <td>Memes animados, reações, ícones simples</td>
+            </tr>
+            <tr>
+              <td style="border-left:4px solid var(--peach);">🟤 BMP</td>
+              <td>Sem compressão. Qualidade total mas arquivo enorme.</td>
+              <td>Edição profissional, impressão</td>
+            </tr>
+            <tr>
+              <td style="border-left:4px solid var(--yellow);">🟡 TIFF</td>
+              <td>Alta qualidade, suporta várias camadas. Arquivo grande.</td>
+              <td>Fotografia profissional, impressão gráfica</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Cards – Outros formatos -->
+      <h3 style="font-family:'Baloo 2',cursive;font-size:1.05rem;margin:2rem 0 .8rem;color:var(--mid);">
+        🎵 🎬 📄 Outros Formatos
+      </h3>
+      <div class="cards-grid">
+        <div class="card" style="--card-accent:var(--peach)">
+          <span class="card-icon">🎵</span>
+          <h3 class="card-title">MP3</h3>
+          <p class="card-text">
+            Formato de <strong>áudio comprimido</strong>. Reduz o tamanho do arquivo
+            com pequena perda de qualidade. É o mais popular para músicas.
+          </p>
+        </div>
+        <div class="card" style="--card-accent:var(--pink)">
+          <span class="card-icon">🎬</span>
+          <h3 class="card-title">MP4</h3>
+          <p class="card-text">
+            Formato de <strong>vídeo</strong> muito popular. Boa qualidade com arquivo
+            relativamente pequeno. Usado no YouTube, WhatsApp, etc.
+          </p>
+        </div>
+        <div class="card" style="--card-accent:var(--blue)">
+          <span class="card-icon">📝</span>
+          <h3 class="card-title">DOCX</h3>
+          <p class="card-text">
+            Formato de <strong>documento de texto</strong> do Microsoft Word.
+            Suporta formatação, imagens, tabelas. Muito usado em trabalhos e relatórios.
+          </p>
+        </div>
+        <div class="card" style="--card-accent:var(--green)">
+          <span class="card-icon">📕</span>
+          <h3 class="card-title">PDF</h3>
+          <p class="card-text">
+            Portable Document Format — mantém a <strong>formatação original</strong>
+            em qualquer dispositivo. Ideal para enviar documentos finais, e-books e contratos.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ======================================================
+         SEÇÃO 5 – PENDRIVE BOOTÁVEL
+    ====================================================== -->
+    <section id="boot" class="fade-in">
+      <span class="section-label" style="background:var(--yellow);color:#6A5200;">🟡 Módulo 5</span>
+      <h2 class="section-title">Pendrive Bootável</h2>
+      <p class="section-sub">
+        Entenda o que acontece quando você liga o computador e para que serve um pendrive bootável.
+      </p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:2rem;">
+        <!-- card o que é boot -->
+        <div class="card" style="--card-accent:var(--yellow);">
+          <span class="card-icon">🔌</span>
+          <h3 class="card-title">O que é Boot?</h3>
+          <p class="card-text">
+            <strong>Boot</strong> é o processo de <strong>inicialização do computador</strong>.
+            Quando você liga a máquina, ela executa uma sequência de instruções para carregar
+            o sistema operacional. "Dar boot" = ligar/reiniciar o computador.
+          </p>
+        </div>
+        <!-- card o que é pendrive bootável -->
+        <div class="card" style="--card-accent:var(--yellow);">
+          <span class="card-icon">🖊️</span>
+          <h3 class="card-title">O que é um Pendrive Bootável?</h3>
+          <p class="card-text">
+            É um pendrive que contém um <strong>sistema operacional completo</strong> gravado
+            de forma especial. Permite que o computador inicie (boot) a partir do USB, sem usar
+            o sistema que está no HD/SSD.
+          </p>
+        </div>
+      </div>
+
+      <!-- Para que serve / como funciona (steps) -->
+      <h3 style="font-family:'Baloo 2',cursive;font-size:1.05rem;margin-bottom:1rem;color:var(--mid);">
+        🛠️ Como funciona a instalação via Pendrive?
+      </h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <strong>Baixar a imagem ISO</strong>
+            <span>Você baixa o arquivo do sistema operacional (ex: Windows ou Ubuntu) em formato ISO.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <strong>Gravar no pendrive</strong>
+            <span>Usa uma ferramenta (Rufus, Ventoy…) para gravar a ISO no pendrive de forma bootável.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <strong>Configurar o Boot</strong>
+            <span>Entra na BIOS/UEFI do computador e seleciona o pendrive como primeiro dispositivo de boot.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">
+            <strong>Instalar o sistema</strong>
+            <span>O computador inicia pelo pendrive e você segue as instruções de instalação na tela.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box" style="background:var(--yellow);margin-top:1.5rem;">
+        <span class="info-icon">⚠️</span>
+        <p>
+          <strong>Atenção:</strong> Ao instalar um sistema operacional, os dados do disco podem ser
+          apagados. Sempre faça <strong>backup dos seus arquivos importantes</strong> antes!
+        </p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ======================================================
+         SEÇÃO 6 – FERRAMENTAS PARA PENDRIVE BOOTÁVEL
+    ====================================================== -->
+    <section id="ferramentas-boot" class="fade-in">
+      <span class="section-label" style="background:var(--pink);color:#7A2050;">🔴 Módulo 6</span>
+      <h2 class="section-title">Ferramentas para Pendrive Bootável</h2>
+      <p class="section-sub">
+        Existem programas gratuitos que facilitam a criação de pendrives bootáveis. Conheça os principais:
+      </p>
+
+      <div class="cards-grid">
+
+        <!-- Rufus -->
+        <div class="card" style="--card-accent:var(--pink);">
+          <span class="card-icon">⚡</span>
+          <h3 class="card-title">Rufus</h3>
+          <p class="card-text">
+            O mais popular para Windows. <strong>Simples e rápido</strong>. Você escolhe a ISO
+            e o pendrive — em poucos cliques está pronto. Excelente para instalar Windows ou Linux.
+          </p>
+        </div>
+
+        <!-- Ventoy -->
+        <div class="card" style="--card-accent:var(--pink);">
+          <span class="card-icon">📦</span>
+          <h3 class="card-title">Ventoy</h3>
+          <p class="card-text">
+            Permite <strong>múltiplas ISOs em um único pendrive</strong>! Você instala o Ventoy
+            no pendrive e depois arrasta os arquivos ISO para dentro — tudo fica listado no menu
+            de boot.
+          </p>
+        </div>
+
+        <!-- YUMI -->
+        <div class="card" style="--card-accent:var(--pink);">
+          <span class="card-icon">🔀</span>
+          <h3 class="card-title">YUMI</h3>
+          <p class="card-text">
+            Your Universal Multiboot Installer. Similar ao Ventoy, permite criar
+            um pendrive com <strong>vários sistemas</strong>. Prático para técnicos de informática.
+          </p>
+        </div>
+
+        <!-- Arquivo ISO -->
+        <div class="card" style="--card-accent:var(--lilac);">
+          <span class="card-icon">💿</span>
+          <h3 class="card-title">Arquivo ISO</h3>
+          <p class="card-text">
+            Um arquivo <strong>.iso</strong> é uma cópia exata de um CD/DVD (imagem de disco).
+            Contém todos os arquivos necessários para instalar um sistema operacional ou programa.
+            É o "pacote" que você grava no pendrive.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ======================================================
+         SEÇÃO 7 – FERRAMENTAS DIGITAIS EM AULA
+    ====================================================== -->
+    <section id="ferramentas-aula" class="fade-in">
+      <span class="section-label" style="background:var(--beige);color:#5A4A20;">🟤 Módulo 7</span>
+      <h2 class="section-title">Ferramentas Digitais Usadas em Aula</h2>
+      <p class="section-sub">
+        Estas ferramentas foram utilizadas durante as atividades em aula. Conheça cada uma delas:
+      </p>
+
+      <div class="cards-highlight">
+
+        <!-- Canva -->
+        <div class="card-highlight" style="background:var(--pink);">
+          <span class="big-icon">🎨</span>
+          <h3>Canva</h3>
+          <p>
+            Plataforma de <strong>design gráfico online</strong> e gratuita (com versão paga).
+            Permite criar apresentações, cartazes, posts para redes sociais, convites e muito mais,
+            usando templates prontos. Não precisa saber design para usar!
+            <br><br>
+            🌐 <strong>canva.com</strong>
+          </p>
+        </div>
+
+        <!-- Roblox -->
+        <div class="card-highlight" style="background:var(--blue);">
+          <span class="big-icon">🎮</span>
+          <h3>Roblox</h3>
+          <p>
+            Plataforma de <strong>jogos e criação</strong> onde qualquer pessoa pode desenvolver
+            e publicar seus próprios jogos usando a linguagem Lua. Muito popular entre jovens —
+            é uma excelente introdução à <strong>programação e design de jogos</strong>.
+            <br><br>
+            🌐 <strong>roblox.com</strong>
+          </p>
+        </div>
+
+        <!-- Google Drive -->
+        <div class="card-highlight" style="background:var(--green);">
+          <span class="big-icon">☁️</span>
+          <h3>Google Drive</h3>
+          <p>
+            Serviço de <strong>armazenamento na nuvem</strong> do Google. Permite salvar arquivos
+            online e acessá-los de qualquer dispositivo. Inclui ferramentas como Docs (texto),
+            Sheets (planilhas) e Slides (apresentações) — similares ao pacote Office.
+            15 GB gratuitos!
+            <br><br>
+            🌐 <strong>drive.google.com</strong>
+          </p>
+        </div>
+
+      </div><!-- /cards-highlight -->
+
+      <!-- Info box final -->
+      <div class="info-box" style="background:var(--beige);margin-top:1.5rem;">
+        <span class="info-icon">🌟</span>
+        <p>
+          <strong>Todas essas ferramentas são gratuitas</strong> para uso básico e estão disponíveis
+          pelo navegador — sem precisar instalar nada! Basta ter internet e uma conta Google ou
+          criar um cadastro.
+        </p>
+      </div>
+
+    </section>
+
+  </main><!-- /main -->
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <p>✏️ Criado para as aulas de <strong>Informática Básica — Ensino Médio</strong></p>
+    <p style="margin-top:.4rem;">Resumindo... <span style="color:var(--lilac)">❤️</span> o que importa estudar</p>
+  </footer>
+
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    /* ── Menu hambúrguer (mobile) ─────────────────────────── */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    // Fecha o menu ao clicar em um link
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+
+    /* ── Fade-in com Intersection Observer ───────────────── */
+    const faders = document.querySelectorAll('.fade-in');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); // anima só uma vez
+        }
+      });
+    }, { threshold: 0.1 });
+
+    faders.forEach(el => observer.observe(el));
+
+
+    /* ── Destacar link ativo na navbar conforme scroll ──── */
+    const sections = document.querySelectorAll('section[id]');
+    const navAs    = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(sec => {
+        if (window.scrollY >= sec.offsetTop - 100) current = sec.id;
+      });
+      navAs.forEach(a => {
+        a.style.background = a.getAttribute('href') === '#' + current
+          ? 'var(--lilac)' : '';
+        a.style.color = a.getAttribute('href') === '#' + current
+          ? 'var(--dark)' : '';
+      });
+    });
+  </script>
+
+</body>
+</html>
