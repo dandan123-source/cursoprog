@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Placa-Mãe — Lab de Hardware</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;800&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #1a5c2a;
+    --green-mid: #2d8c45;
+    --green-bright: #3ec75e;
+    --green-light: #7fe89a;
+    --green-pale: #c8f5d2;
+    --glass-bg: rgba(255,255,255,0.18);
+    --glass-border: rgba(255,255,255,0.45);
+    --glass-shadow: rgba(30, 100, 50, 0.18);
+    --text-dark: #0d2e16;
+    --text-mid: #1a4a28;
+    --white: #ffffff;
+    --copy-red: #c0001a;
+    --copy-bg: rgba(255, 240, 240, 0.85);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #1a5c2a 0%, #2d8c45 30%, #4aad5f 55%, #7fd48f 80%, #b8efc4 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* Frutiger Aero bokeh blobs */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -120px; left: -120px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(100,220,140,0.35) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -100px; right: -80px;
+    width: 420px; height: 420px;
+    background: radial-gradient(circle, rgba(60,199,94,0.28) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .blob2 {
+    position: fixed;
+    top: 40%; left: 60%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(200,245,210,0.22) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 60px 20px 40px;
+  }
+
+  .header-glass {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(255,255,255,0.30) 0%, rgba(200,245,210,0.20) 100%);
+    backdrop-filter: blur(22px) saturate(1.6);
+    -webkit-backdrop-filter: blur(22px) saturate(1.6);
+    border: 1.5px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 36px 56px;
+    box-shadow: 0 8px 40px rgba(20,80,35,0.22), inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+
+  .chip-icon {
+    font-size: 56px;
+    display: block;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 4px 12px rgba(20,100,40,0.4));
+  }
+
+  header h1 {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--green-deep);
+    letter-spacing: -1px;
+    text-shadow: 0 2px 8px rgba(255,255,255,0.6);
+    line-height: 1.1;
+  }
+
+  header .subtitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--green-mid);
+    margin-top: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: relative; z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 20px 30px;
+  }
+
+  nav a {
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 50px;
+    padding: 8px 20px;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--green-deep);
+    transition: all 0.2s;
+    box-shadow: 0 2px 10px rgba(20,80,35,0.12);
+  }
+  nav a:hover {
+    background: rgba(255,255,255,0.50);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 18px rgba(20,80,35,0.2);
+  }
+
+  /* ─── MAIN ─── */
+  main {
+    position: relative; z-index: 10;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  /* ─── SECTION CARD ─── */
+  .card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.28) 0%, rgba(200,245,210,0.18) 100%);
+    backdrop-filter: blur(20px) saturate(1.5);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5);
+    border: 1.5px solid rgba(255,255,255,0.48);
+    border-radius: 22px;
+    padding: 34px 38px;
+    box-shadow: 0 6px 32px rgba(20,80,35,0.15), inset 0 1px 0 rgba(255,255,255,0.55);
+    animation: fadeUp 0.6s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card:nth-child(2)  { animation-delay: 0.05s; }
+  .card:nth-child(3)  { animation-delay: 0.10s; }
+  .card:nth-child(4)  { animation-delay: 0.15s; }
+  .card:nth-child(5)  { animation-delay: 0.20s; }
+  .card:nth-child(6)  { animation-delay: 0.25s; }
+  .card:nth-child(7)  { animation-delay: 0.30s; }
+  .card:nth-child(8)  { animation-delay: 0.35s; }
+  .card:nth-child(9)  { animation-delay: 0.40s; }
+  .card:nth-child(10) { animation-delay: 0.45s; }
+
+  .card h2 {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--green-deep);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card h2 .icon {
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(180,240,200,0.4));
+    border-radius: 10px;
+    padding: 5px 8px;
+    box-shadow: 0 2px 8px rgba(20,80,35,0.12);
+  }
+
+  .card p, .card li {
+    font-size: 0.97rem;
+    line-height: 1.75;
+    color: var(--text-mid);
+  }
+
+  .card ul {
+    padding-left: 20px;
+    margin-top: 8px;
+  }
+
+  .card li {
+    margin-bottom: 4px;
+  }
+
+  /* ─── HIGHLIGHT BOX (copiar no caderno) ─── */
+  .copy-box {
+    background: linear-gradient(135deg, rgba(255, 235, 235, 0.88), rgba(255, 248, 248, 0.82));
+    border: 2.5px solid var(--copy-red);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin: 18px 0 6px;
+    box-shadow: 0 3px 18px rgba(192,0,26,0.10);
+    position: relative;
+  }
+
+  .copy-box::before {
+    content: '✏️ COPIAR NO CADERNO';
+    display: block;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--copy-red);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .copy-box p, .copy-box li, .copy-box strong {
+    color: #5a0010 !important;
+    font-weight: 600;
+  }
+
+  .copy-box strong {
+    color: var(--copy-red) !important;
+    font-weight: 800;
+  }
+
+  .copy-box ul {
+    padding-left: 20px;
+  }
+
+  .copy-box li {
+    margin-bottom: 5px;
+  }
+
+  /* ─── DIVIDER ─── */
+  .sep {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(60,199,94,0.45), transparent);
+    margin: 10px 0 16px;
+  }
+
+  /* ─── TWO-COL ─── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 12px;
+  }
+
+  .mini-card {
+    background: rgba(255,255,255,0.28);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 14px;
+    padding: 16px 18px;
+    box-shadow: 0 2px 12px rgba(20,80,35,0.08);
+  }
+
+  .mini-card h3 {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--green-deep);
+    margin-bottom: 8px;
+  }
+
+  .mini-card p, .mini-card li {
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  /* ─── TABLE ─── */
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 14px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 14px rgba(20,80,35,0.10);
+  }
+
+  th {
+    background: linear-gradient(135deg, rgba(45,140,69,0.55), rgba(62,199,94,0.40));
+    color: var(--green-deep);
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    padding: 12px 14px;
+    text-align: left;
+    letter-spacing: 0.5px;
+  }
+
+  td {
+    background: rgba(255,255,255,0.25);
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    font-weight: 500;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.40); }
+
+  /* ─── BADGE ─── */
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(60,199,94,0.4), rgba(100,220,140,0.25));
+    border: 1px solid rgba(60,199,94,0.5);
+    border-radius: 8px;
+    padding: 2px 10px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--green-deep);
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative; z-index: 10;
+    text-align: center;
+    padding: 0 20px 40px;
+  }
+
+  .footer-glass {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.40);
+    border-radius: 50px;
+    padding: 12px 32px;
+    font-size: 0.83rem;
+    color: var(--green-deep);
+    font-weight: 600;
+  }
+
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+    .header-glass { padding: 28px 24px; }
+    header h1 { font-size: 2rem; }
+    .card { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="blob2"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-glass">
+    <span class="chip-icon">🖥️</span>
+    <h1>Placa-Mãe</h1>
+    <p class="subtitle">Laboratório de Hardware · Nível Técnico em Informática</p>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <a href="#intro">Introdução</a>
+  <a href="#formfactor">Form Factor</a>
+  <a href="#soquetes">Soquetes CPU</a>
+  <a href="#slots">Slots e Encaixes</a>
+  <a href="#vga">Placa de Vídeo</a>
+  <a href="#igpu">Vídeo Integrado</a>
+  <a href="#bios">BIOS / UEFI</a>
+  <a href="#chipset">Ponte Norte e Sul</a>
+  <a href="#conectores">Conectores de Ouro</a>
+</nav>
+
+<main>
+
+  <!-- 1. INTRODUÇÃO -->
+  <section class="card" id="intro">
+    <h2><span class="icon">📋</span> O que é a Placa-Mãe?</h2>
+    <p>A placa-mãe (também chamada de <em>mainboard</em> ou <em>motherboard</em>) é o <strong>principal componente de um computador</strong>. Ela funciona como uma <strong>espinha dorsal</strong> que interliga todos os outros componentes: processador, memória, armazenamento, placa de vídeo, fontes de alimentação e periféricos.</p>
+    <p style="margin-top: 10px;">Sem ela, nenhum componente consegue se comunicar com outro. Toda a troca de dados e energia do sistema passa pela placa-mãe.</p>
+
+    <div class="copy-box">
+      <p><strong>Placa-mãe</strong> é a placa de circuito impresso principal de um computador. Ela conecta e permite a comunicação entre todos os componentes do sistema: CPU, RAM, armazenamento, GPU e periféricos.</p>
+    </div>
+  </section>
+
+  <!-- 2. FORM FACTOR -->
+  <section class="card" id="formfactor">
+    <h2><span class="icon">📐</span> Form Factor (Tamanhos)</h2>
+    <p>O <strong>form factor</strong> define o tamanho físico e o padrão de montagem da placa-mãe. O gabinete (case) precisa ser compatível com o form factor escolhido.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Form Factor</th>
+          <th>Dimensões</th>
+          <th>Uso Típico</th>
+          <th>Slots</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>ATX</strong></td><td>305 × 244 mm</td><td>Desktops, workstations</td><td>7 slots de expansão</td></tr>
+        <tr><td><strong>Micro-ATX</strong></td><td>244 × 244 mm</td><td>Desktop compacto</td><td>4 slots</td></tr>
+        <tr><td><strong>Mini-ITX</strong></td><td>170 × 170 mm</td><td>PCs ultra compactos</td><td>1 slot PCIe</td></tr>
+        <tr><td><strong>E-ATX</strong></td><td>305 × 330 mm</td><td>High-end / servidores</td><td>8+ slots</td></tr>
+      </tbody>
+    </table>
+
+    <div class="copy-box">
+      <p>Principais form factors de placa-mãe:</p>
+      <ul>
+        <li><strong>ATX</strong> — 305 × 244 mm — padrão mais comum em desktops</li>
+        <li><strong>Micro-ATX</strong> — 244 × 244 mm — compacto, ainda versátil</li>
+        <li><strong>Mini-ITX</strong> — 170 × 170 mm — ultra compacto, 1 slot PCIe</li>
+        <li><strong>E-ATX</strong> — maior que ATX — para workstations e servidores</li>
+      </ul>
+      <p style="margin-top:8px;">⚠️ O gabinete precisa ser compatível com o form factor da placa-mãe!</p>
+    </div>
+  </section>
+
+  <!-- 3. SOQUETES -->
+  <section class="card" id="soquetes">
+    <h2><span class="icon">🔌</span> Soquetes de Processador (CPU)</h2>
+    <p>O <strong>soquete</strong> é o encaixe físico onde o processador é instalado. Cada fabricante e geração de CPU tem seu próprio soquete — processadores Intel <strong>não</strong> encaixam em soquetes AMD e vice-versa.</p>
+
+    <div class="sep"></div>
+
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>🔵 Intel</h3>
+        <ul>
+          <li><strong>LGA 1700</strong> — Intel 12ª e 13ª geração (Alder/Raptor Lake)</li>
+          <li><strong>LGA 1200</strong> — Intel 10ª e 11ª geração</li>
+          <li><strong>LGA 1151</strong> — Intel 6ª a 9ª geração</li>
+          <li><strong>LGA 2066</strong> — Intel Core X (HEDT)</li>
+          <li>Pinos ficam na <strong>placa-mãe</strong></li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <h3>🔴 AMD</h3>
+        <ul>
+          <li><strong>AM5</strong> — Ryzen 7000 (Zen 4+)</li>
+          <li><strong>AM4</strong> — Ryzen 1000 a 5000 (Zen 1-3)</li>
+          <li><strong>TR4 / TRX40</strong> — Threadripper (HEDT)</li>
+          <li>Pinos ficam no <strong>processador</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="copy-box">
+      <p><strong>Soquete</strong> é o slot físico onde o processador se encaixa na placa-mãe. A compatibilidade é rígida: o processador deve ser do mesmo soquete que a placa-mãe.</p>
+      <ul>
+        <li><strong>Intel usa LGA</strong> — pinos estão na placa-mãe (ex: LGA 1700)</li>
+        <li><strong>AMD usa AM/PGA</strong> — pinos estão no processador (ex: AM4, AM5)</li>
+        <li>Soquetes Intel e AMD são <strong>incompatíveis entre si</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. SLOTS -->
+  <section class="card" id="slots">
+    <h2><span class="icon">🧩</span> Slots e Encaixes de Memória e Expansão</h2>
+    <p>Além do soquete da CPU, a placa-mãe possui diversos outros slots para conectar componentes:</p>
+
+    <div class="sep"></div>
+
+    <table>
+      <thead>
+        <tr><th>Slot / Conector</th><th>Função</th><th>Obs.</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>DIMM (DDR4/DDR5)</strong></td><td>Memória RAM</td><td>2 a 4 slots por placa</td></tr>
+        <tr><td><strong>PCIe x16</strong></td><td>Placa de vídeo dedicada</td><td>Slot maior e mais rápido</td></tr>
+        <tr><td><strong>PCIe x1 / x4</strong></td><td>Placas auxiliares (som, rede)</td><td>Slots menores</td></tr>
+        <tr><td><strong>M.2 (NVMe/SATA)</strong></td><td>SSD ultrarrápido</td><td>Formato compacto na placa</td></tr>
+        <tr><td><strong>SATA III</strong></td><td>HD e SSD SATA</td><td>4 a 6 portas por placa</td></tr>
+        <tr><td><strong>USB interno</strong></td><td>Painel frontal / USB traseiro</td><td>Conectores de pinos</td></tr>
+      </tbody>
+    </table>
+
+    <div class="copy-box">
+      <p>Principais slots de uma placa-mãe:</p>
+      <ul>
+        <li><strong>DIMM</strong> — encaixe de memória RAM (DDR4 ou DDR5)</li>
+        <li><strong>PCIe x16</strong> — slot para placa de vídeo dedicada</li>
+        <li><strong>M.2</strong> — slot para SSD NVMe (muito rápido) diretamente na placa</li>
+        <li><strong>SATA III</strong> — porta para HDs e SSDs convencionais (cabo)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. PLACA DE VÍDEO -->
+  <section class="card" id="vga">
+    <h2><span class="icon">🎮</span> Placa de Vídeo Dedicada (GPU)</h2>
+    <p>A placa de vídeo dedicada (GPU — <em>Graphics Processing Unit</em>) é um componente separado que processa imagens, vídeos e gráficos 3D. Ela se encaixa no <strong>slot PCIe x16</strong> da placa-mãe.</p>
+
+    <div class="sep"></div>
+
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>🟢 NVIDIA</h3>
+        <p>Linha RTX (ray tracing, IA) e GTX. Drivers CUDA para computação. Exemplos: RTX 4060, RTX 3080.</p>
+      </div>
+      <div class="mini-card">
+        <h3>🔴 AMD Radeon</h3>
+        <p>Linha RX. Excelente custo-benefício. Open-source com drivers ROCm. Exemplos: RX 7600, RX 6800 XT.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:14px;">A GPU também recebe alimentação diretamente da <strong>fonte de alimentação</strong> via conectores PCIe de 6 ou 8 pinos, além da energia pelo slot PCIe.</p>
+
+    <div class="copy-box">
+      <p><strong>GPU (placa de vídeo dedicada)</strong> — componente separado responsável pelo processamento gráfico. Conecta-se ao slot <strong>PCIe x16</strong> da placa-mãe.</p>
+      <ul>
+        <li>Fabricantes: <strong>NVIDIA</strong> (RTX/GTX) e <strong>AMD</strong> (Radeon RX)</li>
+        <li>Necessária para jogos, edição de vídeo e renderização 3D</li>
+        <li>Requer alimentação extra direta da fonte (6 ou 8 pinos)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6. VÍDEO INTEGRADO -->
+  <section class="card" id="igpu">
+    <h2><span class="icon">💡</span> Vídeo Integrado (iGPU)</h2>
+    <p>Muitos processadores possuem uma GPU integrada ao próprio chip do processador. Isso permite usar o computador sem uma placa de vídeo dedicada. O vídeo integrado usa parte da memória RAM do sistema (memória compartilhada).</p>
+
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>Intel — Intel Graphics / Iris Xe</h3>
+        <p>A maioria dos processadores Intel Core possui iGPU integrada. A saída de vídeo (HDMI/DP) fica na parte traseira da placa-mãe.</p>
+      </div>
+      <div class="mini-card">
+        <h3>AMD — Radeon Graphics (APU)</h3>
+        <p>Processadores com "G" no nome (ex: Ryzen 5 5600G) possuem Radeon Graphics integrada. São chamados de APUs.</p>
+      </div>
+    </div>
+
+    <p style="margin-top: 14px;">⚠️ Processadores AMD sem o sufixo "G" (como Ryzen 5 5600) <strong>não possuem vídeo integrado</strong> e exigem placa de vídeo dedicada.</p>
+
+    <div class="copy-box">
+      <p><strong>Vídeo integrado (iGPU)</strong> — GPU embutida no processador, que usa a RAM do sistema para gerar imagem.</p>
+      <ul>
+        <li><strong>Intel</strong>: maioria dos Core i3/i5/i7/i9 tem Intel Graphics ou Iris Xe</li>
+        <li><strong>AMD</strong>: apenas os modelos com sufixo <strong>"G"</strong> (APU) possuem iGPU (ex: Ryzen 5600G)</li>
+        <li>Suficiente para uso básico; não serve para jogos pesados</li>
+        <li>Se presente, os conectores de vídeo (HDMI/DP) ficam na <strong>I/O traseira da placa-mãe</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7. BIOS -->
+  <section class="card" id="bios">
+    <h2><span class="icon">⚙️</span> BIOS / UEFI</h2>
+    <p>A <strong>BIOS</strong> (<em>Basic Input/Output System</em>) é um firmware armazenado em um chip na placa-mãe. Ela é o primeiro programa executado quando o computador é ligado. Sua função é inicializar o hardware e carregar o sistema operacional.</p>
+    <p style="margin-top: 10px;">A versão moderna é chamada de <strong>UEFI</strong> (<em>Unified Extensible Firmware Interface</em>), que substitui a BIOS tradicional com interface gráfica, suporte a discos maiores que 2 TB e boot seguro (Secure Boot).</p>
+
+    <div class="sep"></div>
+
+    <table>
+      <thead>
+        <tr><th>Característica</th><th>BIOS Legada</th><th>UEFI</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Interface</td><td>Texto (teclado)</td><td>Gráfica (mouse + teclado)</td></tr>
+        <tr><td>Disco máx.</td><td>2 TB (MBR)</td><td>Sem limite (GPT)</td></tr>
+        <tr><td>Boot seguro</td><td>Não</td><td>Sim (Secure Boot)</td></tr>
+        <tr><td>Inicialização</td><td>Lenta</td><td>Rápida (Fast Boot)</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top: 14px;">A BIOS/UEFI é acessada pressionando teclas como <strong>Del, F2 ou F10</strong> durante o POST (Power-On Self Test), logo que o computador é ligado.</p>
+
+    <div class="copy-box">
+      <p><strong>BIOS</strong> (<em>Basic Input/Output System</em>) — firmware na placa-mãe que inicializa o hardware ao ligar o PC e carrega o sistema operacional.</p>
+      <ul>
+        <li>Versão moderna: <strong>UEFI</strong> — interface gráfica, suporte a discos maiores que 2TB, Secure Boot</li>
+        <li>Acessada pelas teclas <strong>Del, F2 ou F10</strong> durante a inicialização</li>
+        <li>Armazenada em um <strong>chip flash</strong> na placa-mãe</li>
+        <li>Alimentada pela <strong>bateria CMOS</strong> (CR2032) para manter data/hora e configurações</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8. CHIPSET / PONTE NORTE E SUL -->
+  <section class="card" id="chipset">
+    <h2><span class="icon">🔗</span> Chipset — Ponte Norte e Ponte Sul</h2>
+    <p>O <strong>chipset</strong> é o conjunto de chips responsável por gerenciar o fluxo de dados entre a CPU, a memória RAM, a placa de vídeo e os demais dispositivos. Historicamente, era dividido em <strong>Ponte Norte</strong> e <strong>Ponte Sul</strong>.</p>
+
+    <div class="sep"></div>
+
+    <div class="two-col">
+      <div class="mini-card">
+        <h3>🔷 Ponte Norte (Northbridge)</h3>
+        <p>Controlava os componentes de alta velocidade:</p>
+        <ul>
+          <li>Comunicação CPU ↔ RAM</li>
+          <li>Comunicação CPU ↔ PCIe (GPU)</li>
+          <li>Bus do processador (FSB)</li>
+        </ul>
+        <p style="margin-top:8px;font-size:0.82rem;color:#1a4a28;">⚠️ Nos processadores modernos, as funções da Ponte Norte foram <strong>incorporadas ao próprio processador</strong>.</p>
+      </div>
+      <div class="mini-card">
+        <h3>🔶 Ponte Sul (Southbridge)</h3>
+        <p>Controlava os componentes de baixa velocidade:</p>
+        <ul>
+          <li>Portas USB, SATA, PCI</li>
+          <li>BIOS/UEFI e relógio CMOS</li>
+          <li>Áudio integrado</li>
+          <li>Rede integrada (NIC)</li>
+        </ul>
+        <p style="margin-top:8px;font-size:0.82rem;color:#1a4a28;">Hoje chamado de <strong>PCH</strong> (Platform Controller Hub) pela Intel ou <strong>FCH</strong> pela AMD.</p>
+      </div>
+    </div>
+
+    <div class="copy-box">
+      <p><strong>Ponte Norte (Northbridge)</strong> — gerenciava CPU, RAM e GPU (alta velocidade). Hoje integrada ao próprio processador.</p>
+      <p style="margin-top:8px;"><strong>Ponte Sul (Southbridge)</strong> — gerenciava USB, SATA, áudio, rede e BIOS (baixa velocidade). Hoje chamada de <strong>PCH</strong> (Intel) ou <strong>FCH</strong> (AMD).</p>
+      <p style="margin-top:8px;">O chipset define quais recursos a placa-mãe suporta: overclocking, número de portas USB/SATA, PCIe lanes, etc.</p>
+    </div>
+  </section>
+
+  <!-- 9. CONECTORES DE OURO -->
+  <section class="card" id="conectores">
+    <h2><span class="icon">✨</span> Conectores de Ouro (Edge Connectors)</h2>
+    <p>Os <strong>conectores de ouro</strong> (ou <em>golden fingers / edge connectors</em>) são as faixas de contatos metálicos dourados presentes nas bordas dos módulos de expansão — como pentes de memória RAM, placas de vídeo e outras placas PCIe. São chamados assim pela coloração dourada do revestimento.</p>
+
+    <div class="sep"></div>
+
+    <p>Por que são dourados? O <strong>ouro</strong> é utilizado porque é um excelente condutor elétrico, não oxida (não enferruja) e garante contato elétrico confiável por muitos anos. Isso evita falhas de conexão causadas por corrosão.</p>
+
+    <div class="two-col" style="margin-top:14px;">
+      <div class="mini-card">
+        <h3>📌 Onde encontrar</h3>
+        <ul>
+          <li>Pentes de memória RAM (DIMM)</li>
+          <li>Placas de vídeo (PCIe x16)</li>
+          <li>Placas de som/rede (PCIe x1)</li>
+          <li>SSDs M.2</li>
+          <li>Cartões de expansão em geral</li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <h3>⚠️ Cuidados essenciais</h3>
+        <ul>
+          <li>Nunca toque nos conectores com os dedos (oleosidade)</li>
+          <li>Limpe com borracha branca ou álcool isopropílico</li>
+          <li>Encaixe com firmeza e sem força excessiva</li>
+          <li>Respeite a direção correta do encaixe</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="copy-box">
+      <p><strong>Conectores de ouro (edge connectors)</strong> — contatos metálicos dourados nas bordas de placas e módulos que encaixam nos slots da placa-mãe.</p>
+      <ul>
+        <li>O revestimento de <strong>ouro</strong> é usado porque não oxida e conduz eletricidade com eficiência</li>
+        <li>Presentes em: RAM, GPU, placas PCIe e SSDs M.2</li>
+        <li><strong>Nunca toque</strong> nos conectores dourados com as mãos — a gordura dos dedos prejudica o contato</li>
+        <li>Para limpeza: <strong>borracha branca</strong> ou <strong>álcool isopropílico</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 10. RESUMO GERAL -->
+  <section class="card" id="resumo">
+    <h2><span class="icon">📌</span> Resumo Geral</h2>
+    <p>Agora que você conhece os principais componentes e conceitos da placa-mãe, veja o mapa completo do que foi estudado:</p>
+
+    <div class="sep"></div>
+
+    <table>
+      <thead>
+        <tr><th>Componente / Conceito</th><th>Função Resumida</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Placa-mãe</strong></td><td>Interliga todos os componentes do sistema</td></tr>
+        <tr><td><strong>Form factor (ATX etc.)</strong></td><td>Define o tamanho físico e compatibilidade com o gabinete</td></tr>
+        <tr><td><strong>Soquete (LGA / AM4)</strong></td><td>Encaixe físico do processador — Intel ou AMD</td></tr>
+        <tr><td><strong>Slot PCIe x16</strong></td><td>Encaixa a placa de vídeo dedicada</td></tr>
+        <tr><td><strong>Slot DIMM</strong></td><td>Encaixa os pentes de memória RAM</td></tr>
+        <tr><td><strong>Slot M.2</strong></td><td>Encaixa SSD NVMe direto na placa</td></tr>
+        <tr><td><strong>iGPU</strong></td><td>GPU integrada ao processador (sem GPU dedicada)</td></tr>
+        <tr><td><strong>BIOS / UEFI</strong></td><td>Firmware que inicia o hardware e carrega o SO</td></tr>
+        <tr><td><strong>Ponte Norte / PCH</strong></td><td>Gerencia comunicação entre CPU, RAM e dispositivos</td></tr>
+        <tr><td><strong>Conectores de ouro</strong></td><td>Contatos metálicos que conectam placas aos slots</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-glass">
+    🖥️ Laboratório de Hardware · Nível Técnico em Informática · Material Didático
+  </div>
+</footer>
+
+</body>
+</html>
