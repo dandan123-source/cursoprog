@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Como o Mundo se Conectou — Redes de Computadores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f5f7;
+    --white: #ffffff;
+    --black: #1d1d1f;
+    --mid: #6e6e73;
+    --border: #d2d2d7;
+    --accent: #0066cc;
+    --accent-light: #e8f0fb;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--black);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(245,245,247,0.88);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 52px;
+  }
+  .nav-logo { font-size: 13px; font-weight: 500; color: var(--black); letter-spacing: -0.01em; }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a { font-size: 12px; color: var(--mid); text-decoration: none; letter-spacing: 0.01em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 100px 2rem 80px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 12px; font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-bottom: 24px;
+  }
+  .hero h1 em { font-style: italic; color: var(--mid); }
+  .hero p {
+    font-size: 18px; font-weight: 300;
+    color: var(--mid); line-height: 1.65;
+    max-width: 540px; margin: 0 auto;
+  }
+
+  /* DIVIDER */
+  .divider { width: 40px; height: 1px; background: var(--border); margin: 60px auto; }
+
+  /* SECTION */
+  section { max-width: 960px; margin: 0 auto; padding: 0 2rem 80px; }
+  .section-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 400; line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--black); margin-bottom: 20px;
+  }
+  .section-body {
+    font-size: 16px; font-weight: 300;
+    color: var(--mid); line-height: 1.75;
+    max-width: 640px;
+  }
+  .section-body + .section-body { margin-top: 12px; }
+
+  /* FULL-WIDTH IMAGE */
+  .img-full {
+    width: 100%; border-radius: 20px;
+    overflow: hidden; margin: 40px 0;
+    aspect-ratio: 16/7; background: #e0e0e5;
+    position: relative;
+  }
+  .img-full img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.6s ease;
+  }
+  .img-full:hover img { transform: scale(1.02); }
+  .img-caption {
+    font-size: 12px; color: var(--mid);
+    text-align: center; margin-top: -28px; margin-bottom: 40px;
+    letter-spacing: 0.02em;
+  }
+
+  /* 2-COL LAYOUT */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px; margin: 40px 0;
+  }
+  .two-col.reverse { direction: rtl; }
+  .two-col.reverse > * { direction: ltr; }
+  .col-img {
+    border-radius: 16px; overflow: hidden;
+    aspect-ratio: 4/3; background: #e0e0e5;
+  }
+  .col-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .col-text {
+    display: flex; flex-direction: column;
+    justify-content: center; padding: 8px 0;
+  }
+  .col-text h3 {
+    font-family: var(--serif);
+    font-size: 26px; font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--black); margin-bottom: 14px;
+  }
+  .col-text p {
+    font-size: 15px; font-weight: 300;
+    color: var(--mid); line-height: 1.75;
+  }
+  .col-text p + p { margin-top: 10px; }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 36px;
+    margin: 32px 0;
+  }
+  .callout-icon { font-size: 28px; margin-bottom: 12px; }
+  .callout h4 {
+    font-size: 15px; font-weight: 500;
+    color: var(--black); margin-bottom: 8px;
+  }
+  .callout p {
+    font-size: 14px; font-weight: 300;
+    color: var(--mid); line-height: 1.7;
+  }
+
+  /* TIMELINE STRIP */
+  .timeline-strip {
+    display: flex; gap: 0;
+    margin: 48px 0; overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .tl-step {
+    flex: 1; min-width: 130px;
+    text-align: center; position: relative;
+    padding: 0 12px;
+  }
+  .tl-step::before {
+    content: '';
+    position: absolute; top: 18px; left: 0; right: 0;
+    height: 1px; background: var(--border);
+    z-index: 0;
+  }
+  .tl-step:first-child::before { left: 50%; }
+  .tl-step:last-child::before { right: 50%; }
+  .tl-dot {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    margin: 0 auto 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; position: relative; z-index: 1;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .tl-step:hover .tl-dot { border-color: var(--accent); background: var(--accent-light); }
+  .tl-year { font-size: 13px; font-weight: 500; color: var(--black); margin-bottom: 4px; }
+  .tl-label { font-size: 12px; font-weight: 300; color: var(--mid); line-height: 1.4; }
+
+  /* ATIVIDADE */
+  .atividade-section {
+    background: var(--black);
+    padding: 80px 2rem;
+    margin-top: 40px;
+  }
+  .atividade-inner { max-width: 960px; margin: 0 auto; }
+  .atividade-section .section-label { color: #64a0e0; }
+  .atividade-section .section-title { color: #f5f5f7; }
+  .atividade-section .section-body { color: #a1a1a6; }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px; margin: 40px 0;
+  }
+  .step-card {
+    background: #2c2c2e;
+    border: 1px solid #3a3a3c;
+    border-radius: 16px;
+    padding: 28px 24px;
+    transition: border-color 0.2s;
+  }
+  .step-card:hover { border-color: #64a0e0; }
+  .step-num {
+    font-size: 11px; font-weight: 500;
+    color: #64a0e0; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .step-card h4 { font-size: 16px; font-weight: 500; color: #f5f5f7; margin-bottom: 8px; }
+  .step-card p { font-size: 14px; font-weight: 300; color: #a1a1a6; line-height: 1.65; }
+
+  .tools-row {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin: 28px 0;
+  }
+  .tool-chip {
+    display: flex; align-items: center; gap: 8px;
+    background: #2c2c2e; border: 1px solid #3a3a3c;
+    border-radius: 100px; padding: 8px 16px;
+    font-size: 13px; font-weight: 400; color: #f5f5f7;
+    transition: border-color 0.2s;
+  }
+  .tool-chip:hover { border-color: #64a0e0; }
+  .tool-chip span { font-size: 16px; }
+
+  .entrega-box {
+    background: #1c2f45;
+    border: 1px solid #2a4d6e;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-top: 32px;
+  }
+  .entrega-box h4 { font-size: 15px; font-weight: 500; color: #a8d0f5; margin-bottom: 8px; }
+  .entrega-box p { font-size: 14px; font-weight: 300; color: #7aa8cf; line-height: 1.7; }
+  .entrega-box ul { padding-left: 1.2rem; margin-top: 8px; }
+  .entrega-box li { font-size: 14px; font-weight: 300; color: #7aa8cf; line-height: 1.8; }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    padding: 32px 2rem;
+    text-align: center;
+    border-top: 1px solid #3a3a3c;
+  }
+  footer p { font-size: 12px; color: #6e6e73; letter-spacing: 0.02em; }
+
+  /* RESPONSIVE */
+  @media (max-width: 680px) {
+    .two-col { grid-template-columns: 1fr; }
+    .two-col.reverse { direction: ltr; }
+    .nav-links { display: none; }
+  }
+
+  /* FADE IN */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Redes de Computadores · Aula 02</div>
+  <div class="nav-links">
+    <a href="#cabos">Cabos</a>
+    <a href="#morse">Morse</a>
+    <a href="#telefone">Telefone</a>
+    <a href="#dialup">Dial-up</a>
+    <a href="#fibra">Fibra</a>
+    <a href="#atividade">Atividade</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero fade-in">
+  <div class="hero-tag">Como o mundo se conectou</div>
+  <h1>Do fundo do mar<br>ao <em>Wi-Fi</em> da sua mão</h1>
+  <p>A Internet que você usa hoje levou mais de 150 anos para ser construída. Essa é a história de como a humanidade aprendeu a falar a distância.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- CABOS SUBMARINOS -->
+<section id="cabos" class="fade-in">
+  <div class="section-label">A Infraestrutura Invisível</div>
+  <div class="section-title">Os cabos que cruzam os oceanos</div>
+  <div class="section-body">
+    Você já parou para pensar como o seu vídeo no YouTube chega até você em milissegundos, mesmo que o servidor esteja nos Estados Unidos? A resposta está no fundo do oceano.</div>
+  <div class="section-body">
+    Hoje existem mais de <strong>500 cabos submarinos</strong> que conectam todos os continentes, totalizando mais de 1,3 milhão de quilômetros. Eles carregam mais de 99% de todo o tráfego de Internet do mundo. Os satélites, apesar de famosos, ainda são lentos e caros para a maioria dos usos.
+  </div>
+
+  <div class="img-full">
+    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80" alt="Cabo submarino de fibra óptica">
+  </div>
+  <p class="img-caption">Cabo de fibra óptica submarino — do tamanho de uma mangueira de jardim, mas capaz de transmitir terabits por segundo</p>
+
+  <div class="callout">
+    <div class="callout-icon">📍</div>
+    <h4>Você sabia? O Brasil é conectado por cabos submarinos</h4>
+    <p>Cabos como o <strong>ELLA Link</strong> e o <strong>Firmina</strong> ligam o Brasil diretamente à Europa e aos Estados Unidos. O ponto de chegada mais famoso fica em Fortaleza, no Ceará — de lá o sinal vai para o restante do país por fibra óptica terrestre.</p>
+  </div>
+</section>
+
+<!-- MORSE -->
+<section id="morse" class="fade-in">
+  <div class="section-label">1837 — O começo de tudo</div>
+  <div class="section-title">O telégrafo e o código Morse</div>
+
+  <div class="two-col">
+    <div class="col-img">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Morse_Telegraph.jpg/800px-Morse_Telegraph.jpg" alt="Telégrafo de Samuel Morse">
+    </div>
+    <div class="col-text">
+      <h3>Pontos e traços que mudaram o mundo</h3>
+      <p>Em 1837, Samuel Morse inventou o telégrafo — um aparelho que transmitia sinais elétricos por fios de cobre. Cada letra do alfabeto virou uma sequência de pontos (·) e traços (—).</p>
+      <p>Em 1858, o primeiro cabo telegráfico cruzou o Atlântico ligando a Europa à América do Norte. A mensagem demorou 17 horas para chegar — mas era o primeiro "sinal digital" a atravessar um oceano.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-icon">⚡</div>
+    <h4>Curiosidade: o SOS do Titanic</h4>
+    <p>Quando o Titanic afundou em 1912, os operadores usaram exatamente esse código para pedir socorro: <strong>· · · — — — · · ·</strong> (SOS). O telégrafo foi o WhatsApp do século XIX.</p>
+  </div>
+</section>
+
+<!-- CABO TELEFÔNICO -->
+<section id="telefone" class="fade-in">
+  <div class="section-label">Décadas de 1950–1980</div>
+  <div class="section-title">Os cabos telefônicos transatlânticos</div>
+
+  <div class="two-col reverse">
+    <div class="col-img">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/TAT-1_cable.jpg/800px-TAT-1_cable.jpg" alt="Cabo telefônico TAT-1">
+    </div>
+    <div class="col-text">
+      <h3>Voz atravessando o Atlântico</h3>
+      <p>Em 1956, o <strong>TAT-1</strong> foi o primeiro cabo a transmitir voz entre Europa e América. Uma ligação de 3 minutos custava o equivalente a R$ 800 de hoje.</p>
+      <p>Esses cabos usavam sinais analógicos — ondas elétricas que imitavam a voz humana. Eram frágeis, lentos e caros. Mas provaram que a comunicação em tempo real entre continentes era possível.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DIAL-UP -->
+<section id="dialup" class="fade-in">
+  <div class="section-label">Anos 1990 — A Internet chega ao povo</div>
+  <div class="section-title">O modem discado — aquele som inesquecível</div>
+  <div class="section-body">Para quem viveu nos anos 90 e 2000 no Brasil, conectar à Internet era uma aventura. Você pegava o telefone fixo, discava para um número, e esperava aquele <em>som</em> — uma sequência de ruídos que significava que o computador estava "pedindo passagem" para a rede.</div>
+
+  <div class="img-full" style="aspect-ratio: 16/6;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Modem_v.22_bluetooth_modem.jpg/1280px-Modem_v.22_bluetooth_modem.jpg" alt="Modem dial-up anos 90">
+  </div>
+  <p class="img-caption">Um modem dial-up dos anos 90 — conectava a velocidades de até 56 Kbps (hoje o WhatsApp precisa de pelo menos 1.000 Kbps para funcionar bem)</p>
+
+  <div class="two-col" style="margin-top:32px">
+    <div class="callout" style="margin:0">
+      <div class="callout-icon">🐢</div>
+      <h4>Como era lento?</h4>
+      <p>Baixar uma música de 4 MB no dial-up levava cerca de <strong>10 minutos</strong>. Uma foto de celular de hoje (5 MB) levaria mais de 12 minutos. Um episódio de série? Dias.</p>
+    </div>
+    <div class="callout" style="margin:0">
+      <div class="callout-icon">📞</div>
+      <h4>O telefone ficava ocupado</h4>
+      <p>Enquanto alguém estava conectado à Internet, o telefone da casa ficava bloqueado. Ligar para alguém que "estava na Internet" era impossível — e gerava brigas em família.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BANDA LARGA -->
+<section class="fade-in">
+  <div class="section-label">Anos 2000 — A revolução silenciosa</div>
+  <div class="section-title">Banda larga: Internet sempre ligada</div>
+
+  <div class="two-col">
+    <div class="col-img">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/ADSL_Router_with_usb_and_ethernet_ports.jpg/800px-ADSL_Router_with_usb_and_ethernet_ports.jpg" alt="Roteador ADSL banda larga">
+    </div>
+    <div class="col-text">
+      <h3>A Internet que não desligava mais</h3>
+      <p>Com a <strong>tecnologia ADSL</strong>, a Internet passou a usar a mesma linha telefônica, mas em frequências diferentes — ou seja: telefone e Internet ao mesmo tempo, sem barrar a linha.</p>
+      <p>A velocidade saltou de 56 Kbps para 512 Kbps, 1 Mbps, 10 Mbps... Músicas em segundos. Fotos em instantes. O YouTube se tornou possível.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FIBRA -->
+<section id="fibra" class="fade-in">
+  <div class="section-label">Hoje — O estado da arte</div>
+  <div class="section-title">Fibra óptica: luz como informação</div>
+  <div class="section-body">A fibra óptica não usa eletricidade para transmitir dados — usa <strong>luz</strong>. Pulsos de laser percorrem finos fios de vidro a quase 200.000 km/s. É a mesma tecnologia dos cabos submarinos, agora chegando dentro da sua casa.</div>
+
+  <div class="img-full">
+    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1400&q=80" alt="Cabos de fibra óptica iluminados">
+  </div>
+  <p class="img-caption">Fibra óptica — cada fio transporta informação como pulsos de luz</p>
+
+  <div class="callout">
+    <div class="callout-icon">🚀</div>
+    <h4>A diferença em números</h4>
+    <p>
+      Dial-up: <strong>0,056 Mbps</strong> &nbsp;→&nbsp;
+      ADSL: <strong>10 Mbps</strong> &nbsp;→&nbsp;
+      Fibra atual: <strong>até 1.000 Mbps</strong><br>
+      <span style="font-size:13px;color:#999;">A fibra é quase <strong>18.000 vezes mais rápida</strong> que o dial-up dos anos 90.</span>
+    </p>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="fade-in">
+  <div class="section-label">Linha do tempo</div>
+  <div class="section-title">150 anos em 6 passos</div>
+
+  <div class="timeline-strip">
+    <div class="tl-step">
+      <div class="tl-dot">⚡</div>
+      <div class="tl-year">1858</div>
+      <div class="tl-label">1º cabo<br>telegráfico<br>transatlântico</div>
+    </div>
+    <div class="tl-step">
+      <div class="tl-dot">📞</div>
+      <div class="tl-year">1956</div>
+      <div class="tl-label">1º cabo<br>telefônico<br>transatlântico</div>
+    </div>
+    <div class="tl-step">
+      <div class="tl-dot">🖥️</div>
+      <div class="tl-year">1969</div>
+      <div class="tl-label">ARPANET<br>— 1ª rede de<br>computadores</div>
+    </div>
+    <div class="tl-step">
+      <div class="tl-dot">🔊</div>
+      <div class="tl-year">1995</div>
+      <div class="tl-label">Dial-up<br>chega ao<br>Brasil</div>
+    </div>
+    <div class="tl-step">
+      <div class="tl-dot">📡</div>
+      <div class="tl-year">2003</div>
+      <div class="tl-label">Banda larga<br>ADSL se<br>populariza</div>
+    </div>
+    <div class="tl-step">
+      <div class="tl-dot">💡</div>
+      <div class="tl-year">Hoje</div>
+      <div class="tl-label">Fibra óptica<br>e 5G em<br>expansão</div>
+    </div>
+  </div>
+</section>
+
+<!-- ATIVIDADE -->
+<div class="atividade-section" id="atividade">
+  <div class="atividade-inner">
+    <div class="section-label fade-in">Atividade Avaliativa</div>
+    <div class="section-title fade-in" style="color:#f5f5f7; max-width: 600px;">
+      Construa sua própria linha do tempo da comunicação
+    </div>
+    <div class="section-body fade-in" style="color:#a1a1a6; margin-bottom: 40px;">
+      Agora é com você. Você vai criar uma apresentação de slides mostrando a evolução das telecomunicações — do telégrafo ao 5G — usando 10 imagens que você vai pesquisar na Internet.
+    </div>
+
+    <!-- PASSO A PASSO -->
+    <div class="steps-grid">
+      <div class="step-card fade-in">
+        <div class="step-num">Passo 01</div>
+        <h4>Pesquise as imagens</h4>
+        <p>Acesse o Google Imagens e pesquise por cada tecnologia: telégrafo, cabo submarino, modem dial-up, roteador ADSL, fibra óptica, antena 4G e 5G. Salve 10 imagens no seu computador.</p>
+      </div>
+      <div class="step-card fade-in">
+        <div class="step-num">Passo 02</div>
+        <h4>Escolha sua ferramenta</h4>
+        <p>Você pode usar qualquer uma das ferramentas ao lado. Todas têm versão gratuita e permitem inserir imagens e textos em slides.</p>
+      </div>
+      <div class="step-card fade-in">
+        <div class="step-num">Passo 03</div>
+        <h4>Monte o slide de título</h4>
+        <p>O primeiro slide deve ter: seu nome, nome da disciplina, data e o título <strong>"A Evolução das Telecomunicações"</strong>. Escolha uma imagem de fundo relacionada ao tema.</p>
+      </div>
+      <div class="step-card fade-in">
+        <div class="step-num">Passo 04</div>
+        <h4>Crie um slide por era</h4>
+        <p>Cada slide deve ter: a imagem que você pesquisou, o ano ou época, o nome da tecnologia e <strong>2 a 3 frases</strong> explicando como as pessoas usavam essa tecnologia para se comunicar.</p>
+      </div>
+      <div class="step-card fade-in">
+        <div class="step-num">Passo 05</div>
+        <h4>Organize em ordem cronológica</h4>
+        <p>Coloque os slides do mais antigo para o mais recente. Deve dar pra sentir a evolução ao passar os slides — como se fosse uma viagem no tempo.</p>
+      </div>
+      <div class="step-card fade-in">
+        <div class="step-num">Passo 06</div>
+        <h4>Slide de conclusão</h4>
+        <p>No último slide, escreva com suas próprias palavras: <em>"O que mudou da comunicação por Morse até hoje? O que você acha que vem por aí?"</em></p>
+      </div>
+    </div>
+
+    <!-- FERRAMENTAS -->
+    <div class="section-label fade-in" style="color:#64a0e0; margin-top: 40px;">Ferramentas que você pode usar</div>
+    <div class="tools-row fade-in">
+      <div class="tool-chip"><span>🎨</span> Canva (canva.com) — Mais fácil e visual</div>
+      <div class="tool-chip"><span>📊</span> PowerPoint — No computador da escola</div>
+      <div class="tool-chip"><span>📄</span> Google Apresentações — Precisa só de conta Google</div>
+      <div class="tool-chip"><span>📝</span> LibreOffice Impress — Gratuito e offline</div>
+    </div>
+
+    <!-- COMO USAR O CANVA -->
+    <div style="background:#1c1c1e; border:1px solid #3a3a3c; border-radius:16px; padding:28px 32px; margin:24px 0;">
+      <div class="step-num" style="color:#64a0e0; margin-bottom:12px;">Como usar o Canva — passo a passo rápido</div>
+      <ol style="padding-left:1.4rem;">
+        <li style="font-size:14px;font-weight:300;color:#a1a1a6;line-height:1.8;">Acesse <strong style="color:#f5f5f7">canva.com</strong> e crie uma conta gratuita com seu e-mail escolar.</li>
+        <li style="font-size:14px;font-weight:300;color:#a1a1a6;line-height:1.8;">Clique em <strong style="color:#f5f5f7">"Criar design"</strong> → escolha <strong style="color:#f5f5f7">"Apresentação"</strong>.</li>
+        <li style="font-size:14px;font-weight:300;color:#a1a1a6;line-height:1.8;">Escolha um template limpo. Dica: pesquise por <strong style="color:#f5f5f7">"linha do tempo"</strong> nos templates.</li>
+        <li style="font-size:14px;font-weight:300;color:#a1a1a6;line-height:1.8;">No menu esquerdo, clique em <strong style="color:#f5f5f7">"Uploads"</strong> para subir suas 10 imagens salvas.</li>
+        <li style="font-size:14px;font-weight:300;color:#a1a1a6;line-height:1.8;">Arraste as imagens para os slides e adicione os textos nas caixas de texto.</li>
+        <li style="font-size:14px;font-weight:300;color:#a1a1a6;line-height:1.8;">Ao terminar, clique em <strong style="color:#f5f5f7">"Compartilhar"</strong> → <strong style="color:#f5f5f7">"Baixar"</strong> → formato <strong style="color:#f5f5f7">PDF ou PPTX</strong> para entregar.</li>
+      </ol>
+    </div>
+
+    <!-- ENTREGA -->
+    <div class="entrega-box fade-in">
+      <h4>📋 Critérios de avaliação</h4>
+      <ul>
+        <li>10 imagens presentes, uma por tecnologia/era</li>
+        <li>Cada slide com ano, nome da tecnologia e explicação própria (não copiar da internet)</li>
+        <li>Ordem cronológica correta — do mais antigo ao mais recente</li>
+        <li>Slide de título e slide de conclusão presentes</li>
+        <li>Apresentação organizada, sem erros de português</li>
+      </ul>
+      <p style="margin-top:12px;">Entregue o arquivo pelo Google Classroom (ou como indicado pelo professor) no prazo combinado em sala.</p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>Redes de Computadores · Ensino Médio Técnico em Informática · Material didático do professor</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
