@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python — Do Zero ao Código</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2eb;
+    --surface: #ffffff;
+    --surface2: #eef9f0;
+    --accent: #2d7a3a;
+    --accent2: #f5a623;
+    --accent3: #3b6fd4;
+    --dark: #1a1a2e;
+    --text: #2b2b2b;
+    --muted: #666;
+    --border: #d8d2c6;
+    --copy-bg: #1e2d1f;
+    --copy-text: #a8e6b3;
+    --snake: #2d7a3a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    line-height: 1.6;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--dark);
+    color: white;
+    padding: 60px 24px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent, transparent 30px,
+      rgba(45,122,58,0.07) 30px, rgba(45,122,58,0.07) 31px
+    );
+  }
+  .hero-snake {
+    font-size: 56px;
+    display: block;
+    margin-bottom: 12px;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(-8px); }
+  }
+  .hero h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    font-weight: 700;
+    color: #a8e6b3;
+    position: relative;
+  }
+  .hero p {
+    font-size: 1.1rem;
+    color: #ccc;
+    margin-top: 10px;
+    position: relative;
+  }
+  .tag {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    margin-top: 16px;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* SECTION */
+  .section {
+    padding: 50px 20px;
+  }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.3;
+  }
+  .section-title {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 24px;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 0;
+  }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0 20px;
+    margin-bottom: 8px;
+    align-items: stretch;
+  }
+  .tl-year {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: white;
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 6px;
+    min-height: 60px;
+  }
+  .tl-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0;
+    gap: 4px;
+  }
+  .tl-dot {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .tl-bar {
+    flex: 1;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    min-height: 20px;
+  }
+  .tl-card {
+    background: white;
+    border-radius: 10px;
+    padding: 14px 18px;
+    border-left: 4px solid var(--accent);
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .tl-card h4 { font-size: 0.95rem; font-weight: 700; color: var(--dark); }
+  .tl-card p { font-size: 0.85rem; color: var(--muted); margin-top: 3px; }
+
+  /* COPY CARD */
+  .copy-card {
+    background: var(--copy-bg);
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 24px 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  .copy-header {
+    background: #16231a;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .copy-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: #6ec87a;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .copy-title::before { content: '✏️'; font-size: 0.9rem; }
+  .copy-badge {
+    background: var(--accent);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .copy-body {
+    padding: 20px 22px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--copy-text);
+    line-height: 1.9;
+  }
+  .copy-body .comment { color: #5a7a5c; font-style: italic; }
+  .copy-body .keyword { color: #f5a623; font-weight: 700; }
+  .copy-body .string { color: #80cbc4; }
+  .copy-body .number { color: #ce93d8; }
+  .copy-body .fn { color: #82b1ff; }
+
+  /* INFO CARDS */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .info-card {
+    background: white;
+    border-radius: 14px;
+    padding: 22px 18px;
+    border-top: 4px solid var(--accent);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: transform 0.2s;
+  }
+  .info-card:hover { transform: translateY(-3px); }
+  .info-card.blue { border-top-color: var(--accent3); }
+  .info-card.orange { border-top-color: var(--accent2); }
+  .info-card.purple { border-top-color: #9c27b0; }
+  .info-card .icon { font-size: 2rem; margin-bottom: 10px; }
+  .info-card h3 { font-size: 1rem; font-weight: 700; color: var(--dark); }
+  .info-card p { font-size: 0.82rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+  /* SCHEMA / ARROW */
+  .schema {
+    background: white;
+    border-radius: 14px;
+    padding: 28px;
+    margin: 24px 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    overflow-x: auto;
+  }
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+  .flow-box {
+    background: var(--surface2);
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    padding: 10px 18px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--dark);
+    min-width: 100px;
+  }
+  .flow-box.highlight {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .flow-arrow {
+    font-size: 1.4rem;
+    color: var(--accent);
+    font-weight: 700;
+    padding: 0 4px;
+  }
+
+  /* STEP BOX */
+  .steps {
+    counter-reset: step;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 24px 0;
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 14px;
+    align-items: start;
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .step-num {
+    background: var(--accent);
+    color: white;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .step-content h4 { font-weight: 700; font-size: 0.95rem; color: var(--dark); }
+  .step-content p { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+  .step-content code {
+    display: inline-block;
+    background: #eef9f0;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    border-radius: 5px;
+    margin-top: 6px;
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: linear-gradient(135deg, #e8f5e9, #f0f7ff);
+    border-left: 5px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 18px 20px;
+    margin: 20px 0;
+    font-size: 0.9rem;
+  }
+  .highlight-box strong { color: var(--accent); }
+
+  /* WARNING BOX */
+  .warn-box {
+    background: #fff8e1;
+    border-left: 5px solid var(--accent2);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+    color: #5a4000;
+  }
+  .warn-box strong { color: #e65100; }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 20px;
+  }
+
+  /* TABLE */
+  .cmd-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    margin: 20px 0;
+  }
+  .cmd-table th {
+    background: var(--dark);
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+  }
+  .cmd-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+  }
+  .cmd-table tr:last-child td { border-bottom: none; }
+  .cmd-table tr:nth-child(even) td { background: #f9f9f9; }
+  .cmd-table code {
+    background: #eef9f0;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 0.82rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    color: #888;
+    text-align: center;
+    padding: 28px;
+    font-size: 0.82rem;
+  }
+  footer span { color: #a8e6b3; }
+
+  /* BADGE ROW */
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .badge {
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+    display: flex; align-items: center; gap: 7px;
+  }
+
+  @media (max-width: 500px) {
+    .timeline-item { grid-template-columns: 60px 1fr; }
+    .flow { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-snake">🐍</span>
+  <h1>Python — Do Zero ao Código</h1>
+  <p>História, fundamentos e primeiros comandos</p>
+  <span class="tag">📚 Ensino Técnico · Informática</span>
+</div>
+
+<!-- SEÇÃO 1: O QUE É PYTHON -->
+<div class="section">
+  <div class="container">
+    <div class="section-label">01 — O que é</div>
+    <h2 class="section-title">O que é Python?</h2>
+
+    <div class="cards-grid">
+      <div class="info-card">
+        <div class="icon">🐍</div>
+        <h3>Linguagem de Programação</h3>
+        <p>Conjunto de regras que permite escrever instruções para o computador executar.</p>
+      </div>
+      <div class="info-card blue">
+        <div class="icon">📖</div>
+        <h3>Fácil de Ler</h3>
+        <p>O código parece quase com texto em inglês, ideal para iniciantes.</p>
+      </div>
+      <div class="info-card orange">
+        <div class="icon">🌍</div>
+        <h3>Muito Usada no Mundo</h3>
+        <p>Web, ciência de dados, IA, automação, jogos — Python está em todo lugar.</p>
+      </div>
+      <div class="info-card purple">
+        <div class="icon">🆓</div>
+        <h3>Gratuita e Aberta</h3>
+        <p>Qualquer pessoa pode baixar, usar e contribuir com Python sem custo.</p>
+      </div>
+    </div>
+
+    <!-- COPY CARD 1 -->
+    <div class="copy-card">
+      <div class="copy-header">
+        <span class="copy-title">Copie no Caderno — Definição</span>
+        <span class="copy-badge">📓 Anotar</span>
+      </div>
+      <div class="copy-body">
+        <span class="comment">━━━ O QUE É PYTHON ━━━</span><br><br>
+        Python é uma linguagem de programação de alto nível,<br>
+        interpretada, de propósito geral, criada em 1991.<br><br>
+        ✔ Alto nível → mais próxima da linguagem humana<br>
+        ✔ Interpretada → executa linha por linha, sem compilar<br>
+        ✔ Propósito geral → serve para quase tudo
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SEÇÃO 2: HISTÓRIA -->
+<div class="section">
+  <div class="container">
+    <div class="section-label">02 — História</div>
+    <h2 class="section-title">Como o Python surgiu?</h2>
+
+    <div class="highlight-box">
+      <strong>Curiosidade:</strong> O nome Python não vem da cobra! Guido van Rossum se inspirou no grupo de comédia britânico <strong>Monty Python's Flying Circus</strong>, que ele adorava.
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="tl-year">1980s</div>
+        <div class="tl-card">
+          <h4>🧑‍💻 O Criador</h4>
+          <p>Guido van Rossum, programador holandês, trabalhava no projeto ABC e queria criar algo melhor e mais simples.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-year">1991</div>
+        <div class="tl-card">
+          <h4>🎉 Python 1.0 lançado</h4>
+          <p>Primeira versão oficial. Já tinha: funções, módulos, tratamento de erros e tipos de dados básicos.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-year">2000</div>
+        <div class="tl-card">
+          <h4>🚀 Python 2.0</h4>
+          <p>Grande evolução: melhor suporte a texto, coleta automática de memória e muito mais recursos.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-year">2008</div>
+        <div class="tl-card">
+          <h4>⚡ Python 3.0</h4>
+          <p>Versão atual. Melhorou muita coisa, mas quebrou compatibilidade com Python 2 de propósito, para ficar mais limpa.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-year">Hoje</div>
+        <div class="tl-card">
+          <h4>🏆 Top 3 do mundo</h4>
+          <p>Python é consistentemente uma das linguagens mais populares do planeta, usada por Google, NASA, Netflix e muito mais.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COPY CARD 2 -->
+    <div class="copy-card">
+      <div class="copy-header">
+        <span class="copy-title">Copie no Caderno — História</span>
+        <span class="copy-badge">📓 Anotar</span>
+      </div>
+      <div class="copy-body">
+        <span class="comment">━━━ HISTÓRIA DO PYTHON ━━━</span><br><br>
+        Criador: Guido van Rossum (holandês)<br>
+        Nome: inspirado no grupo Monty Python<br><br>
+        1991 → Python 1.0 (primeiro lançamento)<br>
+        2000 → Python 2.0 (grandes melhorias)<br>
+        2008 → Python 3.0 (versão atual)<br><br>
+        Hoje: top 3 linguagens mais usadas no mundo
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SEÇÃO 3: COMO FUNCIONA -->
+<div class="section">
+  <div class="container">
+    <div class="section-label">03 — Funcionamento</div>
+    <h2 class="section-title">Como o Python funciona?</h2>
+
+    <div class="schema">
+      <p style="text-align:center; font-weight:700; margin-bottom:20px; color:var(--dark)">Fluxo de um programa Python</p>
+      <div class="flow">
+        <div class="flow-box">Você escreve<br><small>o código .py</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box highlight">Interpretador<br><small>Python</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">Computador<br><small>executa</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">Resultado<br><small>aparece</small></div>
+      </div>
+    </div>
+
+    <div class="schema">
+      <p style="font-weight:700; margin-bottom:16px; color:var(--dark)">Compilada vs. Interpretada</p>
+      <div class="flow">
+        <div style="flex:1; min-width:200px;">
+          <div style="font-weight:700; color:#e53935; margin-bottom:8px;">❌ Compilada (ex: C)</div>
+          <div class="flow">
+            <div class="flow-box" style="border-color:#e53935; background:#fff0f0; font-size:0.78rem;">Código</div>
+            <div class="flow-arrow" style="color:#e53935">→</div>
+            <div class="flow-box" style="border-color:#e53935; background:#fff0f0; font-size:0.78rem;">Compila tudo</div>
+            <div class="flow-arrow" style="color:#e53935">→</div>
+            <div class="flow-box" style="border-color:#e53935; background:#fff0f0; font-size:0.78rem;">Executa</div>
+          </div>
+        </div>
+        <div style="flex:1; min-width:200px; margin-top:16px;">
+          <div style="font-weight:700; color:var(--accent); margin-bottom:8px;">✔ Interpretada (Python)</div>
+          <div class="flow">
+            <div class="flow-box" style="font-size:0.78rem;">Linha 1</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box highlight" style="font-size:0.78rem;">Executa já!</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box" style="font-size:0.78rem;">Linha 2...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SEÇÃO 4: FUNDAMENTOS -->
+<div class="section">
+  <div class="container">
+    <div class="section-label">04 — Fundamentos</div>
+    <h2 class="section-title">Os fundamentos mais importantes</h2>
+
+    <!-- COPY CARD 3 — CONCEITOS ESSENCIAIS -->
+    <div class="copy-card">
+      <div class="copy-header">
+        <span class="copy-title">Copie no Caderno — Conceitos Essenciais</span>
+        <span class="copy-badge">📓 Anotar</span>
+      </div>
+      <div class="copy-body">
+        <span class="comment">━━━ 5 CONCEITOS FUNDAMENTAIS ━━━</span><br><br>
+
+        <span class="keyword">1. VARIÁVEL</span> → guarda um valor na memória<br>
+        &nbsp;&nbsp;&nbsp;Ex: nome = "João"<br><br>
+
+        <span class="keyword">2. TIPO DE DADO</span> → que tipo de valor está guardado<br>
+        &nbsp;&nbsp;&nbsp;int   → número inteiro (ex: 10)<br>
+        &nbsp;&nbsp;&nbsp;float → número decimal (ex: 3.14)<br>
+        &nbsp;&nbsp;&nbsp;str   → texto (ex: "olá")<br>
+        &nbsp;&nbsp;&nbsp;bool  → verdadeiro/falso (True / False)<br><br>
+
+        <span class="keyword">3. FUNÇÃO</span> → bloco de código com um nome<br>
+        &nbsp;&nbsp;&nbsp;print() → exibe algo na tela<br>
+        &nbsp;&nbsp;&nbsp;input() → pede algo ao usuário<br><br>
+
+        <span class="keyword">4. INDENTAÇÃO</span> → espaços que organizam o código<br>
+        &nbsp;&nbsp;&nbsp;Python usa espaços para definir blocos!<br><br>
+
+        <span class="keyword">5. COMENTÁRIO</span> → texto ignorado pelo Python<br>
+        &nbsp;&nbsp;&nbsp;# isso é um comentário
+      </div>
+    </div>
+
+    <!-- TABELA DE TIPOS -->
+    <table class="cmd-table">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Nome Python</th>
+          <th>Exemplo</th>
+          <th>Para quê?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Texto</td><td><code>str</code></td><td><code>"olá mundo"</code></td><td>Nomes, frases, letras</td></tr>
+        <tr><td>Inteiro</td><td><code>int</code></td><td><code>42</code></td><td>Idades, quantidades</td></tr>
+        <tr><td>Decimal</td><td><code>float</code></td><td><code>3.14</code></td><td>Notas, preços, médias</td></tr>
+        <tr><td>Lógico</td><td><code>bool</code></td><td><code>True / False</code></td><td>Condições, sim/não</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SEÇÃO 5: COMANDOS INTRODUTÓRIOS -->
+<div class="section">
+  <div class="container">
+    <div class="section-label">05 — Primeiros Comandos</div>
+    <h2 class="section-title">Comandos introdutórios de Python</h2>
+
+    <!-- COPY CARD 4 — PRIMEIRO PROGRAMA -->
+    <div class="copy-card">
+      <div class="copy-header">
+        <span class="copy-title">Copie no Caderno — Primeiro Programa</span>
+        <span class="copy-badge">📓 Anotar</span>
+      </div>
+      <div class="copy-body">
+        <span class="comment"># Meu primeiro programa em Python</span><br><br>
+        <span class="fn">print</span>(<span class="string">"Olá, mundo!"</span>)<br><br>
+        <span class="comment"># Resultado na tela:</span><br>
+        <span class="string">Olá, mundo!</span>
+      </div>
+    </div>
+
+    <!-- COPY CARD 5 — VARIÁVEIS E INPUT -->
+    <div class="copy-card">
+      <div class="copy-header">
+        <span class="copy-title">Copie no Caderno — Variáveis e Input</span>
+        <span class="copy-badge">📓 Anotar</span>
+      </div>
+      <div class="copy-body">
+        <span class="comment"># Guardando valores em variáveis</span><br>
+        nome = <span class="fn">input</span>(<span class="string">"Digite seu nome: "</span>)<br>
+        idade = <span class="fn">int</span>(<span class="fn">input</span>(<span class="string">"Digite sua idade: "</span>))<br><br>
+        <span class="fn">print</span>(<span class="string">"Olá,"</span>, nome)<br>
+        <span class="fn">print</span>(<span class="string">"Você tem"</span>, idade, <span class="string">"anos"</span>)<br><br>
+        <span class="comment"># int() transforma texto em número inteiro</span>
+      </div>
+    </div>
+
+    <!-- COPY CARD 6 — OPERADORES -->
+    <div class="copy-card">
+      <div class="copy-header">
+        <span class="copy-title">Copie no Caderno — Operadores</span>
+        <span class="copy-badge">📓 Anotar</span>
+      </div>
+      <div class="copy-body">
+        <span class="comment"># Operadores matemáticos</span><br>
+        <span class="keyword">+</span>  → soma &nbsp;&nbsp;&nbsp;&nbsp; <span class="keyword">-</span>  → subtração<br>
+        <span class="keyword">*</span>  → multiplicação &nbsp; <span class="keyword">/</span>  → divisão<br>
+        <span class="keyword">**</span> → potência &nbsp;&nbsp; <span class="keyword">%</span>  → resto da divisão<br><br>
+        <span class="comment"># Exemplos:</span><br>
+        a = <span class="number">10</span><br>
+        b = <span class="number">3</span><br>
+        <span class="fn">print</span>(a + b)  <span class="comment"># 13</span><br>
+        <span class="fn">print</span>(a * b)  <span class="comment"># 30</span><br>
+        <span class="fn">print</span>(a ** <span class="number">2</span>) <span class="comment"># 100</span><br>
+        <span class="fn">print</span>(a % b)  <span class="comment"># 1 (resto de 10÷3)</span>
+      </div>
+    </div>
+
+    <!-- COPY CARD 7 — IF/ELSE -->
+    <div class="copy-card">
+      <div class="copy-header">
+        <span class="copy-title">Copie no Caderno — Condição (if/else)</span>
+        <span class="copy-badge">📓 Anotar</span>
+      </div>
+      <div class="copy-body">
+        <span class="comment"># Se... senão...</span><br>
+        idade = <span class="fn">int</span>(<span class="fn">input</span>(<span class="string">"Sua idade: "</span>))<br><br>
+        <span class="keyword">if</span> idade >= <span class="number">18</span>:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">print</span>(<span class="string">"Maior de idade"</span>)<br>
+        <span class="keyword">else</span>:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">print</span>(<span class="string">"Menor de idade"</span>)<br><br>
+        <span class="comment"># ATENÇÃO: os 4 espaços (indentação)</span><br>
+        <span class="comment"># são OBRIGATÓRIOS no Python!</span>
+      </div>
+    </div>
+
+    <!-- COPY CARD 8 — FOR LOOP -->
+    <div class="copy-card">
+      <div class="copy-header">
+        <span class="copy-title">Copie no Caderno — Repetição (for)</span>
+        <span class="copy-badge">📓 Anotar</span>
+      </div>
+      <div class="copy-body">
+        <span class="comment"># Repetindo ações com for</span><br>
+        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="fn">range</span>(<span class="number">1</span>, <span class="number">6</span>):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">print</span>(<span class="string">"Contagem:"</span>, i)<br><br>
+        <span class="comment"># range(1, 6) → gera: 1, 2, 3, 4, 5</span><br>
+        <span class="comment"># O número final (6) NÃO é incluído</span>
+      </div>
+    </div>
+
+    <!-- TABELA RESUMO DE COMANDOS -->
+    <table class="cmd-table">
+      <thead>
+        <tr>
+          <th>Comando</th>
+          <th>O que faz</th>
+          <th>Exemplo rápido</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>print()</code></td><td>Exibe na tela</td><td><code>print("oi")</code></td></tr>
+        <tr><td><code>input()</code></td><td>Pede ao usuário</td><td><code>input("Nome: ")</code></td></tr>
+        <tr><td><code>int()</code></td><td>Converte p/ inteiro</td><td><code>int("10")</code></td></tr>
+        <tr><td><code>float()</code></td><td>Converte p/ decimal</td><td><code>float("3.14")</code></td></tr>
+        <tr><td><code>if / else</code></td><td>Decisão</td><td><code>if x > 0:</code></td></tr>
+        <tr><td><code>for</code></td><td>Repetição contada</td><td><code>for i in range(5):</code></td></tr>
+        <tr><td><code># texto</code></td><td>Comentário</td><td><code># isso é ignorado</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SEÇÃO 6: ONLINEGDB -->
+<div class="section" style="background: #f0f7ff; margin: 0; padding: 50px 20px;">
+  <div class="container">
+    <div class="section-label" style="--accent: var(--accent3)">06 — Praticar Agora</div>
+    <h2 class="section-title">Como executar no OnlineGDB</h2>
+
+    <div class="warn-box">
+      <strong>⚠️ Atenção:</strong> Siga os passos na ordem. Não pule etapas!
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background: var(--accent3)">1</div>
+        <div class="step-content">
+          <h4>🌐 Acesse o site</h4>
+          <p>Abra o navegador (Chrome, Firefox, Edge...) e acesse o endereço abaixo:</p>
+          <code>www.onlinegdb.com</code>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num" style="background: var(--accent3)">2</div>
+        <div class="step-content">
+          <h4>🐍 Selecione Python</h4>
+          <p>No canto superior direito, clique no menu de linguagem e escolha <strong>Python 3</strong>.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num" style="background: var(--accent3)">3</div>
+        <div class="step-content">
+          <h4>📝 Apague o código existente</h4>
+          <p>Selecione tudo com <strong>Ctrl + A</strong> e delete. Agora a área está em branco.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num" style="background: var(--accent3)">4</div>
+        <div class="step-content">
+          <h4>⌨️ Digite seu código</h4>
+          <p>Escreva o código que o professor pediu. Ex: comece com o Olá Mundo:</p>
+          <code>print("Olá, mundo!")</code>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num" style="background: var(--accent3)">5</div>
+        <div class="step-content">
+          <h4>▶️ Execute clicando em Run</h4>
+          <p>Clique no botão verde <strong>▶ Run</strong> no topo. O resultado aparece na parte de baixo, na aba "Console".</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num" style="background: var(--accent3)">6</div>
+        <div class="step-content">
+          <h4>💬 Se pedir input</h4>
+          <p>Quando o código usar <strong>input()</strong>, clique na área do console e <strong>digite sua resposta + Enter</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCHEMA ONLINEGDB -->
+    <div class="schema">
+      <p style="font-weight:700; margin-bottom:16px; color:var(--dark); text-align:center">🖥️ Mapa visual do OnlineGDB</p>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; max-width:500px; margin:0 auto;">
+        <div style="background:#1e2d1f; color:#a8e6b3; border-radius:10px; padding:16px; font-family:'Space Mono',monospace; font-size:0.8rem; text-align:center;">
+          <div style="color:#5a7a5c; font-size:0.7rem; margin-bottom:8px;">▲ ÁREA DO CÓDIGO</div>
+          print("oi")
+        </div>
+        <div style="background:#f9f9f9; border:2px solid #ddd; border-radius:10px; padding:16px; font-size:0.82rem; text-align:center; color:#555;">
+          <div style="color:#aaa; font-size:0.7rem; margin-bottom:8px;">▼ CONSOLE (resultado)</div>
+          oi
+        </div>
+      </div>
+      <div style="display:flex; justify-content:center; margin-top:16px;">
+        <div style="background: var(--accent3); color:white; border-radius:8px; padding:10px 28px; font-weight:700; font-size:0.85rem; display:inline-block;">▶ Run — executa o código</div>
+      </div>
+    </div>
+
+    <!-- COPY CARD — PARA PRATICAR -->
+    <div class="copy-card">
+      <div class="copy-header">
+        <span class="copy-title">Copie no Caderno — Prática no OnlineGDB</span>
+        <span class="copy-badge">📓 Anotar</span>
+      </div>
+      <div class="copy-body">
+        <span class="comment">━━━ PASSOS PARA USAR O ONLINEGDB ━━━</span><br><br>
+        1. Acessar: www.onlinegdb.com<br>
+        2. Selecionar: Python 3 (canto superior direito)<br>
+        3. Apagar: Ctrl+A e Delete<br>
+        4. Digitar: o código do exercício<br>
+        5. Executar: clicar no botão verde ▶ Run<br>
+        6. Ver resultado: no console (parte de baixo)
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SEÇÃO 7: ONDE PYTHON É USADO -->
+<div class="section">
+  <div class="container">
+    <div class="section-label">07 — Mercado</div>
+    <h2 class="section-title">Onde Python é usado no mundo real?</h2>
+
+    <div class="badges">
+      <div class="badge">🤖 Inteligência Artificial</div>
+      <div class="badge">📊 Ciência de Dados</div>
+      <div class="badge">🌐 Desenvolvimento Web</div>
+      <div class="badge">🔬 Pesquisa Científica</div>
+      <div class="badge">🎮 Jogos (Pygame)</div>
+      <div class="badge">⚙️ Automação</div>
+      <div class="badge">🛡️ Segurança (Hacking Ético)</div>
+      <div class="badge">🚀 NASA e SpaceX</div>
+      <div class="badge">🎬 Netflix e YouTube</div>
+      <div class="badge">🔎 Google Search</div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>💡 Para você:</strong> Aprender Python hoje abre portas para trabalhar com tecnologia, dados, automação e muito mais. É uma das habilidades mais pedidas no mercado de trabalho de tecnologia.
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>🐍 Python</span> — Material didático para Ensino Técnico de Informática<br>
+  <span style="color:#555; font-size:0.75rem; margin-top:6px; display:block;">Feito para sala de aula · Use, adapte, compartilhe</span>
+</footer>
+
+</body>
+</html>
