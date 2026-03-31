@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Como funciona o WAMP Server</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f4f6f8;
+      color: #333;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    section {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #2c3e50;
+    }
+
+    code {
+      background: #eee;
+      padding: 4px 6px;
+      border-radius: 5px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #2c3e50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Entendendo o WAMP Server</h1>
+  <p>Aprenda como funciona o ambiente para rodar PHP no seu computador</p>
+</header>
+
+<section>
+  <div class="card">
+    <h2>O que é WAMP?</h2>
+    <p>WAMP é um pacote que reúne ferramentas para criar servidores locais no Windows.</p>
+    <ul>
+      <li><strong>W</strong> - Windows</li>
+      <li><strong>A</strong> - Apache (Servidor)</li>
+      <li><strong>M</strong> - MySQL (Banco de dados)</li>
+      <li><strong>P</strong> - PHP (Linguagem)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Como o WAMP funciona?</h2>
+    <p>Quando você instala o WAMP, ele cria um servidor local no seu computador.</p>
+    <p>Isso significa que você pode acessar seus projetos pelo navegador usando:</p>
+    <code>http://localhost</code>
+  </div>
+
+  <div class="card">
+    <h2>Fluxo de funcionamento</h2>
+    <p>Veja como uma página PHP funciona:</p>
+    <ol>
+      <li>O usuário acessa o navegador</li>
+      <li>Digita <code>localhost/meusite</code></li>
+      <li>O Apache recebe a requisição</li>
+      <li>Se for PHP, o Apache envia para o PHP processar</li>
+      <li>O PHP pode acessar o banco MySQL</li>
+      <li>O resultado é enviado de volta ao navegador</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Estrutura de pastas</h2>
+    <p>Os arquivos do seu site ficam dentro da pasta:</p>
+    <code>www</code>
+    <p>Exemplo:</p>
+    <code>C:\wamp64\www\meusite</code>
+  </div>
+
+  <div class="card">
+    <h2>Exemplo simples em PHP</h2>
+    <p>Crie um arquivo chamado <code>index.php</code>:</p>
+    <pre>
+&lt;?php
+  echo "Olá, mundo!";
+?&gt;
+    </pre>
+    <p>Acesse no navegador:</p>
+    <code>http://localhost/meusite</code>
+  </div>
+
+  <div class="card">
+    <h2>Dica importante</h2>
+    <p>Se o WAMP não estiver ligado, o site não funcionará.</p>
+    <p>Verifique se o ícone está verde.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Aula de PHP - Introdução ao WAMP Server</p>
+</footer>
+
+</body>
+</html>
