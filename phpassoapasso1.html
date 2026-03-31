@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Aula 1 - PHP</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ffd6ec, #d6e0ff);
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #5a4fcf;
+    }
+
+    h2 {
+        color: #7a5cff;
+        border-left: 5px solid #b8aaff;
+        padding-left: 10px;
+    }
+
+    p {
+        line-height: 1.6;
+    }
+
+    pre {
+        background: #1e1e2f;
+        color: #00ffcc;
+        padding: 15px;
+        overflow-x: auto;
+        border-radius: 10px;
+    }
+
+    code {
+        color: #ff9de2;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.6);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    ul {
+        background: rgba(255,255,255,0.6);
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    hr {
+        border: none;
+        height: 1px;
+        background: #ccc;
+        margin: 30px 0;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 14px;
+        color: #666;
+    }
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>💻 Aula 1 - Introdução ao PHP</h1>
+
+<div class="card">
+<p>Hoje você vai aprender o básico do PHP passo a passo.</p>
+</div>
+
+<div class="card">
+<h2>1. Primeiro código em PHP</h2>
+
+<p>Crie um arquivo chamado <b>index.php</b>:</p>
+
+<pre>
+&lt;?php
+echo "Olá, mundo!";
+?&gt;
+</pre>
+
+<p><code>echo</code> serve para mostrar algo na tela.</p>
+</div>
+
+<div class="card">
+<h2>2. Variáveis</h2>
+
+<pre>
+&lt;?php
+$nome = "João";
+echo $nome;
+?&gt;
+</pre>
+
+<p>Variáveis começam com <b>$</b> e guardam valores.</p>
+</div>
+
+<div class="card">
+<h2>3. Texto + variável</h2>
+
+<pre>
+&lt;?php
+$nome = "Maria";
+echo "Olá " . $nome;
+?&gt;
+</pre>
+
+<p>O ponto (.) junta textos.</p>
+</div>
+
+<div class="card">
+<h2>4. PHP criando HTML</h2>
+
+<pre>
+&lt;?php
+echo "&lt;h1&gt;Olá mundo&lt;/h1&gt;";
+?&gt;
+</pre>
+
+<p>O PHP pode gerar HTML.</p>
+</div>
+
+<div class="card">
+<h2>5. Formulário</h2>
+
+<pre>
+&lt;form&gt;
+    &lt;input type="text" name="nome"&gt;
+    &lt;button&gt;Enviar&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;?php
+if ($_GET) {
+    echo "Olá " . $_GET['nome'];
+}
+?&gt;
+</pre>
+
+<p>Digite seu nome e veja o resultado.</p>
+</div>
+
+<div class="card">
+<h2>Exercício</h2>
+
+<ul>
+    <li>Crie uma variável <b>$cidade</b></li>
+    <li>Mostre: "Eu moro em ___"</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Resumo</h2>
+
+<ul>
+    <li>echo → mostra na tela</li>
+    <li>$ → variável</li>
+    <li>. → junta textos</li>
+    <li>$_GET → pega dados</li>
+</ul>
+</div>
+
+<div class="footer">
+✨ Aula simples, passo a passo ✨
+</div>
+
+</div>
+
+</body>
+</html>
