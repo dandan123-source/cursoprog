@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Aula 1 - JavaScript</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ffd6ec, #d6e0ff);
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #5a4fcf;
+    }
+
+    h2 {
+        color: #7a5cff;
+        border-left: 5px solid #b8aaff;
+        padding-left: 10px;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.6);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 15px;
+    }
+
+    pre {
+        background: #1e1e2f;
+        color: #00ffcc;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    code {
+        color: #ff00cc;
+    }
+
+    button {
+        background: #7a5cff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    #saida {
+        margin-top: 15px;
+        font-size: 20px;
+        color: #5a4fcf;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 14px;
+        color: #666;
+    }
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>💻 Aula 1 - JavaScript (Primeiros Passos)</h1>
+
+<div class="card">
+<h2>1. O que é JavaScript?</h2>
+
+<p>JavaScript serve para fazer o site <b>responder ações</b>.</p>
+
+<ul>
+<li>Clique em botão</li>
+<li>Mostrar mensagens</li>
+<li>Interagir com o usuário</li>
+</ul>
+
+</div>
+
+<div class="card">
+<h2>2. Botão com ação</h2>
+
+<pre>
+&lt;button onclick="mostrarMensagem()"&gt;
+Clique aqui
+&lt;/button&gt;
+</pre>
+
+<ul>
+<li><code>onclick</code> → executa ao clicar</li>
+<li><code>()</code> → chama a função</li>
+</ul>
+
+</div>
+
+<div class="card">
+<h2>3. Função</h2>
+
+<pre>
+function mostrarMensagem() {
+
+}
+</pre>
+
+<ul>
+<li><code>function</code> → cria uma função</li>
+<li><code>mostrarMensagem</code> → nome da função</li>
+<li><code>()</code> → onde poderiam ir informações</li>
+<li><code>{ }</code> → código que será executado</li>
+</ul>
+
+</div>
+
+<div class="card">
+<h2>4. Variável</h2>
+
+<pre>
+let texto = "Olá!";
+</pre>
+
+<ul>
+<li><code>let</code> → cria uma variável</li>
+<li><code>" "</code> → texto (sempre entre aspas)</li>
+</ul>
+
+</div>
+
+<div class="card">
+<h2>5. Mostrar na tela</h2>
+
+<pre>
+document.getElementById("saida").innerHTML = texto;
+</pre>
+
+<ul>
+<li><code>document</code> → a página</li>
+<li><code>getElementById</code> → pega um elemento pelo ID</li>
+<li><code>innerHTML</code> → coloca conteúdo dentro</li>
+</ul>
+
+</div>
+
+<div class="card">
+<h2>6. Código completo (para usar no PHP depois)</h2>
+
+<pre>
+&lt;button onclick="mostrarMensagem()"&gt;Clique&lt;/button&gt;
+
+&lt;div id="saida"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+function mostrarMensagem() {
+    let texto = "Funcionou!";
+    document.getElementById("saida").innerHTML = texto;
+}
+&lt;/script&gt;
+</pre>
+
+<p><b>👉 Esse código pode ser colocado dentro de um arquivo .php sem mudar nada!</b></p>
+
+<button onclick="mostrarMensagem()">Testar aqui</button>
+<div id="saida"></div>
+
+</div>
+
+<div class="card">
+<h2>🧠 Exercício 1</h2>
+
+<p>Altere o código para:</p>
+
+<ul>
+<li>Mudar a mensagem para: <b>"Olá, aluno!"</b></li>
+</ul>
+
+</div>
+
+<div class="card">
+<h2>🧠 Exercício 2</h2>
+
+<p>Crie outro botão que:</p>
+
+<ul>
+<li>Chame uma nova função (ex: <code>segundaMensagem()</code>)</li>
+<li>Mostre a mensagem: <b>"Segundo botão funcionando!"</b></li>
+</ul>
+
+</div>
+
+<div class="footer">
+🚀 Você já fez sua primeira interação com JavaScript!
+</div>
+
+</div>
+
+<script>
+function mostrarMensagem() {
+    let texto = "Funcionou!";
+    document.getElementById("saida").innerHTML = texto;
+}
+</script>
+
+</body>
+</html>
