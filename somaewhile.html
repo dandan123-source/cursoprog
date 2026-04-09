@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Aula 2 - PHP</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ffd6ec, #d6e0ff);
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #5a4fcf;
+    }
+
+    h2 {
+        color: #7a5cff;
+        border-left: 5px solid #b8aaff;
+        padding-left: 10px;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.6);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    pre {
+        background: #1e1e2f;
+        color: #00ffcc;
+        padding: 15px;
+        border-radius: 10px;
+        overflow-x: auto;
+    }
+
+    code {
+        color: #ff9de2;
+    }
+
+    ul {
+        background: rgba(255,255,255,0.6);
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .alerta {
+        background: #fff3cd;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 14px;
+        color: #666;
+    }
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>💻 Aula 2 - PHP (Operações e Repetição)</h1>
+
+<div class="alerta">
+<b>⚠️ Antes de começar:</b><br><br>
+✔ Ligue o WAMP Server (ícone verde)<br>
+✔ Abra o Notepad++<br>
+✔ Se pedir senha de administrador → chame o professor Daniel
+</div>
+
+<div class="card">
+<h2>1. Soma</h2>
+
+<p>PHP também faz contas:</p>
+
+<pre>
+&lt;?php
+$a = 10;
+$b = 5;
+
+echo $a + $b;
+?&gt;
+</pre>
+
+<p>Vai mostrar: <b>15</b></p>
+</div>
+
+<div class="card">
+<h2>2. Subtração</h2>
+
+<pre>
+&lt;?php
+echo 10 - 3;
+?&gt;
+</pre>
+</div>
+
+<div class="card">
+<h2>3. Multiplicação</h2>
+
+<pre>
+&lt;?php
+echo 4 * 5;
+?&gt;
+</pre>
+</div>
+
+<div class="card">
+<h2>4. Divisão</h2>
+
+<pre>
+&lt;?php
+echo 20 / 4;
+?&gt;
+</pre>
+</div>
+
+<div class="card">
+<h2>💡 Dica</h2>
+
+<ul>
+<li><code>+</code> soma</li>
+<li><code>-</code> subtração</li>
+<li><code>*</code> multiplicação</li>
+<li><code>/</code> divisão</li>
+</ul>
+
+</div>
+
+<div class="card">
+<h2>5. Estrutura de repetição (while)</h2>
+
+<p>Serve para repetir algo várias vezes.</p>
+
+<pre>
+&lt;?php
+$i = 1;
+
+while ($i <= 5) {
+    echo $i . "&lt;br&gt;";
+    $i++;
+}
+?&gt;
+</pre>
+
+<p><b>Explicação passo a passo:</b></p>
+
+<ul>
+<li>$i começa valendo 1</li>
+<li>Enquanto for menor ou igual a 5, ele repete</li>
+<li>Mostra o valor</li>
+<li>Soma +1</li>
+</ul>
+
+</div>
+
+<div class="card">
+<h2>🔁 Exemplo com texto</h2>
+
+<pre>
+&lt;?php
+$i = 1;
+
+while ($i <= 3) {
+    echo "Olá!&lt;br&gt;";
+    $i++;
+}
+?&gt;
+</pre>
+</div>
+
+<div class="card">
+<h2>🧠 Exercício 1</h2>
+
+<p>Crie um código que:</p>
+
+<ul>
+<li>Crie duas variáveis</li>
+<li>Some elas</li>
+<li>Mostre o resultado</li>
+</ul>
+
+<p><b>Exemplo esperado:</b> 8 + 2 = 10</p>
+
+</div>
+
+<div class="card">
+<h2>🧠 Exercício 2</h2>
+
+<p>Crie um código que:</p>
+
+<ul>
+<li>Use o <code>while</code></li>
+<li>Mostre os números de 1 até 10</li>
+</ul>
+
+<p>Dica: comece com <code>$i = 1</code></p>
+
+</div>
+
+<div class="footer">
+🚀 Você já está programando de verdade!
+</div>
+
+</div>
+
+</body>
+</html>
