@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Aula PHP - Login Simples</title>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        margin: 0;
+        color: #333;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+        text-align: center;
+        color: #2a5298;
+    }
+
+    h2 {
+        border-left: 5px solid #2a5298;
+        padding-left: 10px;
+        margin-top: 30px;
+    }
+
+    .step {
+        background: #f4f7fb;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+    pre {
+        background: #1e1e1e;
+        color: #00ff88;
+        padding: 15px;
+        border-radius: 8px;
+        overflow-x: auto;
+    }
+
+    code {
+        color: #00ff88;
+    }
+
+    ul, ol {
+        padding-left: 20px;
+    }
+
+    .highlight {
+        background: #e3f2fd;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+
+    .warning {
+        background: #fff3cd;
+        padding: 15px;
+        border-left: 5px solid #ffc107;
+        border-radius: 8px;
+    }
+
+    .exercise {
+        background: #e8f5e9;
+        padding: 15px;
+        border-left: 5px solid #28a745;
+        border-radius: 8px;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>📚 Aula: Login simples em PHP</h1>
+
+<p><b>Objetivo:</b> Criar um login simples e entender como o PHP recebe e verifica dados.</p>
+
+<!-- PASSO 1 -->
+<h2>🧩 Passo 1 — Criar o formulário</h2>
+
+<div class="step">
+<p>Crie um arquivo chamado <b>index.php</b> dentro da pasta <b>www</b>.</p>
+
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Login&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h2&gt;Login&lt;/h2&gt;
+
+&lt;form action="verifica.php" method="POST"&gt;
+
+    &lt;label&gt;Usuário:&lt;/label&gt;&lt;br&gt;
+    &lt;input type="text" name="usuario"&gt;&lt;br&gt;&lt;br&gt;
+
+    &lt;label&gt;Senha:&lt;/label&gt;&lt;br&gt;
+    &lt;input type="password" name="senha"&gt;&lt;br&gt;&lt;br&gt;
+
+    &lt;button type="submit"&gt;Entrar&lt;/button&gt;
+
+&lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<div class="highlight">
+<p><b>Explicação:</b></p>
+<ul>
+<li><b>form</b>: cria o formulário</li>
+<li><b>action</b>: envia os dados para outro arquivo</li>
+<li><b>method="POST"</b>: envia os dados de forma oculta</li>
+<li><b>name</b>: nome que o PHP vai usar para pegar o valor</li>
+</ul>
+</div>
+</div>
+
+<!-- PASSO 2 -->
+<h2>🧩 Passo 2 — Criar a verificação</h2>
+
+<div class="step">
+<p>Agora crie outro arquivo chamado <b>verifica.php</b>.</p>
+
+<pre>
+&lt;?php
+
+$usuario = $_POST['usuario'];
+$senha = $_POST['senha'];
+
+if ($usuario == "user" && $senha == "1234") {
+    echo "&lt;h2&gt;Login correto! Bem-vindo.&lt;/h2&gt;";
+} else {
+    echo "&lt;h2&gt;Usuário ou senha incorretos!&lt;/h2&gt;";
+}
+
+?&gt;
+</pre>
+
+<div class="highlight">
+<p><b>Explicação:</b></p>
+<ul>
+<li><b>$_POST</b>: pega os dados do formulário</li>
+<li><b>$usuario / $senha</b>: armazenam os valores digitados</li>
+<li><b>if</b>: verifica a condição</li>
+<li><b>&&</b>: significa "E"</li>
+<li><b>echo</b>: mostra algo na tela</li>
+</ul>
+</div>
+</div>
+
+<!-- FUNCIONAMENTO -->
+<h2>🧠 Como funciona</h2>
+
+<div class="step">
+<ol>
+<li>Abrir o arquivo <b>index.php</b></li>
+<li>Digitar usuário e senha</li>
+<li>Clicar em Entrar</li>
+<li>Os dados vão para <b>verifica.php</b></li>
+<li>O PHP verifica</li>
+<li>Mostra o resultado</li>
+</ol>
+</div>
+
+<!-- ALERTA -->
+<h2>⚠️ Importante</h2>
+
+<div class="warning">
+<p>Este exemplo é apenas para aprendizado:</p>
+<ul>
+<li>Não usa banco de dados</li>
+<li>Não é seguro</li>
+<li>Senha está no código</li>
+</ul>
+</div>
+
+<!-- EXERCICIOS -->
+<h2>💡 Exercícios</h2>
+
+<div class="exercise">
+<ul>
+<li>Trocar usuário e senha</li>
+<li>Mostrar o nome digitado:</li>
+</ul>
+
+<pre>
+echo "Olá, " . $usuario;
+</pre>
+
+<ul>
+<li>Criar outro usuário com <b>else if</b></li>
+</ul>
+</div>
+
+</div>
+
+</body>
+</html>
