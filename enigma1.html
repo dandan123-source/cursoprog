@@ -1,0 +1,394 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  #mystery-root {
+    min-height: 100vh;
+    background: #0a0608;
+    background-image:
+      radial-gradient(ellipse at 20% 30%, rgba(60,10,80,0.4) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(20,5,40,0.5) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(30,0,20,0.3) 0%, transparent 70%);
+    font-family: 'IM Fell English', Georgia, serif;
+    color: #c8a96e;
+    padding: 2rem 1rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #mystery-root::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(100,40,0,0.03) 80px, rgba(100,40,0,0.03) 81px),
+      repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(100,40,0,0.02) 80px, rgba(100,40,0,0.02) 81px);
+    pointer-events: none;
+  }
+
+  .candles-row {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .candle { position: relative; width: 20px; }
+  .candle-body {
+    width: 14px; height: 50px;
+    background: linear-gradient(180deg, #d4a84b 0%, #a07030 100%);
+    border-radius: 2px 2px 0 0;
+    margin: 0 auto;
+    position: relative;
+  }
+  .candle-body::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 6px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 0 0 2px 2px;
+  }
+  .candle-flame {
+    width: 10px; height: 18px;
+    background: radial-gradient(ellipse at 50% 80%, #fff4a0 0%, #ffb830 40%, #ff6a00 70%, transparent 100%);
+    border-radius: 50% 50% 30% 30% / 60% 60% 40% 40%;
+    margin: 0 auto;
+    position: relative;
+    animation: flicker 1.8s ease-in-out infinite alternate;
+    filter: blur(0.5px);
+  }
+  .candle-glow {
+    position: absolute;
+    top: -8px; left: 50%;
+    transform: translateX(-50%);
+    width: 30px; height: 30px;
+    background: radial-gradient(circle, rgba(255,180,50,0.35) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: flicker 1.8s ease-in-out infinite alternate;
+  }
+
+  @keyframes flicker {
+    0%   { transform: translateX(-50%) scaleX(1)   scaleY(1);   opacity: 0.9; }
+    25%  { transform: translateX(-52%) scaleX(0.95) scaleY(1.05); opacity: 1; }
+    50%  { transform: translateX(-48%) scaleX(1.05) scaleY(0.97); opacity: 0.85; }
+    75%  { transform: translateX(-51%) scaleX(0.98) scaleY(1.03); opacity: 1; }
+    100% { transform: translateX(-50%) scaleX(1)   scaleY(1);   opacity: 0.9; }
+  }
+  .candle-flame { animation: flame-flicker 1.8s ease-in-out infinite alternate; }
+  @keyframes flame-flicker {
+    0%   { transform: scaleX(1)   scaleY(1)   skewX(0deg);  opacity: 0.95; }
+    30%  { transform: scaleX(0.9) scaleY(1.1) skewX(-3deg); opacity: 1; }
+    60%  { transform: scaleX(1.1) scaleY(0.95) skewX(2deg); opacity: 0.88; }
+    100% { transform: scaleX(1)   scaleY(1.05) skewX(-1deg); opacity: 0.95; }
+  }
+
+  .title-block { text-align: center; margin-bottom: 2rem; }
+  .site-title {
+    font-family: 'Cinzel Decorative', 'Times New Roman', serif;
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    color: #d4a84b;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 18px rgba(212,168,75,0.6), 0 0 40px rgba(180,80,0,0.3);
+    margin-bottom: 0.3rem;
+  }
+  .site-subtitle {
+    font-style: italic;
+    color: #7a5c3a;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+  }
+
+  .divider {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 1.5rem auto; max-width: 480px;
+  }
+  .divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #5a3a1a, transparent); }
+  .divider-symbol { color: #8b5e2a; font-size: 1.1rem; }
+
+  .scroll-card {
+    max-width: 560px;
+    margin: 0 auto 2rem;
+    background: rgba(20,8,5,0.85);
+    border: 1px solid rgba(180,120,40,0.25);
+    border-radius: 4px;
+    padding: 2rem 2.5rem;
+    position: relative;
+    box-shadow: 0 0 40px rgba(180,80,0,0.08), inset 0 0 30px rgba(0,0,0,0.4);
+  }
+  .scroll-card::before, .scroll-card::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, rgba(180,120,40,0.4), transparent);
+  }
+  .scroll-card::before { top: 0; }
+  .scroll-card::after { bottom: 0; }
+
+  .poem-line {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    line-height: 2;
+    font-size: clamp(0.82rem, 2vw, 0.95rem);
+    color: #b89060;
+  }
+  .poem-letter {
+    font-weight: 700;
+    font-size: 1.15em;
+    color: #c8a96e;
+    min-width: 1ch;
+    text-shadow: 0 0 8px rgba(200,169,110,0.3);
+  }
+  .poem-rest { color: #8a6840; }
+
+  .password-section { max-width: 420px; margin: 0 auto; text-align: center; }
+  .password-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #6a4c2a;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    font-style: italic;
+  }
+  .password-input-wrap { position: relative; margin-bottom: 1rem; }
+  .password-input {
+    width: 100%;
+    background: rgba(8,3,2,0.9);
+    border: 1px solid rgba(140,90,30,0.4);
+    border-radius: 3px;
+    color: #c8a96e;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .password-input:focus {
+    border-color: rgba(200,160,70,0.6);
+    box-shadow: 0 0 12px rgba(200,140,40,0.15);
+  }
+  .eye-btn {
+    position: absolute; right: 10px; top: 50%;
+    transform: translateY(-50%);
+    background: none; border: none;
+    color: #6a4c2a; cursor: pointer; font-size: 1.1rem; padding: 4px;
+  }
+  .submit-btn {
+    background: rgba(20,8,5,0.9);
+    border: 1px solid rgba(140,90,30,0.5);
+    color: #c8a96e;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    padding: 0.6rem 2rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: border-color 0.3s, color 0.3s, box-shadow 0.3s;
+  }
+  .submit-btn:hover {
+    border-color: rgba(200,160,70,0.7);
+    color: #e8c87e;
+    box-shadow: 0 0 16px rgba(200,140,40,0.2);
+  }
+
+  .msg-box {
+    max-width: 520px; margin: 1.5rem auto 0;
+    padding: 1.2rem 1.5rem;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    text-align: center;
+    line-height: 1.8;
+    display: none;
+  }
+  .msg-wrong {
+    background: rgba(40,5,5,0.85);
+    border: 1px solid rgba(150,40,40,0.4);
+    color: #c06060;
+    font-style: italic;
+  }
+  .msg-hint {
+    background: rgba(30,15,0,0.85);
+    border: 1px solid rgba(140,90,30,0.35);
+    color: #a07840;
+    font-style: italic;
+  }
+  .msg-success {
+    background: rgba(5,20,5,0.9);
+    border: 1px solid rgba(60,140,60,0.35);
+    color: #80c080;
+  }
+  .msg-success .reveal-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1rem;
+    color: #90d090;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 12px rgba(100,200,100,0.4);
+  }
+  .msg-success .reveal-text {
+    color: #88b888;
+    font-size: 0.88rem;
+    line-height: 2;
+    font-style: italic;
+    text-align: left;
+  }
+
+  .smoke {
+    position: absolute;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, rgba(200,180,150,0.12), transparent);
+    border-radius: 2px;
+    animation: smoke-rise 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes smoke-rise {
+    0%   { transform: translateY(0) scaleX(1); opacity: 0; }
+    20%  { opacity: 0.5; }
+    80%  { opacity: 0.2; }
+    100% { transform: translateY(-60px) scaleX(2.5); opacity: 0; }
+  }
+</style>
+
+<div id="mystery-root">
+  <h2 class="sr-only">Site de mistério com acróstico e campo de senha</h2>
+
+  <div class="candles-row" aria-hidden="true">
+    <div class="candle"><div class="candle-glow"></div><div class="candle-flame"></div><div class="candle-body"></div></div>
+    <div class="candle"><div class="candle-glow"></div><div class="candle-flame" style="animation-delay:0.3s"></div><div class="candle-body"></div></div>
+    <div class="candle"><div class="candle-glow"></div><div class="candle-flame" style="animation-delay:0.7s"></div><div class="candle-body"></div></div>
+    <div class="candle"><div class="candle-glow"></div><div class="candle-flame" style="animation-delay:0.5s"></div><div class="candle-body"></div></div>
+    <div class="candle"><div class="candle-glow"></div><div class="candle-flame" style="animation-delay:0.2s"></div><div class="candle-body"></div></div>
+  </div>
+
+  <div class="title-block">
+    <div class="site-title">✦ O Segredo ✦</div>
+    <div class="site-subtitle">— Nem tudo o que parece revela o que é —</div>
+  </div>
+
+  <div class="divider" aria-hidden="true">
+    <div class="divider-line"></div>
+    <div class="divider-symbol">❧</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="scroll-card" role="region" aria-label="Poema">
+    <div class="poem-line"><span class="poem-letter">F</span><span class="poem-rest">az parte da escola, mas não é sala,</span></div>
+    <div class="poem-line"><span class="poem-letter">I</span><span class="poem-rest">mportante lugar onde números não falam à toa.</span></div>
+    <div class="poem-line"><span class="poem-letter">N</span><span class="poem-rest">inguém entra sem antes entender,</span></div>
+    <div class="poem-line"><span class="poem-letter">A</span><span class="poem-rest">li se guarda o que faz a escola crescer.</span></div>
+    <div class="poem-line"><span class="poem-letter">N</span><span class="poem-rest">as contas e registros, tudo está guardado,</span></div>
+    <div class="poem-line"><span class="poem-letter">C</span><span class="poem-rest">om cuidado extremo, sempre bem organizado.</span></div>
+    <div class="poem-line"><span class="poem-letter">E</span><span class="poem-rest">ntre papéis e valores a circular,</span></div>
+    <div class="poem-line"><span class="poem-letter">I</span><span class="poem-rest">nformações que ajudam tudo funcionar.</span></div>
+    <div class="poem-line"><span class="poem-letter">R</span><span class="poem-rest">esponsável por tudo que entra e sai,</span></div>
+    <div class="poem-line"><span class="poem-letter">O</span><span class="poem-rest"> segredo da senha se revela no final.</span></div>
+  </div>
+
+  <div class="divider" aria-hidden="true">
+    <div class="divider-line"></div>
+    <div class="divider-symbol">☽</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="password-section">
+    <label class="password-label" for="pwd-input">✦ Insira a palavra-chave ✦</label>
+    <div class="password-input-wrap">
+      <input id="pwd-input" class="password-input" type="password" placeholder="· · · · · · · · ·" autocomplete="off" maxlength="30" />
+      <button class="eye-btn" id="eye-btn" aria-label="Mostrar ou ocultar senha" title="Ver senha">👁</button>
+    </div>
+    <button class="submit-btn" id="submit-btn">Revelar o segredo</button>
+  </div>
+
+  <div id="msg-wrong" class="msg-box msg-wrong" role="alert" aria-live="polite">
+    "Não ache que será tão fácil assim.<br>Procure o Financeiro da Escola."
+  </div>
+  <div id="msg-hint" class="msg-box msg-hint" role="alert" aria-live="polite">
+    Essa não é a palavra que abre esta porta...<br>
+    <em>O segredo está diante dos seus olhos.</em>
+  </div>
+  <div id="msg-success" class="msg-box msg-success" role="alert" aria-live="polite">
+    <div class="reveal-title">✦ Parabéns! ✦</div>
+    <div class="reveal-text" id="reveal-text"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const R = function(s,k){
+    let o='';
+    for(let i=0;i<s.length;i++) o+=String.fromCharCode(s.charCodeAt(i)^k.charCodeAt(i%k.length));
+    return o;
+  };
+
+  const _k='ShadowKey92';
+  const _enc="";
+  const _raw=[
+    'Entre padrões invisíveis, o mundo se organiza,',
+    'Há regras não ditas que a convivência sintetiza.',
+    'Como em terras distantes onde o sol primeiro aparece,',
+    'Disciplina e tradição moldam o que se reconhece.',
+    '',
+    'Olhares atentos percebem mais que o comum,',
+    'Estruturas ocultas ligam cada um.',
+    'Nem tudo é indivíduo, há forças a atuar,',
+    'Relações e papéis que nos fazem pensar.',
+    '',
+    'Em meio ao coletivo, alguém propõe refletir,',
+    'Questões sobre o todo, sobre como coexistir.',
+    'De raízes do oriente, traz outro olhar,',
+    'E em perguntas desafiadoras te fará avançar.',
+    '',
+    'Quem chegar até lá deve então perguntar,',
+    'E em vez de resposta pronta, um desafio irá encontrar... 🧩'
+  ].join('\n');
+
+  const _encText = btoa(unescape(encodeURIComponent(R(_raw, _k))));
+
+  const CORRECT = btoa('PROCESSOS');
+  const FINANCEIRO = btoa('FINANCEIRO');
+
+  const inp = document.getElementById('pwd-input');
+  const btn = document.getElementById('submit-btn');
+  const eyeBtn = document.getElementById('eye-btn');
+  const mWrong = document.getElementById('msg-wrong');
+  const mHint  = document.getElementById('msg-hint');
+  const mOk    = document.getElementById('msg-success');
+  const revTxt = document.getElementById('reveal-text');
+
+  function hideAll(){
+    mWrong.style.display='none';
+    mHint.style.display='none';
+    mOk.style.display='none';
+  }
+
+  eyeBtn.addEventListener('click', function(){
+    inp.type = inp.type==='password' ? 'text' : 'password';
+  });
+
+  btn.addEventListener('click', check);
+  inp.addEventListener('keydown', function(e){ if(e.key==='Enter') check(); });
+
+  function check(){
+    hideAll();
+    const val = inp.value.trim().toUpperCase();
+    if(!val) return;
+
+    if(btoa(val)===CORRECT){
+      const decoded = decodeURIComponent(escape(R(atob(_encText), _k)));
+      revTxt.innerText = decoded;
+      mOk.style.display='block';
+    } else if(btoa(val)===FINANCEIRO){
+      mWrong.style.display='block';
+    } else {
+      mHint.style.display='block';
+    }
+  }
+})();
+</script>
